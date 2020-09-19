@@ -3,7 +3,8 @@
  * @author danel y jon ander
  *
  */
-//Holaasfadfsdgs
 public class Main {
-
+	public static void main(String[] args) {
+		
+	}
 }
