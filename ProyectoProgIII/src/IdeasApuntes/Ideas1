@@ -1,0 +1,9 @@
+Idea 1:
+RPG "estilo" pokemon en el sentidode movimientos movibles entre personajes y movimientos aprendibles etc. con un limite de 3,4 o  movimientos por personaje.
+¿Tipos de personaje? Importante tambien los cambios de estado, paralizado, quemado, etc. Depende de si es persona o criatura podria haber estados como borracho
+
+IDEA original para este estilo:
+	Fusion de personajes-> permite "heredar" movimientos de sus personajes "fuente" lo mismo con los tipos.
+	
+En cuanto a desarrollo: tendria que haber una clase movimiento con los atributos del movimiento
+En cuanto al personaje, ademas del tipo tendria una array de movimientos con un limite de 3,4 o 5 movimientos ademas de sus atributos de atk etc. Lo mismo para su estado (paralizado, envenenado etc.). 
