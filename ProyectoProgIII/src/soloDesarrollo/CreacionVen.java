@@ -5,18 +5,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -26,7 +31,7 @@ public class CreacionVen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static final int HEIGHT = 250;
-	private static final int WIDTH = 625;
+	private static final int WIDTH = 700;
 
 	private JTextField txNombre = new JTextField(15);
 	private DefaultComboBoxModel<Tipo> mdTipos = new DefaultComboBoxModel<>(Tipo.values());
@@ -36,6 +41,8 @@ public class CreacionVen extends JFrame {
 	private JCheckBox ch2tipos = new JCheckBox("2 tipos");
 	private JTextArea taDescr = new JTextArea(10, 50);
 	private JButton btOk = new JButton("OK");
+	private DefaultListModel<String> mdLista = new DefaultListModel<>();
+	private JList<String> lsNombres = new JList<>();
 
 	private ArrayList<String> listaPer = new ArrayList<>();
 
@@ -46,15 +53,32 @@ public class CreacionVen extends JFrame {
 
 	private JPanel pnCentral = new JPanel();
 	private JPanel pnBot = new JPanel();
+	private JPanel pnIzq = new JPanel();
 
 	public CreacionVen() {
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(WIDTH, HEIGHT);
 		setResizable(false);
+		
+		try {
+			Scanner sc = new Scanner(new File("src/soloDesarrollo/ficheros/personajes.txt"));
+			while (sc.hasNextLine()) {
+				String l = sc.nextLine();
+				int i = l.indexOf("\t");
+				String p = l.substring(0, i);
+				mdLista.addElement(p);
+			}
+			sc.close();
+			lsNombres.setModel(mdLista);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		this.getContentPane().add(pnCentral, BorderLayout.CENTER);
 		this.getContentPane().add(pnBot, BorderLayout.SOUTH);
+		this.getContentPane().add(pnIzq, BorderLayout.WEST);
 
 		pnCentral.add(lbNombre);
 		pnCentral.add(txNombre);
@@ -67,6 +91,8 @@ public class CreacionVen extends JFrame {
 		pnCentral.add(taDescr);
 
 		pnBot.add(btOk);
+		
+		pnIzq.add(lsNombres);
 
 		taDescr.setLineWrap(true);
 		ch2tipos.setSelected(false);
@@ -90,8 +116,9 @@ public class CreacionVen extends JFrame {
 				if (ch2tipos.isSelected() && cbTipo1.getSelectedItem() != cbTipo2.getSelectedItem())
 					tipo2 = cbTipo2.getSelectedItem().toString();
 				listaPer.add(txNombre.getText() + t + cbTipo1.getSelectedItem() + t + tipo2 + t + taDescr.getText());
+				mdLista.addElement(txNombre.getText());
 				System.out.println("Añadido " + txNombre.getText());
-				
+
 				clear();
 
 			}
@@ -107,7 +134,8 @@ public class CreacionVen extends JFrame {
 					public void run() {
 
 						try {
-							PrintWriter fs = new PrintWriter(new FileWriter("src/soloDesarrollo/ficheros/personajes.txt", true));
+							PrintWriter fs = new PrintWriter(
+									new FileWriter("src/soloDesarrollo/ficheros/personajes.txt", true));
 
 							for (String s : listaPer) {
 								fs.println(s);
@@ -127,10 +155,11 @@ public class CreacionVen extends JFrame {
 		});
 
 	}
+
 	private void clear() {
 		txNombre.setText("");
 		taDescr.setText("");
-		
+
 	}
 
 }
