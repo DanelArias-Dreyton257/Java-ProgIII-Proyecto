@@ -1,4 +1,4 @@
-package objects;
+package personaje.atributos;
 
 public class Movimiento {
 

@@ -1,4 +1,4 @@
-package objects;
+package personaje.atributos;
 
 public enum Tipo {
 	FUEGO, AGUA, PLANTA, CIELO, TIERRA, ELECTRICIDAD, HIELO, LUZ, OSCURIDAD, TIEMPO, ESPACIO, MENTE, CUERPO, MUERTE;

@@ -25,7 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import objects.Tipo;
+import personaje.atributos.Tipo;
 
 public class CreacionVen extends JFrame {
 
