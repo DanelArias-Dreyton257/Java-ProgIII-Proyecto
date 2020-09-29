@@ -31,7 +31,7 @@ public class CreacionVen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static final int HEIGHT = 250;
-	private static final int WIDTH = 700;
+	private static final int WIDTH = 725;
 
 	private JTextField txNombre = new JTextField(15);
 	private DefaultComboBoxModel<Tipo> mdTipos = new DefaultComboBoxModel<>(Tipo.values());
@@ -43,6 +43,7 @@ public class CreacionVen extends JFrame {
 	private JButton btOk = new JButton("OK");
 	private DefaultListModel<String> mdLista = new DefaultListModel<>();
 	private JList<String> lsNombres = new JList<>();
+	private JScrollPane spnPersonajes;
 
 	private ArrayList<String> listaPer = new ArrayList<>();
 
@@ -92,7 +93,8 @@ public class CreacionVen extends JFrame {
 
 		pnBot.add(btOk);
 		
-		pnIzq.add(lsNombres);
+		spnPersonajes = new JScrollPane(lsNombres);
+		pnIzq.add(spnPersonajes);
 
 		taDescr.setLineWrap(true);
 		ch2tipos.setSelected(false);
