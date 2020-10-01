@@ -1,6 +1,8 @@
 package soloDesarrollo;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -14,6 +16,7 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.TreeSet;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -32,8 +35,8 @@ import personaje.atributos.Tipo;
 public class CreacionVen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private static final int HEIGHT = 250;
-	private static final int WIDTH = 725;
+	private static final int HEIGHT = 500;
+	private static final int WIDTH = 800;
 
 	private JTextField txNombre = new JTextField(15);
 	private DefaultComboBoxModel<Tipo> mdTipos = new DefaultComboBoxModel<>(Tipo.values());
@@ -56,14 +59,16 @@ public class CreacionVen extends JFrame {
 	private JLabel lbDescr = new JLabel("Descripcion:");
 
 	private JPanel pnCentral = new JPanel();
+	private JPanel pnCenUp = new JPanel();
 	private JPanel pnBot = new JPanel();
-	private JPanel pnIzq = new JPanel();
 
 	public CreacionVen() {
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(WIDTH, HEIGHT);
-		setResizable(false);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+		setMinimumSize(new Dimension(700, 250));
 
 		try {
 			Scanner sc = new Scanner(new File("src/soloDesarrollo/ficheros/personajes.txt"));
@@ -80,28 +85,33 @@ public class CreacionVen extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
+		pnCentral.setLayout(new BoxLayout(pnCentral, BoxLayout.Y_AXIS));
+		
+		spnPersonajes = new JScrollPane(lsNombres);
+		
 		this.getContentPane().add(pnCentral, BorderLayout.CENTER);
 		this.getContentPane().add(pnBot, BorderLayout.SOUTH);
-		this.getContentPane().add(pnIzq, BorderLayout.WEST);
-
-		pnCentral.add(lbNombre);
-		pnCentral.add(txNombre);
-		pnCentral.add(lbTipo1);
-		pnCentral.add(cbTipo1);
-		pnCentral.add(ch2tipos);
-		pnCentral.add(lbTipo2);
-		pnCentral.add(cbTipo2);
+		this.getContentPane().add(spnPersonajes, BorderLayout.WEST);
+		
+		pnCenUp.add(lbNombre);
+		pnCenUp.add(txNombre);
+		pnCenUp.add(lbTipo1);
+		pnCenUp.add(cbTipo1);
+		pnCenUp.add(ch2tipos);
+		pnCenUp.add(lbTipo2);
+		pnCenUp.add(cbTipo2);
+		
+		pnCentral.add(pnCenUp);
 		pnCentral.add(lbDescr);
 		pnCentral.add(taDescr);
 
 		pnBot.add(btOk);
 		pnBot.add(btClear);
 
-		spnPersonajes = new JScrollPane(lsNombres);
-		pnIzq.add(spnPersonajes);
-
 		taDescr.setLineWrap(true);
+		taDescr.setWrapStyleWord(true);
+		
 		ch2tipos.setSelected(false);
 		cbTipo2.setEnabled(false);
 
@@ -136,6 +146,7 @@ public class CreacionVen extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				setEditableAll(true);
 				clear();
 			}
 
@@ -241,7 +252,19 @@ public class CreacionVen extends JFrame {
 		cbTipo2.setEnabled(!unTipo);
 
 		taDescr.setText(desc);
-		revalidate();
+		setEditableAll(false);
+	}
+
+	private void setEditableAll(boolean b) {
+		//txNombre.setEnabled(b);
+		txNombre.setEditable(b);
+		cbTipo1.setEnabled(b);
+		ch2tipos.setEnabled(b);
+		cbTipo2.setEnabled(b && ch2tipos.isSelected());
+		//taDescr.setEnabled(b);
+		taDescr.setEditable(b);
+		btOk.setEnabled(b);
+		
 	}
 
 }
