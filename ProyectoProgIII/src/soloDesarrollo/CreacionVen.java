@@ -74,26 +74,24 @@ public class CreacionVen extends JFrame {
 			Scanner sc = new Scanner(new File("src/soloDesarrollo/ficheros/personajes.txt"));
 			while (sc.hasNextLine()) {
 				String l = sc.nextLine();
-				int i = l.indexOf("\t");
-				String p = l.substring(0, i);
-				mdLista.addElement(p);
 				listaPer.add(l);
 			}
 			sc.close();
-			lsNombres.setModel(mdLista);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		pnCentral.setLayout(new BoxLayout(pnCentral, BoxLayout.Y_AXIS));
-		
+
+		reDoList();
+		lsNombres.setModel(mdLista);
 		spnPersonajes = new JScrollPane(lsNombres);
-		
+
 		this.getContentPane().add(pnCentral, BorderLayout.CENTER);
 		this.getContentPane().add(pnBot, BorderLayout.SOUTH);
 		this.getContentPane().add(spnPersonajes, BorderLayout.WEST);
-		
+
 		pnCenUp.add(lbNombre);
 		pnCenUp.add(txNombre);
 		pnCenUp.add(lbTipo1);
@@ -101,7 +99,7 @@ public class CreacionVen extends JFrame {
 		pnCenUp.add(ch2tipos);
 		pnCenUp.add(lbTipo2);
 		pnCenUp.add(cbTipo2);
-		
+
 		pnCentral.add(pnCenUp);
 		pnCentral.add(lbDescr);
 		pnCentral.add(taDescr);
@@ -111,7 +109,7 @@ public class CreacionVen extends JFrame {
 
 		taDescr.setLineWrap(true);
 		taDescr.setWrapStyleWord(true);
-		
+
 		ch2tipos.setSelected(false);
 		cbTipo2.setEnabled(false);
 
@@ -133,9 +131,8 @@ public class CreacionVen extends JFrame {
 				if (ch2tipos.isSelected() && cbTipo1.getSelectedItem() != cbTipo2.getSelectedItem())
 					tipo2 = cbTipo2.getSelectedItem().toString();
 				listaPer.add(txNombre.getText() + t + cbTipo1.getSelectedItem() + t + tipo2 + t + taDescr.getText());
-				mdLista.addElement(txNombre.getText());
 				System.out.println("Añadido " + txNombre.getText());
-
+				reDoList();
 				clear();
 
 			}
@@ -256,15 +253,25 @@ public class CreacionVen extends JFrame {
 	}
 
 	private void setEditableAll(boolean b) {
-		//txNombre.setEnabled(b);
+		// txNombre.setEnabled(b);
 		txNombre.setEditable(b);
 		cbTipo1.setEnabled(b);
 		ch2tipos.setEnabled(b);
 		cbTipo2.setEnabled(b && ch2tipos.isSelected());
-		//taDescr.setEnabled(b);
+		// taDescr.setEnabled(b);
 		taDescr.setEditable(b);
 		btOk.setEnabled(b);
-		
+
+	}
+
+	private void reDoList() {
+		mdLista.clear();
+		for (String l : listaPer) {
+			int i = l.indexOf("\t");
+			String p = l.substring(0, i);
+			mdLista.addElement(p);
+		}
+
 	}
 
 }
