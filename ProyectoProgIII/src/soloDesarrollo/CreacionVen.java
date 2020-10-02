@@ -207,6 +207,7 @@ public class CreacionVen extends JFrame {
 		cbTipo2.setSelectedIndex(0);
 		ch2tipos.setSelected(false);
 		cbTipo2.setEnabled(false);
+		lsNombres.clearSelection();
 
 	}
 
