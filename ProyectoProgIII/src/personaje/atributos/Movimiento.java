@@ -1,9 +1,9 @@
 package personaje.atributos;
 
 public class Movimiento {
-	Tipo[] tipo;
-	int Potencia;
-	int Precision;
+	Tipo tipo;
+	int potencia;
+	int precision;
 
 	/**
 	 * Devuelve la potencia del movimiento
@@ -11,7 +11,7 @@ public class Movimiento {
 	 * @return
 	 */
 	public int getPotencia() {
-		return Potencia;
+		return potencia;
 	}
 
 	/**
@@ -20,7 +20,7 @@ public class Movimiento {
 	 * @return
 	 */
 	public int getPrecision() {
-		return Precision;
+		return precision;
 	}
 
 	/**
@@ -29,7 +29,7 @@ public class Movimiento {
 	 * @return
 	 */
 	public void setPotencia(int potencia) {
-		Potencia = potencia;
+		this.potencia = potencia;
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class Movimiento {
 	 * @return
 	 */
 	public void setPrecision(int precision) {
-		Precision = precision;
+		this.precision = precision;
 	}
 
 }
