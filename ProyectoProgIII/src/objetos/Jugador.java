@@ -2,6 +2,8 @@ package objetos;
 
 import java.util.ArrayList;
 
+import javax.jws.soap.InitParam;
+
 import personaje.Personaje;
 
 /**
