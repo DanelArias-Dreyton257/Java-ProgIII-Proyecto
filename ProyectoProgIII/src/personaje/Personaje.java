@@ -72,7 +72,10 @@ public class Personaje {
 	 * @param ataque
 	 */
 	public void setAtaque(int ataque) {
-		this.ataque = ataque;
+		if (ataque>=1) {
+			this.ataque = ataque;	
+		}
+		
 	}
 	/**
 	 * Establece la defensa del personaje
@@ -80,7 +83,9 @@ public class Personaje {
 	 * @param defensa
 	 */
 	public void setDefensa(int defensa) {
-		this.defensa = defensa;
+		if (defensa>=1) {
+			this.defensa = defensa;	
+		}
 	}
 	/**
 	 * Establece la velocidad del personaje
@@ -88,7 +93,9 @@ public class Personaje {
 	 * @param velocidad
 	 */	
 	public void setVelocidad(int velocidad) {
-		this.velocidad = velocidad;
+		if (velocidad>=1) {
+			this.velocidad = velocidad;
+		}
 	}
 	/**
 	 * Establece la vida del personaje
@@ -96,7 +103,9 @@ public class Personaje {
 	 * @param vida
 	 */
 	public void setVida(int vida) {
+		if (vida>=1) {
 		this.vida = vida;
+		}
 	}
 	/**
 	 * Establece los movimientos del personaje
