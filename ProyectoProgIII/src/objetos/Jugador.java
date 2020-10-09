@@ -2,7 +2,7 @@ package objetos;
 
 import java.util.ArrayList;
 
-import personaje.Personaje;
+import personaje.Leyenda;
 
 /**
  * 
@@ -12,8 +12,8 @@ import personaje.Personaje;
 public class Jugador {
 	private static final int NUM_PER = 6;
 	private String nombre;
-	private Personaje[] equipo = new Personaje[NUM_PER]; // donde se guardan los personajes del equipo
-	private ArrayList<Personaje> eternidad = new ArrayList<>(); // donde se guardan todos los personajes no usados en el
+	private Leyenda[] equipo = new Leyenda[NUM_PER]; // donde se guardan los personajes del equipo
+	private ArrayList<Leyenda> eternidad = new ArrayList<>(); // donde se guardan todos los personajes no usados en el
 																// equipo
 
 	/**
@@ -39,7 +39,7 @@ public class Jugador {
 	 * 
 	 * @return
 	 */
-	public Personaje[] getEquipo() {
+	public Leyenda[] getEquipo() {
 		return equipo;
 	}
 
@@ -50,7 +50,7 @@ public class Jugador {
 	 * @param id Indice
 	 * @return
 	 */
-	public Personaje getPersonajeEquipo(int id) {
+	public Leyenda getPersonajeEquipo(int id) {
 		if (id >= 0 && id <= NUM_PER) // TODO Excepcion?
 			return equipo[id];
 		else
@@ -64,7 +64,7 @@ public class Jugador {
 	 * @param id Indice
 	 * @return
 	 */
-	public Personaje getPersonajeEternidad(int id) {
+	public Leyenda getPersonajeEternidad(int id) {
 		if (id >= 0 && id <= eternidad.size()) // TODO Excepcion?
 			return eternidad.get(id);
 		else
@@ -95,9 +95,9 @@ public class Jugador {
 	 * Anyade un personaje al equipo del jugador y en caso de que el equipo este
 	 * lleno lo anyade a la eternidad
 	 * 
-	 * @param Personaje p
+	 * @param Leyenda p
 	 */
-	public void anyadirNuevoPersonaje(Personaje p) {
+	public void anyadirNuevoPersonaje(Leyenda p) {
 		int indHueco = -1;
 		// Compruebo si hay un hueco libre en el equipo
 		for (int i = 0; i < NUM_PER; i++)
@@ -114,16 +114,4 @@ public class Jugador {
 		// TODO FALTARIA COMPROBAR SI ESE PERSONAJE YA ESTABA O YA ESTA ANYADIDO
 	}
 
-	/**
-	 * Fusiona dos personajes y devuelve el resultado como parametro
-	 * 
-	 * @param p1 personaje a fusionar 1
-	 * @param p2 personaje a fusionar 2
-	 * @return personaje fusionado
-	 */
-	public Personaje fusionar(Personaje p1, Personaje p2) {
-		// TODO
-		// Propongo moverlo a la clase personaje como metodo estatico de esa clase
-		return null;
-	}
 }

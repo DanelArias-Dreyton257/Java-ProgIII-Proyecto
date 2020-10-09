@@ -1,17 +1,10 @@
 package personaje;
 
-import java.lang.annotation.Retention;
-
 import personaje.atributos.Estado;
 import personaje.atributos.Movimiento;
-import personaje.atributos.Tipo;
 
-public class Personaje {
-	
-//	String nombre;
-//	String descripcion;
+public class Leyenda extends Especie{
 	Estado estado;
-	Tipo[] tipos = new Tipo[2];
 	Movimiento[] movimientos = new Movimiento[4];
 	int ataque;
 	int defensa;
@@ -50,14 +43,7 @@ public class Personaje {
 	public int getVida() {
 		return vida;
 	}
-	/**
-		 * devuelve los tipos del personaje
-		 * 
-		 * @return
-		 */
-	public Tipo[] getTipos() {
-		return tipos;
-	}
+	
 	/**
 	 * devuelve los movimientos del personaje
 	 * 
@@ -115,12 +101,18 @@ public class Personaje {
 	public void setMovimientos(Movimiento[] movimientos) {
 		this.movimientos = movimientos;
 	}
-	 /**
-		 * Establece los tipos del personaje
-		 * 
-		 * @param tipos
-		 */
-	public void setTipos(Tipo[] tipos) {
-		this.tipos = tipos;
+	
+
+	/**
+	 * Fusiona dos personajes y devuelve el resultado como parametro
+	 * 
+	 * @param p1 personaje a fusionar 1
+	 * @param p2 personaje a fusionar 2
+	 * @return personaje fusionado
+	 */
+	public static Leyenda fusion(Leyenda p1, Leyenda p2) {
+		// TODO
+		return null;
 	}
+	
 }
