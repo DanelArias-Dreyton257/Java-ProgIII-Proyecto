@@ -2,9 +2,9 @@ package personaje.atributos;
 
 public class Movimiento {
 
-	Tipo tipo;
-	int potencia;
-	int precision;
+	protected Tipo tipo;
+	protected int potencia;
+	protected double precision;
 
 	/**
 	 * Devuelve el tipo del movimiento
@@ -30,7 +30,7 @@ public class Movimiento {
 	 * @return
 	 */
 
-	public int getPrecision() {
+	public double getPrecision() {
 		return precision;
 	}
 
@@ -40,8 +40,11 @@ public class Movimiento {
 	 * @param potencia
 	 */
 
-	public void setPotencia(int potencia) {
-		this.potencia = potencia;
+	public void setPotencia(int potencia) throws IllegalArgumentException {
+		if (potencia >= 0 && potencia <= 99) {
+			this.potencia = potencia;
+		} else
+			throw new IllegalArgumentException("Introducido: " + potencia + "La potencia debe ser 0 <= potencia <= 99");
 	}
 
 	/**
@@ -50,8 +53,12 @@ public class Movimiento {
 	 * @param precision
 	 */
 
-	public void setPrecision(int precision) {
-		this.precision = precision;
+	public void setPrecision(double precision) throws IllegalArgumentException {
+		if (precision >= 0 && precision <= 1) {
+			this.precision = precision;
+		} else
+			throw new IllegalArgumentException(
+					"Introducido: " + precision + "La precision debe ser 0 <= precision <= 1");
 	}
 
 	/**

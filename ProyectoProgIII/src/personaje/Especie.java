@@ -2,29 +2,54 @@ package personaje;
 
 import personaje.atributos.Tipo;
 
+/**
+ * 
+ * @author danel y jon ander
+ *
+ */
 public abstract class Especie {
 	String nombre;
 	String descripcion;
 	Tipo[] tipos = new Tipo[2];
 
+	/**
+	 * Devuelve el nombre de la especie
+	 * 
+	 * @return
+	 */
 	public String getNombre() {
 		return nombre;
 	}
 
+	/**
+	 * Establece el nombre de la especie
+	 * 
+	 * @param nombre
+	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
+	/**
+	 * Devuelve la descripcion de al especie
+	 * 
+	 * @return
+	 */
 	public String getDescripcion() {
 		return descripcion;
 	}
 
+	/**
+	 * Establece la descripcion de la especie
+	 * 
+	 * @param descripcion
+	 */
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 
 	/**
-	 * devuelve los tipos del personaje
+	 * Devuelve los tipos de la especie
 	 * 
 	 * @return
 	 */
@@ -33,7 +58,7 @@ public abstract class Especie {
 	}
 
 	/**
-	 * Establece los tipos del personaje
+	 * Establece los tipos de la especie
 	 * 
 	 * @param tipos
 	 */

@@ -50,11 +50,12 @@ public class Jugador {
 	 * @param id Indice
 	 * @return
 	 */
-	public Leyenda getPersonajeEquipo(int id) {
-		if (id >= 0 && id <= NUM_PER) // TODO Excepcion?
+	public Leyenda getPersonajeEquipo(int id) throws ArrayIndexOutOfBoundsException {
+		if (id >= 0 && id <= NUM_PER)
 			return equipo[id];
 		else
-			return null;
+			throw new ArrayIndexOutOfBoundsException(
+					"Indice introducido:" + id + "deberia encontrarse entre" + 0 + " y " + NUM_PER);
 	}
 
 	/**
@@ -64,11 +65,12 @@ public class Jugador {
 	 * @param id Indice
 	 * @return
 	 */
-	public Leyenda getPersonajeEternidad(int id) {
-		if (id >= 0 && id <= eternidad.size()) // TODO Excepcion?
+	public Leyenda getPersonajeEternidad(int id) throws ArrayIndexOutOfBoundsException {
+		if (id >= 0 && id <= eternidad.size())
 			return eternidad.get(id);
 		else
-			return null;
+			throw new ArrayIndexOutOfBoundsException(
+					"Indice introducido:" + id + "deberia encontrarse entre" + 0 + " y " + eternidad.size());
 	}
 
 	/**
@@ -76,9 +78,12 @@ public class Jugador {
 	 * 
 	 * @param id Indice
 	 */
-	public void delPersonajeEquipo(int id) {
-		if (id >= 0 && id <= NUM_PER) // TODO Excepcion?
+	public void delPersonajeEquipo(int id) throws ArrayIndexOutOfBoundsException {
+		if (id >= 0 && id <= NUM_PER)
 			equipo[id] = null;
+		else
+			throw new ArrayIndexOutOfBoundsException(
+					"Indice introducido:" + id + "deberia encontrarse entre" + 0 + " y " + NUM_PER);
 	}
 
 	/**
@@ -86,9 +91,12 @@ public class Jugador {
 	 * 
 	 * @param id Indice
 	 */
-	public void delPersonajeEternidad(int id) {
-		if (id >= 0 && id <= eternidad.size()) // TODO Excepcion?
+	public void delPersonajeEternidad(int id) throws ArrayIndexOutOfBoundsException {
+		if (id >= 0 && id <= eternidad.size())
 			eternidad.remove(id);
+		else
+			throw new ArrayIndexOutOfBoundsException(
+					"Indice introducido:" + id + "deberia encontrarse entre" + 0 + " y " + eternidad.size());
 	}
 
 	/**
@@ -111,7 +119,7 @@ public class Jugador {
 		else
 			eternidad.add(p);
 
-		// TODO FALTARIA COMPROBAR SI ESE PERSONAJE YA ESTABA O YA ESTA ANYADIDO
+		// TODO FALTARIA COMPROBAR SI ESE PERSONAJE YA ESTABA O YA ESTA ANYADIDO ??
 	}
 
 }
