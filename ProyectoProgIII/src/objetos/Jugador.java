@@ -14,7 +14,15 @@ public class Jugador {
 	private String nombre;
 	private Leyenda[] equipo = new Leyenda[NUM_PER]; // donde se guardan los personajes del equipo
 	private ArrayList<Leyenda> eternidad = new ArrayList<>(); // donde se guardan todos los personajes no usados en el
-																// equipo
+
+	/**
+	 * Crea un jugador con el equipo y la eternidad vacia
+	 * 
+	 * @param nombre
+	 */
+	public Jugador(String nombre) {
+		setNombre(nombre);
+	}
 
 	/**
 	 * Devuelve el nombre del jugador
@@ -120,6 +128,18 @@ public class Jugador {
 			eternidad.add(p);
 
 		// TODO FALTARIA COMPROBAR SI ESE PERSONAJE YA ESTABA O YA ESTA ANYADIDO ??
+	}
+
+	/**
+	 * Anyade todos los personajes al equipo del jugador y si se llena el equipo
+	 * sigue anyadiendolos en la eternidad los anyade a la eternidad
+	 * 
+	 * 
+	 * @param Leyenda p
+	 */
+	public void anyadirNuevosPersonajes(Leyenda... pers) {
+		for (Leyenda l : pers)
+			anyadirNuevoPersonaje(l);
 	}
 
 }

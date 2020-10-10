@@ -1,10 +1,13 @@
 package personaje;
 
-import personaje.atributos.Estado;
 import personaje.atributos.Movimiento;
-
+/**
+ * 
+ * @author danel y jon ander
+ *
+ */
 public class Leyenda extends Especie {
-	Estado estado;
+	//Estado estado;
 	Movimiento[] movimientos = new Movimiento[4];
 	int ataque;
 	int defensa;

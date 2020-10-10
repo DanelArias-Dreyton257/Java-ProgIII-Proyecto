@@ -1,10 +1,48 @@
 package personaje.atributos;
-
+/**
+ * 
+ * @author jon ander y danel
+ *
+ */
 public class Movimiento {
 
+	protected String nombre;
 	protected Tipo tipo;
 	protected int potencia;
 	protected double precision;
+
+	/**
+	 * Crea un movimiento
+	 * 
+	 * @param nombre
+	 * @param tipo
+	 * @param potencia
+	 * @param precision
+	 */
+	public Movimiento(String nombre, Tipo tipo, int potencia, double precision) {
+		setNombre(nombre);
+		setTipo(tipo);
+		setPotencia(potencia);
+		setPrecision(precision);
+	}
+
+	/**
+	 * Devuelve el nombre del movimiento
+	 * 
+	 * @return
+	 */
+	public String getNombre() {
+		return nombre;
+	}
+
+	/**
+	 * Establece el nombre del movimiento
+	 * 
+	 * @param nombre
+	 */
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
 	/**
 	 * Devuelve el tipo del movimiento
