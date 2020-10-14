@@ -59,7 +59,7 @@ public class Jugador {
 	 * @throws ArrayIndexOutOfBoundsException
 	 * @return
 	 */
-	public Leyenda getPersonajeEquipo(int id) throws ArrayIndexOutOfBoundsException {
+	public Leyenda getLeyendaEquipo(int id) throws ArrayIndexOutOfBoundsException {
 		if (id >= 0 && id <= NUM_PER)
 			return equipo[id];
 		else
@@ -75,7 +75,7 @@ public class Jugador {
 	 * @throws ArrayIndexOutOfBoundsException
 	 * @return
 	 */
-	public Leyenda getPersonajeEternidad(int id) throws ArrayIndexOutOfBoundsException {
+	public Leyenda getLeyendaEternidad(int id) throws ArrayIndexOutOfBoundsException {
 		if (id >= 0 && id <= eternidad.size())
 			return eternidad.get(id);
 		else
@@ -89,7 +89,7 @@ public class Jugador {
 	 * @param id Indice
 	 * @throws ArrayIndexOutOfBoundsException
 	 */
-	public void delPersonajeEquipo(int id) throws ArrayIndexOutOfBoundsException {
+	public void delLeyendaEquipo(int id) throws ArrayIndexOutOfBoundsException {
 		if (id >= 0 && id <= NUM_PER)
 			equipo[id] = null;
 		else
@@ -103,7 +103,7 @@ public class Jugador {
 	 * @param id Indice
 	 * @throws ArrayIndexOutOfBoundsException
 	 */
-	public void delPersonajeEternidad(int id) throws ArrayIndexOutOfBoundsException {
+	public void delLeyendaEternidad(int id) throws ArrayIndexOutOfBoundsException {
 		if (id >= 0 && id <= eternidad.size())
 			eternidad.remove(id);
 		else
@@ -142,7 +142,7 @@ public class Jugador {
 	 * 
 	 * @param Leyenda p
 	 */
-	public void anyadirNuevoPersonaje(Leyenda p) {
+	public void anyadirNuevaLeyenda(Leyenda p) {
 		int indHueco = -1;
 		// Compruebo si hay un hueco libre en el equipo
 		for (int i = 0; i < NUM_PER; i++)
@@ -166,9 +166,9 @@ public class Jugador {
 	 * 
 	 * @param Leyenda p
 	 */
-	public void anyadirNuevosPersonajes(Leyenda... pers) {
+	public void anyadirNuevasLeyendas(Leyenda... pers) {
 		for (Leyenda l : pers)
-			anyadirNuevoPersonaje(l);
+			anyadirNuevaLeyenda(l);
 	}
 
 //	Metodo no creo necesario ya que la eternidad no tiene porque llevar un orden especifico y si fuera asi usariamos algun otro tipo de estructura de datos
@@ -189,8 +189,8 @@ public class Jugador {
 	 * @param i2
 	 */
 	public void intercambiarEnEquipo(int i1, int i2) {
-		Leyenda l1 = getPersonajeEquipo(i1);
-		Leyenda l2 = getPersonajeEquipo(i2);
+		Leyenda l1 = getLeyendaEquipo(i1);
+		Leyenda l2 = getLeyendaEquipo(i2);
 		anyadirAEquipo(i1, l2);
 		anyadirAEquipo(i2, l1);
 
@@ -202,8 +202,8 @@ public class Jugador {
 	 * @param iEternidad
 	 */
 	public void intercambiarEquipoEternidad(int iEquipo, int iEternidad) {
-		Leyenda l1 = getPersonajeEquipo(iEquipo);
-		Leyenda l2 = getPersonajeEternidad(iEternidad);
+		Leyenda l1 = getLeyendaEquipo(iEquipo);
+		Leyenda l2 = getLeyendaEternidad(iEternidad);
 		anyadirAEquipo(iEquipo, l2);
 		anyadirAEternidad(l1);
 	}

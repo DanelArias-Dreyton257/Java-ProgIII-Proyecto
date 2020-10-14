@@ -5,7 +5,7 @@ package personaje.atributos;
  * @author jon ander y danel
  *
  */
-public class Movimiento {
+public class Habilidad {
 
 	protected String nombre;
 	protected Tipo tipo;
@@ -20,7 +20,7 @@ public class Movimiento {
 	 * @param potencia
 	 * @param precision
 	 */
-	public Movimiento(String nombre, Tipo tipo, int potencia, double precision) {
+	public Habilidad(String nombre, Tipo tipo, int potencia, double precision) {
 		setNombre(nombre);
 		setTipo(tipo);
 		setPotencia(potencia);

@@ -1,6 +1,6 @@
 package personaje;
 
-import personaje.atributos.Movimiento;
+import personaje.atributos.Habilidad;
 
 /**
  * 
@@ -9,7 +9,7 @@ import personaje.atributos.Movimiento;
  */
 public class Leyenda extends Especie {
 	// Estado estado;
-	Movimiento[] movimientos = new Movimiento[4];
+	Habilidad[] movimientos = new Habilidad[4];
 	int ataque;
 	int defensa;
 	int velocidad;
@@ -56,7 +56,7 @@ public class Leyenda extends Especie {
 	 * 
 	 * @return
 	 */
-	public Movimiento[] getMovimientos() {
+	public Habilidad[] getMovimientos() {
 		return movimientos;
 	}
 
@@ -119,7 +119,7 @@ public class Leyenda extends Especie {
 	 * 
 	 * @param movimientos
 	 */
-	public void setMovimientos(Movimiento[] movimientos) {
+	public void setMovimientos(Habilidad[] movimientos) {
 		this.movimientos = movimientos;
 	}
 
