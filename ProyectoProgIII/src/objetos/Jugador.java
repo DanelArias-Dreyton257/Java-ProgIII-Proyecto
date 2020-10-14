@@ -56,6 +56,7 @@ public class Jugador {
 	 * se encuentra personaje devuelve null
 	 * 
 	 * @param id Indice
+	 * @throws ArrayIndexOutOfBoundsException
 	 * @return
 	 */
 	public Leyenda getPersonajeEquipo(int id) throws ArrayIndexOutOfBoundsException {
@@ -71,6 +72,7 @@ public class Jugador {
 	 * si no se encuentra personaje devuelve null
 	 * 
 	 * @param id Indice
+	 * @throws ArrayIndexOutOfBoundsException
 	 * @return
 	 */
 	public Leyenda getPersonajeEternidad(int id) throws ArrayIndexOutOfBoundsException {
@@ -85,6 +87,7 @@ public class Jugador {
 	 * Elimina el personaje del equipo indicado con el indice como parametro,
 	 * 
 	 * @param id Indice
+	 * @throws ArrayIndexOutOfBoundsException
 	 */
 	public void delPersonajeEquipo(int id) throws ArrayIndexOutOfBoundsException {
 		if (id >= 0 && id <= NUM_PER)
@@ -98,6 +101,7 @@ public class Jugador {
 	 * Elimina el personaje de la eternidad indicado con el indice como parametro,
 	 * 
 	 * @param id Indice
+	 * @throws ArrayIndexOutOfBoundsException
 	 */
 	public void delPersonajeEternidad(int id) throws ArrayIndexOutOfBoundsException {
 		if (id >= 0 && id <= eternidad.size())
@@ -105,6 +109,31 @@ public class Jugador {
 		else
 			throw new ArrayIndexOutOfBoundsException(
 					"Indice introducido:" + id + "deberia encontrarse entre" + 0 + " y " + eternidad.size());
+	}
+
+	/**
+	 * Anyade un personaje al equipo del jugador en la posicion indicada como
+	 * parametro
+	 * 
+	 * @param id
+	 * @param leyenda
+	 * @throws ArrayIndexOutOfBoundsException
+	 */
+	public void anyadirAEquipo(int id, Leyenda leyenda) throws ArrayIndexOutOfBoundsException {
+		if (id >= 0 && id <= NUM_PER)
+			equipo[id] = leyenda;
+		else
+			throw new ArrayIndexOutOfBoundsException(
+					"Indice introducido:" + id + "deberia encontrarse entre" + 0 + " y " + NUM_PER);
+	}
+
+	/**
+	 * Anyade un personaje a la eternidad del jugador
+	 * 
+	 * @param leyenda
+	 */
+	public void anyadirAEternidad(Leyenda leyenda) {
+		eternidad.add(leyenda);
 	}
 
 	/**
@@ -140,6 +169,43 @@ public class Jugador {
 	public void anyadirNuevosPersonajes(Leyenda... pers) {
 		for (Leyenda l : pers)
 			anyadirNuevoPersonaje(l);
+	}
+
+//	Metodo no creo necesario ya que la eternidad no tiene porque llevar un orden especifico y si fuera asi usariamos algun otro tipo de estructura de datos
+//	/**
+//	 * Metodo que intercambia las posiciones de dos leyendas dentro de la eternidad
+//	 * @param i1
+//	 * @param i2
+//	 */
+//	public void intercambiarEnEternidad(int i1, int i2) {
+//		//TODO
+//		
+//	}
+
+	/**
+	 * Intercambia las posiciones de dos leyendas del equipo
+	 * 
+	 * @param i1
+	 * @param i2
+	 */
+	public void intercambiarEnEquipo(int i1, int i2) {
+		Leyenda l1 = getPersonajeEquipo(i1);
+		Leyenda l2 = getPersonajeEquipo(i2);
+		anyadirAEquipo(i1, l2);
+		anyadirAEquipo(i2, l1);
+
+	}
+
+	/**
+	 * Intercambia las posiciones de una leyenda de la eternidad con una del equipo
+	 * @param iEquipo
+	 * @param iEternidad
+	 */
+	public void intercambiarEquipoEternidad(int iEquipo, int iEternidad) {
+		Leyenda l1 = getPersonajeEquipo(iEquipo);
+		Leyenda l2 = getPersonajeEternidad(iEternidad);
+		anyadirAEquipo(iEquipo, l2);
+		anyadirAEternidad(l1);
 	}
 
 }

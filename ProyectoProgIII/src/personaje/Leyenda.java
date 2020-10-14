@@ -1,13 +1,14 @@
 package personaje;
 
 import personaje.atributos.Movimiento;
+
 /**
  * 
  * @author danel y jon ander
  *
  */
 public class Leyenda extends Especie {
-	//Estado estado;
+	// Estado estado;
 	Movimiento[] movimientos = new Movimiento[4];
 	int ataque;
 	int defensa;
@@ -62,6 +63,7 @@ public class Leyenda extends Especie {
 	/**
 	 * Establece el ataque del personaje
 	 * 
+	 * @throws IllegalArgumentException
 	 * @param ataque
 	 */
 	public void setAtaque(int ataque) throws IllegalArgumentException {
@@ -75,6 +77,7 @@ public class Leyenda extends Especie {
 	/**
 	 * Establece la defensa del personaje
 	 * 
+	 * @throws IllegalArgumentException
 	 * @param defensa
 	 */
 	public void setDefensa(int defensa) throws IllegalArgumentException {
@@ -87,6 +90,7 @@ public class Leyenda extends Especie {
 	/**
 	 * Establece la velocidad del personaje
 	 * 
+	 * @throws IllegalArgumentException
 	 * @param velocidad
 	 */
 	public void setVelocidad(int velocidad) throws IllegalArgumentException {
@@ -100,6 +104,7 @@ public class Leyenda extends Especie {
 	/**
 	 * Establece la vida del personaje
 	 * 
+	 * @throws IllegalArgumentException
 	 * @param vida
 	 */
 	public void setVida(int vida) throws IllegalArgumentException {

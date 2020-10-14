@@ -1,4 +1,5 @@
 package personaje.atributos;
+
 /**
  * 
  * @author jon ander y danel
@@ -75,6 +76,7 @@ public class Movimiento {
 	/**
 	 * Establece la potencia del movimiento
 	 * 
+	 * @throws IllegalArgumentException
 	 * @param potencia
 	 */
 
@@ -88,6 +90,7 @@ public class Movimiento {
 	/**
 	 * Establece la precision del movimiento
 	 * 
+	 * @throws IllegalArgumentException
 	 * @param precision
 	 */
 
