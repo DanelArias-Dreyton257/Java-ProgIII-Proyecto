@@ -25,6 +25,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -32,7 +33,7 @@ import javax.swing.JTextField;
 
 import personaje.atributos.Tipo;
 
-public class CreacionVen extends JFrame {
+public class CreacionPerVen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static final int HEIGHT = 500;
@@ -62,7 +63,7 @@ public class CreacionVen extends JFrame {
 	private JPanel pnCenUp = new JPanel();
 	private JPanel pnBot = new JPanel();
 
-	public CreacionVen() {
+	public CreacionPerVen() {
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(WIDTH, HEIGHT);
@@ -127,13 +128,19 @@ public class CreacionVen extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String t = "\t";
-				String tipo2 = "NULL";
-				if (ch2tipos.isSelected() && cbTipo1.getSelectedItem() != cbTipo2.getSelectedItem())
-					tipo2 = cbTipo2.getSelectedItem().toString();
-				listaPer.add(txNombre.getText() + t + cbTipo1.getSelectedItem() + t + tipo2 + t + taDescr.getText());
-				System.out.println("Añadido " + txNombre.getText());
-				reDoList();
-				clear();
+				if (txNombre.getText().length() >= 1) {
+					String tipo2 = "NULL";
+					if (ch2tipos.isSelected() && cbTipo1.getSelectedItem() != cbTipo2.getSelectedItem())
+						tipo2 = cbTipo2.getSelectedItem().toString();
+					listaPer.add(
+							txNombre.getText() + t + cbTipo1.getSelectedItem() + t + tipo2 + t + taDescr.getText());
+					System.out.println("Añadido " + txNombre.getText());
+					reDoList();
+					clear();
+				} else {
+					JOptionPane.showMessageDialog(CreacionPerVen.this, "El nombre no puede estar vacio", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 
 			}
 
@@ -273,6 +280,11 @@ public class CreacionVen extends JFrame {
 			mdLista.addElement(p);
 		}
 
+	}
+
+	public static void main(String[] args) {
+		CreacionPerVen v = new CreacionPerVen();
+		v.setVisible(true);
 	}
 
 }

@@ -1,0 +1,3 @@
+Desorientacion	ESPACIO	40	1.0	El usuario desorienta al contrincante. Igual dandole un mapa se velve a encontrar...o con una brujula...
+Migranya	MENTE	80	0.7	Produce un dolor de cabeza muy fuerte al rival. A veces se soluciona con una aspirina o un ibuprofeno.
+Punyetazo	CUERPO	50	1.0	El usuario pega un punyetazo al rival...No es un movimiento del otro mundo pero puede ser excesivamente util en una pelea ordinaria.

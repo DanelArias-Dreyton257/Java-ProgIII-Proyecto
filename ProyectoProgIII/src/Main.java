@@ -1,5 +1,3 @@
-import soloDesarrollo.CreacionVen;
-
 /**
  * 
  * @author danel y jon ander
@@ -7,7 +5,6 @@ import soloDesarrollo.CreacionVen;
  */
 public class Main {
 	public static void main(String[] args) {
-		CreacionVen v = new CreacionVen();
-		v.setVisible(true);
+		
 	}
 }
