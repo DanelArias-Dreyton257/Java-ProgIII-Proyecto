@@ -1,7 +1,13 @@
 Aguadilla	AGUA	70	0.8	Tecnica acuatica usada por los mortales para sorprender a sus amigos ahogandolos en el agua. Normalmente si alguien hace alguna, no tardara en empezar una guerra milenaria de aguadillas. Por esto desde tiempos inmemoriares cuando se van a bañar se puede oirles decir: "Aguadillas no, que no me gusta y no me quiero mojar el pelo".
 Andele	FUEGO	40	1.0	El usuario es un wey que lanza un pinche chile habanero super picante al contricante. Suelen decir que la leche viene bien para calmar el picante.
 Cagada de paloma	CIELO	30	0.8	OH NO una paloma ha manchado al contrincante. Se siente tan lamentable por sentir su grandiosidad atacada que se pone triste y sufre un gran daño moral.
+Decapitacion	MUERTE	99	0.25	El contrincante es llevado a la guillotina para acabar como Luis XVI. Esperemos que no se enfade y pierda la cabeza por ello.
+Dedos en el enchufe	ELECTRICIDAD	85	0.7	El contrincante mete los dedos en el enchufe, y claramente se electrocuta. ¿Que esperabas?
 Desorientacion	ESPACIO	40	1.0	El usuario desorienta al contrincante. Igual dandole un mapa se velve a encontrar...o con una brujula...
+Flashazo	LUZ	65	0.8	El contrincante recibe un Flash que le deslumbra de tal forma que le duelen los ojos como si se hubiera tirado 72h delante de la pantalla del ordenador.
+Gafas de sol	OSCURIDAD	30	1.0	El contrincante se pone unas gafas de sol...no le deja ver bien pero esta ReFacherito con ese outfit.
+Granizo	HIELO	50	0.7	El usuario genera una tormenta de granizo muy gordo, este granizo golpea al rival y hiere con violencia.
+Hostia de aburrimiento	TIEMPO	80	0.7	El contricante se aburre de tal manera con el discurso del usuario que su sensacion del paso del tiempo va tan lenta que no puede percibir la hostia, soplamocos, bofetada o cualquier otro golpe.
 Migranya	MENTE	80	0.7	Produce un dolor de cabeza muy fuerte al rival. A veces se soluciona con una aspirina o un ibuprofeno.
 Ortigarse	PLANTA	50	1.0	Picadura muy molesta producida por la planta de nombre ortiga. Aunque su nombre real es Urtica. Suelen decir que es bueno para la circulacion...
 Punyetazo	CUERPO	50	1.0	El usuario pega un punyetazo al rival...No es un movimiento del otro mundo pero puede ser excesivamente util en una pelea ordinaria.
