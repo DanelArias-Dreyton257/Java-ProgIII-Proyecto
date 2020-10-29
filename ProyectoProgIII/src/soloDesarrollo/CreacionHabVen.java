@@ -9,11 +9,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Scanner;
 import java.util.TreeSet;
 
 import javax.swing.BoxLayout;
@@ -30,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import gestion.GestorDeDatos;
 import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;
 
@@ -53,7 +49,7 @@ public class CreacionHabVen extends JFrame {
 	private JTextField txPot = new JTextField("99", 3);
 	private JTextField txPrec = new JTextField("100", 3);
 
-	private TreeSet<String> listaPer = new TreeSet<>();
+	private TreeSet<String> listaHabs;
 
 	private JLabel lbNombre = new JLabel("Nombre:");
 	private JLabel lbTipo = new JLabel("Tipo:");
@@ -74,16 +70,7 @@ public class CreacionHabVen extends JFrame {
 		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 		setMinimumSize(new Dimension(850, 200));
 
-		try {
-			Scanner sc = new Scanner(new File("src/soloDesarrollo/ficheros/habilidades.txt"));
-			while (sc.hasNextLine()) {
-				String l = sc.nextLine();
-				listaPer.add(l);
-			}
-			sc.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		listaHabs = GestorDeDatos.readListaHabilidades();
 
 		pnCentral.setLayout(new BoxLayout(pnCentral, BoxLayout.Y_AXIS));
 
@@ -125,7 +112,7 @@ public class CreacionHabVen extends JFrame {
 
 					double prec = Double.parseDouble(txPrec.getText()) / 100;
 
-					listaPer.add(txNombre.getText() + t + cbTipo.getSelectedItem() + t + txPot.getText() + t + prec + t
+					listaHabs.add(txNombre.getText() + t + cbTipo.getSelectedItem() + t + txPot.getText() + t + prec + t
 							+ taDescr.getText());
 					System.out.println("Añadido " + txNombre.getText());
 					reDoList();
@@ -166,7 +153,7 @@ public class CreacionHabVen extends JFrame {
 				int index = lsNombres.getSelectedIndex();
 				int i = 0;
 				String l = null;
-				for (String s : listaPer) {
+				for (String s : listaHabs) {
 					if (i == index) {
 						l = s;
 						break;
@@ -186,20 +173,7 @@ public class CreacionHabVen extends JFrame {
 				new Thread() {
 					@Override
 					public void run() {
-
-						try {
-							PrintWriter fs = new PrintWriter(
-									new FileWriter("src/soloDesarrollo/ficheros/habilidades.txt"));
-
-							for (String s : listaPer) {
-								fs.println(s);
-							}
-
-							fs.close();
-
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						GestorDeDatos.writeListaHabilidades(listaHabs);
 					};
 				}.start();
 
@@ -271,7 +245,7 @@ public class CreacionHabVen extends JFrame {
 
 	private void reDoList() {
 		mdLista.clear();
-		for (String l : listaPer) {
+		for (String l : listaHabs) {
 			int i = l.indexOf("\t");
 			String p = l.substring(0, i);
 			mdLista.addElement(p);

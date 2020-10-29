@@ -9,11 +9,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Scanner;
 import java.util.TreeSet;
 
 import javax.swing.BoxLayout;
@@ -31,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import gestion.GestorDeDatos;
 import personaje.atributos.Tipo;
 
 public class CreacionPerVen extends JFrame {
@@ -52,7 +48,7 @@ public class CreacionPerVen extends JFrame {
 	private JList<String> lsNombres = new JList<>();
 	private JScrollPane spnPersonajes;
 
-	private TreeSet<String> listaPer = new TreeSet<>();
+	private TreeSet<String> listaPer;
 
 	private JLabel lbNombre = new JLabel("Nombre:");
 	private JLabel lbTipo1 = new JLabel("Tipo1:");
@@ -71,17 +67,7 @@ public class CreacionPerVen extends JFrame {
 		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 		setMinimumSize(new Dimension(700, 250));
 
-		try {
-			Scanner sc = new Scanner(new File("src/soloDesarrollo/ficheros/personajes.txt"));
-			while (sc.hasNextLine()) {
-				String l = sc.nextLine();
-				listaPer.add(l);
-			}
-			sc.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		listaPer = GestorDeDatos.readListaLeyendas();
 
 		pnCentral.setLayout(new BoxLayout(pnCentral, BoxLayout.Y_AXIS));
 
@@ -183,21 +169,7 @@ public class CreacionPerVen extends JFrame {
 				new Thread() {
 					@Override
 					public void run() {
-
-						try {
-							PrintWriter fs = new PrintWriter(
-									new FileWriter("src/soloDesarrollo/ficheros/personajes.txt"));
-
-							for (String s : listaPer) {
-								fs.println(s);
-							}
-
-							fs.close();
-
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						GestorDeDatos.writeListaLeyendas(listaPer);
 					};
 				}.start();
 
