@@ -19,6 +19,32 @@ public class Leyenda extends Especie {
 	int defensa;
 	int velocidad;
 	int vida;
+//Constructor que te devuelve todos los datos de la leyenda
+	public Leyenda(String nombre, String descripcion, Tipo[] tipos, Habilidad[] habilidades, int ataque, int defensa,
+			int velocidad, int vida) {
+		super(nombre, descripcion, tipos);
+		this.habilidades = habilidades;
+		this.ataque = ataque;
+		this.defensa = defensa;
+		this.velocidad = velocidad;
+		this.vida = vida;
+	}
+
+
+	
+
+
+	//Constructor que te devuelve todos los datos de la leyenda menos las habilidades
+
+	public Leyenda(String nombre, String descripcion, Tipo[] tipos, int ataque, int defensa, int velocidad, int vida) {
+		super(nombre, descripcion, tipos);
+		this.ataque = ataque;
+		this.defensa = defensa;
+		this.velocidad = velocidad;
+		this.vida = vida;
+	}
+
+
 
 	/**
 	 * Metodo provisional--JON ANDER DEBES REVISAR SI ESTO ES NECESARIO-- Dejarlo
@@ -31,9 +57,10 @@ public class Leyenda extends Especie {
 	 * @param nVida
 	 * @param habsElegidas
 	 */
-	public Leyenda(Especie esp, int nAtk, int nDef, int nVel, int nVida, Habilidad[] habsElegidas) {
+	//public Leyenda(Especie esp, int nAtk, int nDef, int nVel, int nVida, Habilidad[] habsElegidas) {
+		
 		// TODO Auto-generated constructor stub
-	}
+	//}
 
 	/**
 	 * devuelve el ataque del personaje
@@ -197,7 +224,7 @@ public class Leyenda extends Especie {
 			esp = buscarEspecieEnBD(tipo1, tipo2);
 		}
 
-		Leyenda l = new Leyenda(esp, nAtk, nDef, nVel, nVida, habsElegidas);
+		Leyenda l = new Leyenda(esp.nombre,esp.descripcion,esp.tipos, habsElegidas, nDef, nVel, nVida, nAtk);
 
 		return l;
 	}

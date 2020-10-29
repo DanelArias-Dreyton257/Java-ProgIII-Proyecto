@@ -12,6 +12,15 @@ public abstract class Especie {
 	String descripcion;
 	Tipo[] tipos = new Tipo[2];
 
+	
+
+	public Especie(String nombre, String descripcion, Tipo[] tipos) {
+		super();
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.tipos = tipos;
+	}
+
 	/**
 	 * Devuelve el nombre de la especie
 	 * 
