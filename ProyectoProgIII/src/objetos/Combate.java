@@ -1,14 +1,16 @@
 package objetos;
 
+import java.util.Comparator;
 import java.util.Random;
+import java.util.TreeSet;
 
 import personaje.Leyenda;
 import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;
 
 public class Combate {
-	public Jugador j1;
-	public Jugador j2;
+	private Jugador j1;
+	private Jugador j2;
 
 	/**
 	 * Constructor que recibe dos jugadores
@@ -35,6 +37,27 @@ public class Combate {
 
 	public void setJ2(Jugador j2) {
 		this.j2 = j2;
+	}
+
+	public TreeSet<Leyenda> ordenVelocidad() {
+		Comparator<Leyenda> c = new Comparator<Leyenda>() {
+
+			@Override
+			public int compare(Leyenda o1, Leyenda o2) {
+				// TODO Auto-generated method stub
+				return o1.getVelocidad() - o2.getVelocidad();
+			}
+		};
+
+		TreeSet<Leyenda> lista = new TreeSet<Leyenda>(c);
+		lista.add(j1.getLeyendaEquipo(0));
+		lista.add(j1.getLeyendaEquipo(1));
+		lista.add(j1.getLeyendaEquipo(2));
+		lista.add(j2.getLeyendaEquipo(0));
+		lista.add(j2.getLeyendaEquipo(1));
+		lista.add(j2.getLeyendaEquipo(2));
+		return lista;
+
 	}
 
 	public void leyendaAtacaLeyenda(boolean j1Aj2, int iLey1, int iLey2, int iHab) {

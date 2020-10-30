@@ -19,7 +19,7 @@ public class Leyenda extends Especie {
 	int defensa;
 	int velocidad;
 	int vida;
-
+	int vidaMax;
 	/**
 	 * Constructor que te recibe todos los datos de la leyenda
 	 * 
@@ -35,11 +35,13 @@ public class Leyenda extends Especie {
 	public Leyenda(String nombre, String descripcion, Tipo[] tipos, Habilidad[] habilidades, int ataque, int defensa,
 			int velocidad, int vida) {
 		super(nombre, descripcion, tipos);
-		this.habilidades = habilidades;
-		this.ataque = ataque;
-		this.defensa = defensa;
-		this.velocidad = velocidad;
-		this.vida = vida;
+		setHabilidades(habilidades);
+		setAtaque(ataque);
+		setDefensa(defensa);
+		setVelocidad(velocidad);
+		setVida(vida);
+		setVidaMax(vida);
+		
 	}
 
 	/**
@@ -68,10 +70,23 @@ public class Leyenda extends Especie {
 	 */
 	public Leyenda(String nombre, String descripcion, Tipo[] tipos, int ataque, int defensa, int velocidad, int vida) {
 		super(nombre, descripcion, tipos);
-		this.ataque = ataque;
-		this.defensa = defensa;
-		this.velocidad = velocidad;
-		this.vida = vida;
+		setAtaque(ataque);
+		setDefensa(defensa);
+		setVelocidad(velocidad);
+		setVida(vida);
+		setVidaMax(vida);
+	}
+
+	public int getVidaMax() {
+		return vidaMax;
+	}
+
+	public void setVidaMax(int vidaMax) {
+		if (vidaMax <= 999) {
+			this.vidaMax = vidaMax;
+		} else
+			throw new IllegalArgumentException("Introducido: " + vidaMax + "La vida debe ser vida <= 999");
+	
 	}
 
 	/**
@@ -193,8 +208,8 @@ public class Leyenda extends Especie {
 	 * 
 	 * @param movimientos
 	 */
-	public void setMovimientos(Habilidad[] movimientos) {
-		this.habilidades = movimientos;
+	public void setHabilidades(Habilidad[] habilidades) {
+		this.habilidades = habilidades;
 	}
 
 	/**
