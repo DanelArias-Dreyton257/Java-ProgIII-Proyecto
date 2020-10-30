@@ -22,6 +22,37 @@ public class Combate {
 		setJ1(j1);
 		setJ2(j2);
 	}
+	/**
+	 * Constructor solo para desarrollo
+	 * 
+	 * @param j1
+	 * @param j2
+	 */
+	public Combate() {
+		combateDePrueba();
+	}
+
+
+	private void combateDePrueba() {
+		Jugador j1 = new Jugador("Willyrex");
+		Jugador j2 = new Jugador("Folagor");
+		for (int i=0; i<10; i++) {
+			Random r = new Random();
+			int it1 = r.nextInt(Tipo.values().length);
+			Random r1 = new Random();
+			int it2 = r1.nextInt(Tipo.values().length);
+			Tipo[] tipos = {Tipo.values()[it1],Tipo.values()[it2]};
+			j1.anyadirNuevaLeyenda(new Leyenda(i+"", "",tipos ));
+		}
+		for (int i=0; i<10; i++) {
+			Random r = new Random();
+			int it1 = r.nextInt(Tipo.values().length);
+			Random r1 = new Random();
+			int it2 = r1.nextInt(Tipo.values().length);
+			Tipo[] tipos = {Tipo.values()[it1],Tipo.values()[it2]};
+			j2.anyadirNuevaLeyenda(new Leyenda(i+"", "",tipos ));
+		}
+	}
 
 	public Jugador getJ1() {
 		return j1;
