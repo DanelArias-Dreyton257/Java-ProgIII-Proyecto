@@ -36,22 +36,8 @@ public class Combate {
 	private void combateDePrueba() {
 		Jugador j1 = new Jugador("Willyrex");
 		Jugador j2 = new Jugador("Folagor");
-		for (int i=0; i<10; i++) {
-			Random r = new Random();
-			int it1 = r.nextInt(Tipo.values().length);
-			Random r1 = new Random();
-			int it2 = r1.nextInt(Tipo.values().length);
-			Tipo[] tipos = {Tipo.values()[it1],Tipo.values()[it2]};
-			j1.anyadirNuevaLeyenda(new Leyenda(i+"", "",tipos ));
-		}
-		for (int i=0; i<10; i++) {
-			Random r = new Random();
-			int it1 = r.nextInt(Tipo.values().length);
-			Random r1 = new Random();
-			int it2 = r1.nextInt(Tipo.values().length);
-			Tipo[] tipos = {Tipo.values()[it1],Tipo.values()[it2]};
-			j2.anyadirNuevaLeyenda(new Leyenda(i+"", "",tipos ));
-		}
+		j1.anyadirLeyendasRandom(30);
+		j2.anyadirLeyendasRandom(30);
 		setJ1(j1);
 		setJ2(j2);
 	}

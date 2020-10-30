@@ -1,8 +1,10 @@
 package objetos;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import personaje.Leyenda;
+import personaje.atributos.Tipo;
 
 /**
  * 
@@ -206,6 +208,17 @@ public class Jugador {
 		Leyenda l2 = getLeyendaEternidad(iEternidad);
 		anyadirAEquipo(iEquipo, l2);
 		anyadirAEternidad(l1);
+	}
+	
+	public void anyadirLeyendasRandom(int numLeyendas) {
+		for (int i=0; i<numLeyendas; i++) {
+			Random r = new Random();
+			int it1 = r.nextInt(Tipo.values().length);
+			Random r1 = new Random();
+			int it2 = r1.nextInt(Tipo.values().length);
+			Tipo[] tipos = {Tipo.values()[it1],Tipo.values()[it2]};
+			anyadirNuevaLeyenda(new Leyenda("Leyenda "+i, "",tipos ));
+		}
 	}
 
 }
