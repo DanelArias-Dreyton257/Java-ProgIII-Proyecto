@@ -78,8 +78,15 @@ public class Leyenda extends Especie {
 	 * genera estadisticas aleatorias
 	 */
 	private void generarStatsRandom() {
-		// TODO Auto-generated method stub
-
+		Random r = new Random();
+		int vidaN= r.nextInt(100+1)+200;
+		setVida(vidaN);
+		int ataqueN= r.nextInt(25+1)+25;
+		setAtaque(ataqueN);
+		int defensaN= r.nextInt(25+1)+25;
+		setDefensa(defensaN);
+		int velocidadN= r.nextInt(25+1)+25;
+		setVelocidad(velocidadN);
 	}
 
 	/**
@@ -262,4 +269,10 @@ public class Leyenda extends Especie {
 		return null;
 	}
 
+	public void danyar(double danyo) {
+		danyo -= this.defensa;
+		if (danyo >= 0) {
+			this.vida -= (int) danyo;
+		}
+	}
 }
