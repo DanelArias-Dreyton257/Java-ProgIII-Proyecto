@@ -52,6 +52,8 @@ public class Combate {
 			Tipo[] tipos = {Tipo.values()[it1],Tipo.values()[it2]};
 			j2.anyadirNuevaLeyenda(new Leyenda(i+"", "",tipos ));
 		}
+		setJ1(j1);
+		setJ2(j2);
 	}
 
 	public Jugador getJ1() {
