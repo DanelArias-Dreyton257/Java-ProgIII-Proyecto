@@ -19,7 +19,19 @@ public class Leyenda extends Especie {
 	int defensa;
 	int velocidad;
 	int vida;
-//Constructor que te devuelve todos los datos de la leyenda
+
+	/**
+	 * Constructor que te recibe todos los datos de la leyenda
+	 * 
+	 * @param nombre
+	 * @param descripcion
+	 * @param tipos
+	 * @param habilidades
+	 * @param ataque
+	 * @param defensa
+	 * @param velocidad
+	 * @param vida
+	 */
 	public Leyenda(String nombre, String descripcion, Tipo[] tipos, Habilidad[] habilidades, int ataque, int defensa,
 			int velocidad, int vida) {
 		super(nombre, descripcion, tipos);
@@ -30,12 +42,30 @@ public class Leyenda extends Especie {
 		this.vida = vida;
 	}
 
+	/**
+	 * Constructor para crear personaje desde cero
+	 * 
+	 * @param nombre
+	 * @param descripcion
+	 * @param tipos
+	 */
+	public Leyenda(String nombre, String descripcion, Tipo[] tipos) {
+		super(nombre, descripcion, tipos);
+		generarStatsRandom();
 
-	
+	}
 
-
-	//Constructor que te devuelve todos los datos de la leyenda menos las habilidades
-
+	/**
+	 * Constructor que te recibe todos los datos de la leyenda menos las habilidades
+	 * 
+	 * @param nombre
+	 * @param descripcion
+	 * @param tipos
+	 * @param ataque
+	 * @param defensa
+	 * @param velocidad
+	 * @param vida
+	 */
 	public Leyenda(String nombre, String descripcion, Tipo[] tipos, int ataque, int defensa, int velocidad, int vida) {
 		super(nombre, descripcion, tipos);
 		this.ataque = ataque;
@@ -44,23 +74,13 @@ public class Leyenda extends Especie {
 		this.vida = vida;
 	}
 
-
-
 	/**
-	 * Metodo provisional--JON ANDER DEBES REVISAR SI ESTO ES NECESARIO-- Dejarlo
-	 * para que compile pero falta hacer los constructores de verdad
-	 * 
-	 * @param esp
-	 * @param nAtk
-	 * @param nDef
-	 * @param nVel
-	 * @param nVida
-	 * @param habsElegidas
+	 * genera estadisticas aleatorias
 	 */
-	//public Leyenda(Especie esp, int nAtk, int nDef, int nVel, int nVida, Habilidad[] habsElegidas) {
-		
-		// TODO Auto-generated constructor stub
-	//}
+	private void generarStatsRandom() {
+		// TODO Auto-generated method stub
+
+	}
 
 	/**
 	 * devuelve el ataque del personaje
@@ -224,7 +244,7 @@ public class Leyenda extends Especie {
 			esp = buscarEspecieEnBD(tipo1, tipo2);
 		}
 
-		Leyenda l = new Leyenda(esp.nombre,esp.descripcion,esp.tipos, habsElegidas, nDef, nVel, nVida, nAtk);
+		Leyenda l = new Leyenda(esp.nombre, esp.descripcion, esp.tipos, habsElegidas, nDef, nVel, nVida, nAtk);
 
 		return l;
 	}
