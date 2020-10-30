@@ -9,7 +9,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.TreeSet;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -32,6 +36,17 @@ import personaje.atributos.Tipo;
 public class CreacionHabVen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	private static Logger logger = Logger.getLogger(CreacionHabVen.class.getName());
+	private static final boolean ANYADIR_A_FIC_LOG = false; // poner true para no sobreescribir
+	static {
+		try {
+			logger.addHandler(new FileHandler("src/logs/"+CreacionHabVen.class.getName() + ".log.xml", ANYADIR_A_FIC_LOG));
+		} catch (SecurityException | IOException e) {
+			logger.log(Level.SEVERE, "Error en creacion fichero log");
+		}
+	}
+	
 	private static final int HEIGHT = 300;
 	private static final int WIDTH = 900;
 
@@ -69,7 +84,8 @@ public class CreacionHabVen extends JFrame {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 		setMinimumSize(new Dimension(850, 200));
-
+		
+		logger.log(Level.INFO, "Empieza proceso de lectura de datos");
 		listaHabs = GestorDeDatos.readListaHabilidades();
 
 		pnCentral.setLayout(new BoxLayout(pnCentral, BoxLayout.Y_AXIS));
@@ -114,13 +130,15 @@ public class CreacionHabVen extends JFrame {
 
 					listaHabs.add(txNombre.getText() + t + cbTipo.getSelectedItem() + t + txPot.getText() + t + prec + t
 							+ taDescr.getText());
-					System.out.println("Añadido " + txNombre.getText());
+					
+					logger.log(Level.INFO, "Añadido " + txNombre.getText());
 					reDoList();
 					clear();
 				} else {
 					JOptionPane.showMessageDialog(CreacionHabVen.this,
 							"Error en el tipo de datos introducido. Asegure que el nombre no esta vacio, 0<=potencia<=99 y 0<=precision<=100",
 							"Error", JOptionPane.ERROR_MESSAGE);
+					logger.log(Level.INFO, "Datos introducidos no son correctos");
 				}
 
 			}
@@ -173,6 +191,7 @@ public class CreacionHabVen extends JFrame {
 				new Thread() {
 					@Override
 					public void run() {
+						logger.log(Level.INFO, "Empieza proceso de guardado de datos");
 						GestorDeDatos.writeListaHabilidades(listaHabs);
 					};
 				}.start();
@@ -180,6 +199,8 @@ public class CreacionHabVen extends JFrame {
 			}
 
 		});
+		
+		logger.log(Level.FINE, "Ventana creada correctamente");
 
 	}
 

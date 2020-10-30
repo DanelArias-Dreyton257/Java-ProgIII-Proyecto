@@ -9,7 +9,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.TreeSet;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -30,6 +34,16 @@ import gestion.GestorDeDatos;
 import personaje.atributos.Tipo;
 
 public class CreacionPerVen extends JFrame {
+	
+	private static Logger logger = Logger.getLogger(CreacionPerVen.class.getName());
+	private static final boolean ANYADIR_A_FIC_LOG = false; // poner true para no sobreescribir
+	static {
+		try {
+			logger.addHandler(new FileHandler("src/logs/"+CreacionPerVen.class.getName() + ".log.xml", ANYADIR_A_FIC_LOG));
+		} catch (SecurityException | IOException e) {
+			logger.log(Level.SEVERE, "Error en creacion fichero log");
+		}
+	}
 
 	private static final long serialVersionUID = 1L;
 	private static final int HEIGHT = 500;
@@ -66,7 +80,8 @@ public class CreacionPerVen extends JFrame {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 		setMinimumSize(new Dimension(700, 250));
-
+		
+		logger.log(Level.INFO, "Empieza proceso de lectura de datos");
 		listaPer = GestorDeDatos.readListaLeyendas();
 
 		pnCentral.setLayout(new BoxLayout(pnCentral, BoxLayout.Y_AXIS));
@@ -120,12 +135,13 @@ public class CreacionPerVen extends JFrame {
 						tipo2 = cbTipo2.getSelectedItem().toString();
 					listaPer.add(
 							txNombre.getText() + t + cbTipo1.getSelectedItem() + t + tipo2 + t + taDescr.getText());
-					System.out.println("Añadido " + txNombre.getText());
+					logger.log(Level.INFO,"Añadido " + txNombre.getText());
 					reDoList();
 					clear();
 				} else {
 					JOptionPane.showMessageDialog(CreacionPerVen.this, "El nombre no puede estar vacio", "Error",
 							JOptionPane.ERROR_MESSAGE);
+					logger.log(Level.INFO, "Datos introducidos no son correctos");
 				}
 
 			}
