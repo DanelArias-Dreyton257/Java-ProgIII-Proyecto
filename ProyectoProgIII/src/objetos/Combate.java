@@ -64,7 +64,7 @@ public class Combate {
 			@Override
 			public int compare(Leyenda o1, Leyenda o2) {
 				// TODO Auto-generated method stub
-				return o1.getVelocidad() - o2.getVelocidad();
+				return o2.getVelocidad() - o1.getVelocidad();
 			}
 		};
 
