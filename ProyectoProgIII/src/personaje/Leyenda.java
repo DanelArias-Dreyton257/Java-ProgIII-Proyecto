@@ -76,11 +76,17 @@ public class Leyenda extends Especie {
 		setVida(vida);
 		setVidaMax(vida);
 	}
-
+/**
+ *  devuelve la vidaMax del personaje
+ * @return
+ */
 	public int getVidaMax() {
 		return vidaMax;
 	}
-
+/**
+ *  establece la VidaMax del personaje
+ * @param vidaMax
+ */
 	public void setVidaMax(int vidaMax) {
 		if (vidaMax <= 999) {
 			this.vidaMax = vidaMax;
@@ -96,6 +102,7 @@ public class Leyenda extends Especie {
 		Random r = new Random();
 		int vidaN= r.nextInt(100+1)+200;
 		setVida(vidaN);
+		setVidaMax(vidaN);
 		int ataqueN= r.nextInt(25+1)+25;
 		setAtaque(ataqueN);
 		int defensaN= r.nextInt(25+1)+25;

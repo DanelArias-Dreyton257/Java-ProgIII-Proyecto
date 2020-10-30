@@ -22,6 +22,7 @@ public class Combate {
 		setJ1(j1);
 		setJ2(j2);
 	}
+
 	/**
 	 * Constructor solo para desarrollo
 	 * 
@@ -32,7 +33,9 @@ public class Combate {
 		combateDePrueba();
 	}
 
-
+	/**
+	 * Esta clase crea unos personajes y unos jugadores
+	 */
 	private void combateDePrueba() {
 		Jugador j1 = new Jugador("Willyrex");
 		Jugador j2 = new Jugador("Folagor");
@@ -42,22 +45,47 @@ public class Combate {
 		setJ2(j2);
 	}
 
+	/**
+	 * devuelve el parametro de jugador1
+	 * 
+	 * @return
+	 */
 	public Jugador getJ1() {
 		return j1;
 	}
 
+	/**
+	 * intoduce el parametro de jugador1
+	 * 
+	 * @param j1
+	 */
 	public void setJ1(Jugador j1) {
 		this.j1 = j1;
 	}
 
+	/**
+	 * devuelve el parametro de jugador2
+	 * 
+	 * @return
+	 */
 	public Jugador getJ2() {
 		return j2;
 	}
 
+	/**
+	 * intoduce el parametro de jugador2
+	 * 
+	 * @param j2
+	 */
 	public void setJ2(Jugador j2) {
 		this.j2 = j2;
 	}
 
+	/**
+	 * Clase que ordena a los personajes en funcion de la velocidad
+	 * 
+	 * @return
+	 */
 	public TreeSet<Leyenda> ordenVelocidad() {
 		Comparator<Leyenda> c = new Comparator<Leyenda>() {
 
@@ -79,6 +107,14 @@ public class Combate {
 
 	}
 
+	/**
+	 * Clase que mira quien ataca a quien y hace el calculo de danio
+	 * 
+	 * @param j1Aj2
+	 * @param iLey1
+	 * @param iLey2
+	 * @param iHab
+	 */
 	public void leyendaAtacaLeyenda(boolean j1Aj2, int iLey1, int iLey2, int iHab) {
 		// FIXME comprobar que i1 y i2 son validos
 		Leyenda atacante;
