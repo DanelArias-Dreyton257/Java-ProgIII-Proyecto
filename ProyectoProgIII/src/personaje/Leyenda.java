@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import gestion.GestorDeDatos;
 import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;
 
@@ -270,7 +271,7 @@ public class Leyenda extends Especie {
 				tipo2 = posTipos.get(id);
 			}
 
-			esp = buscarEspecieEnBD(tipo1, tipo2);
+			esp = GestorDeDatos.buscarEspecieEnBD(tipo1, tipo2);
 		}
 
 		Leyenda l = new Leyenda(esp.nombre, esp.descripcion, esp.tipos, habsElegidas, nDef, nVel, nVida, nAtk);
@@ -278,18 +279,7 @@ public class Leyenda extends Especie {
 		return l;
 	}
 
-	/**
-	 * --METODO PROVISIONAL--Dejarlo para que compile pero falta hacer los
-	 * constructores de verdad
-	 * 
-	 * @param tipo1
-	 * @param tipo2
-	 * @return
-	 */
-	private static Especie buscarEspecieEnBD(Tipo tipo1, Tipo tipo2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	public void danyar(double danyo) {
 		danyo -= this.defensa;

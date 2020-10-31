@@ -7,7 +7,7 @@ import personaje.atributos.Tipo;
  * @author danel y jon ander
  *
  */
-public abstract class Especie {
+public class Especie {
 	String nombre;
 	String descripcion;
 	Tipo[] tipos = new Tipo[2];
