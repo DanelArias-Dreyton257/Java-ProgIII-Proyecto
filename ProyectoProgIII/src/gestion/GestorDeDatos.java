@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import personaje.Especie;
+import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;
 
 /**
@@ -122,6 +123,35 @@ public class GestorDeDatos {
 		}
 		return esp;
 
+	}
+	
+	public static Habilidad buscarHabilidadEnBD(Tipo tipo) {
+		TreeSet<String> listaHabs = readListaHabilidades();
+		String tipoStr = tipo.toString();
+		Habilidad h = null;
+		for (String l: listaHabs) {
+			String t = "\t";
+
+			int a = l.indexOf(t);
+			String nombre = l.substring(0, a);
+
+			int b = l.indexOf(t, a + 1);
+			String tipoRead = l.substring(a + 1, b);
+
+			int c = l.indexOf(t, b + 1);
+			String pot = l.substring(b + 1, c);
+
+			int d = l.indexOf(t, c + 1);
+			String prec = l.substring(c + 1, d);
+
+			String desc = l.substring(d + 1);
+			
+			if(tipoStr.equals(tipoRead)) {
+				h = new Habilidad(nombre, tipo, Integer.parseInt(pot), Double.parseDouble(prec));
+			}
+			
+		}
+		return h;
 	}
 
 }

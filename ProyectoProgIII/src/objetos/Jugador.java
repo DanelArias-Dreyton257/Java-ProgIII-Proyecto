@@ -3,6 +3,7 @@ package objetos;
 import java.util.ArrayList;
 import java.util.Random;
 
+import gestion.GestorDeDatos;
 import personaje.Leyenda;
 import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;
@@ -220,9 +221,9 @@ public class Jugador {
 			int it2 = r1.nextInt(Tipo.values().length);
 			Tipo[] tipos = { Tipo.values()[it1], Tipo.values()[it2] };
 
-			Habilidad h = new Habilidad("Prueba", Tipo.values()[it1], 80, 1);
-			Habilidad[] hs = { h, null, null, null };
-
+			Random r2 = new Random();
+			Habilidad[] hs = new Habilidad[4];
+			hs[0]=GestorDeDatos.buscarHabilidadEnBD(tipos[0]);
 			anyadirNuevaLeyenda(new Leyenda("Leyenda " + i, "", tipos, hs));
 		}
 	}
