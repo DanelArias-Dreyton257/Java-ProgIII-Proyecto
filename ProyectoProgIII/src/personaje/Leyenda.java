@@ -21,6 +21,7 @@ public class Leyenda extends Especie {
 	int velocidad;
 	int vida;
 	int vidaMax;
+
 	/**
 	 * Constructor que te recibe todos los datos de la leyenda
 	 * 
@@ -42,7 +43,7 @@ public class Leyenda extends Especie {
 		setVelocidad(velocidad);
 		setVida(vida);
 		setVidaMax(vida);
-		
+
 	}
 
 	/**
@@ -52,8 +53,9 @@ public class Leyenda extends Especie {
 	 * @param descripcion
 	 * @param tipos
 	 */
-	public Leyenda(String nombre, String descripcion, Tipo[] tipos) {
+	public Leyenda(String nombre, String descripcion, Tipo[] tipos, Habilidad[] habilidades) {
 		super(nombre, descripcion, tipos);
+		setHabilidades(habilidades);
 		generarStatsRandom();
 
 	}
@@ -77,23 +79,27 @@ public class Leyenda extends Especie {
 		setVida(vida);
 		setVidaMax(vida);
 	}
-/**
- *  devuelve la vidaMax del personaje
- * @return
- */
+
+	/**
+	 * devuelve la vidaMax del personaje
+	 * 
+	 * @return
+	 */
 	public int getVidaMax() {
 		return vidaMax;
 	}
-/**
- *  establece la VidaMax del personaje
- * @param vidaMax
- */
+
+	/**
+	 * establece la VidaMax del personaje
+	 * 
+	 * @param vidaMax
+	 */
 	public void setVidaMax(int vidaMax) {
 		if (vidaMax <= 999) {
 			this.vidaMax = vidaMax;
 		} else
 			throw new IllegalArgumentException("Introducido: " + vidaMax + "La vida debe ser vida <= 999");
-	
+
 	}
 
 	/**
@@ -101,14 +107,14 @@ public class Leyenda extends Especie {
 	 */
 	private void generarStatsRandom() {
 		Random r = new Random();
-		int vidaN= r.nextInt(100+1)+200;
+		int vidaN = r.nextInt(100 + 1) + 200;
 		setVida(vidaN);
 		setVidaMax(vidaN);
-		int ataqueN= r.nextInt(25+1)+25;
+		int ataqueN = r.nextInt(25 + 1) + 25;
 		setAtaque(ataqueN);
-		int defensaN= r.nextInt(25+1)+25;
+		int defensaN = r.nextInt(25 + 1) + 25;
 		setDefensa(defensaN);
-		int velocidadN= r.nextInt(25+1)+25;
+		int velocidadN = r.nextInt(25 + 1) + 25;
 		setVelocidad(velocidadN);
 	}
 
@@ -279,12 +285,77 @@ public class Leyenda extends Especie {
 		return l;
 	}
 
-	
-
+	/**
+	 * Reduce la vida de la leyenda segun el danyo pasado como parametro
+	 * 
+	 * @param danyo
+	 */
 	public void danyar(double danyo) {
 		danyo -= this.defensa;
 		if (danyo >= 0) {
 			this.vida -= (int) danyo;
 		}
 	}
+
+	/**
+	 * Devuelve el String que se mostraria en combate
+	 * 
+	 * @return
+	 */
+	public String getNombreCombate() {
+		String s = nombre;
+		if (this.estaMuerto()) {
+			s += ": MUERTO";
+		} else {
+			s += ": " + vida + " / " + vidaMax;
+		}
+		return s;
+	}
+
+	/**
+	 * Devuelve true si el presonaje esta muerto
+	 * 
+	 * @return
+	 */
+	public boolean estaMuerto() {
+		return vida <= 0;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ataque;
+		result = prime * result + defensa;
+		result = prime * result + Arrays.hashCode(habilidades);
+		result = prime * result + velocidad;
+		result = prime * result + vida;
+		result = prime * result + vidaMax;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Leyenda other = (Leyenda) obj;
+		if (ataque != other.ataque)
+			return false;
+		if (defensa != other.defensa)
+			return false;
+		if (!Arrays.equals(habilidades, other.habilidades))
+			return false;
+		if (velocidad != other.velocidad)
+			return false;
+		if (vida != other.vida)
+			return false;
+		if (vidaMax != other.vidaMax)
+			return false;
+		return true;
+	}
+
 }

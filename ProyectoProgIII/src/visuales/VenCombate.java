@@ -1,9 +1,16 @@
 package visuales;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Random;
+import java.util.TreeSet;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -13,41 +20,58 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 
 import objetos.Combate;
+import personaje.Leyenda;
+import personaje.atributos.Habilidad;
 
 public class VenCombate extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final String TITULO = "MYTHS of the LEGENDARY WAR";
-	private static final Dimension MIN_DIM = new Dimension(400, 400);
-	private static final Dimension PREF_DIM = new Dimension(900, 700);
-	
+	private static final Dimension MIN_DIM = new Dimension(1100, 400);
+	private static final Dimension PREF_DIM = new Dimension(1200, 600);
+
 	private JPanel pnPrincipal = new JPanel(new GridLayout(1, 5));
 	private JPanel pn1 = new JPanel(new BorderLayout());
 	private JPanel pnGrid2 = new JPanel(new GridLayout(3, 2));
-	private JPanel pn3 = new JPanel();
-	private JPanel pnGrid4 = new JPanel(new GridLayout(3,2));
+	private JPanel pn3Norte = new JPanel();
+	private JPanel pn3 = new JPanel(new BorderLayout());
+	private JPanel pnGrid4 = new JPanel(new GridLayout(3, 2));
 	private JPanel pn5 = new JPanel(new BorderLayout());
 	private JPanel pnBanquilloJ1 = new JPanel();
 	private JPanel pnBanquilloJ2 = new JPanel();
-	
+
+	private JPanel pnHabilidades = new JPanel(new GridLayout(2, 2));
+
 	private DefaultListModel<String> mdJ1Banquillo = new DefaultListModel<String>();
 	private DefaultListModel<String> mdJ2Banquillo = new DefaultListModel<String>();
 	private JList<String> lsJ1Banquillo = new JList<>(mdJ1Banquillo);
 	private JList<String> lsJ2Banquillo = new JList<>(mdJ2Banquillo);
-	
+
 	private JLabel lbJugador1 = new JLabel("Jugador 1");
 	private JLabel lbJugador2 = new JLabel("Jugador 2");
-	
-	private JLabel lbJ1Ley1 = new JLabel("Leyenda 1");
-	private JLabel lbJ1Ley2 = new JLabel("Leyenda 2");
-	private JLabel lbJ1Ley3 = new JLabel("Leyenda 3");
-	private JLabel lbJ2Ley1 = new JLabel("Leyenda 1");
-	private JLabel lbJ2Ley2 = new JLabel("Leyenda 2");
-	private JLabel lbJ2Ley3 = new JLabel("Leyenda 3");
-	
-	private JButton btOpciones = new JButton("Opciones");
 
+	private JLabel[] lbLeyEnBatalla = { new JLabel("Leyenda"), new JLabel("Leyenda"), new JLabel("Leyenda"),
+			new JLabel("Leyenda"), new JLabel("Leyenda"), new JLabel("Leyenda") };
+
+	private JLabel lbTurno = new JLabel("Turno 0");
+
+	private JButton btOpciones = new JButton("Opciones");
+	private JButton btSigTurno = new JButton("Siguiente turno");
+
+	private JButton[] btHabilidades = { new JButton("H0"), new JButton("H1"), new JButton("H2"), new JButton("H3") };
+
+	private int contTurno = 0;
+
+	private TreeSet<Leyenda> leyendasEnCombate = new TreeSet<>();
+	private Leyenda leyendaEnCurso = null;
+	private int indiceLeyEnCurso = -1;
+
+	/**
+	 * Contructor de la ventana de combate
+	 * 
+	 * @param combate
+	 */
 	public VenCombate(Combate combate) {
 		// Colocar ventana
 		setMinimumSize(MIN_DIM);
@@ -58,63 +82,174 @@ public class VenCombate extends JFrame {
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle(TITULO);
-		
-		//Anyadir a principal
+
+		// Anyadir a principal
 		getContentPane().add(pnPrincipal);
 		pnPrincipal.add(pn1);
 		pnPrincipal.add(pnGrid2);
 		pnPrincipal.add(pn3);
 		pnPrincipal.add(pnGrid4);
 		pnPrincipal.add(pn5);
-		
-		pn1.add(lbJugador1,BorderLayout.NORTH);
-		pn1.add(pnBanquilloJ1,BorderLayout.CENTER);
-		pn5.add(lbJugador2,BorderLayout.NORTH);
-		pn5.add(pnBanquilloJ2,BorderLayout.CENTER);
-		pn5.add(btOpciones,BorderLayout.SOUTH);
-		
+		// Paneles del grid principal
+		pn1.add(lbJugador1, BorderLayout.NORTH);
+		pn1.add(pnBanquilloJ1, BorderLayout.CENTER);
+		pn5.add(lbJugador2, BorderLayout.NORTH);
+		pn5.add(pnBanquilloJ2, BorderLayout.CENTER);
+		pn5.add(btOpciones, BorderLayout.SOUTH);
+
 		pnBanquilloJ1.add(lsJ1Banquillo);
 		pnBanquilloJ2.add(lsJ2Banquillo);
-		
-		//Anyadir leyendas
-		pnGrid2.add(lbJ1Ley1);
+
+		// Anyadir leyendas
+		pnGrid2.add(lbLeyEnBatalla[0]);
 		pnGrid2.add(new JLabel(""));
 		pnGrid2.add(new JLabel(""));
-		pnGrid2.add(lbJ1Ley2);
-		pnGrid2.add(lbJ1Ley3);
+		pnGrid2.add(lbLeyEnBatalla[1]);
+		pnGrid2.add(lbLeyEnBatalla[2]);
 		pnGrid2.add(new JLabel(""));
-		
+
 		pnGrid4.add(new JLabel(""));
-		pnGrid4.add(lbJ2Ley1);
-		pnGrid4.add(lbJ2Ley2);
+		pnGrid4.add(lbLeyEnBatalla[3]);
+		pnGrid4.add(lbLeyEnBatalla[4]);
 		pnGrid4.add(new JLabel(""));
 		pnGrid4.add(new JLabel(""));
-		pnGrid4.add(lbJ2Ley3);
-		
-		//Cambiar textos
+		pnGrid4.add(lbLeyEnBatalla[5]);
+
+		pn3.add(pn3Norte, BorderLayout.NORTH);
+		pn3Norte.add(lbTurno);
+		pn3Norte.add(btSigTurno);
+
+		pn3.add(pnHabilidades, BorderLayout.SOUTH);
+		pnHabilidades.setVisible(false);
+
+		for (JButton b : btHabilidades) {
+			pnHabilidades.add(b);
+		}
+
+		// Cambiar textos
 		lbJugador1.setText(combate.getJ1().getNombre());
 		lbJugador2.setText(combate.getJ2().getNombre());
-		
-		lbJ1Ley1.setText(combate.getJ1().getLeyendaEquipo(0).getNombre());
-		lbJ1Ley2.setText(combate.getJ1().getLeyendaEquipo(1).getNombre());
-		lbJ1Ley3.setText(combate.getJ1().getLeyendaEquipo(2).getNombre());
-		lbJ2Ley1.setText(combate.getJ2().getLeyendaEquipo(0).getNombre());
-		lbJ2Ley2.setText(combate.getJ2().getLeyendaEquipo(1).getNombre());
-		lbJ2Ley3.setText(combate.getJ2().getLeyendaEquipo(2).getNombre());
-		
-		mdJ1Banquillo.addElement(combate.getJ1().getLeyendaEquipo(3).getNombre());
-		mdJ1Banquillo.addElement(combate.getJ1().getLeyendaEquipo(4).getNombre());
-		mdJ1Banquillo.addElement(combate.getJ1().getLeyendaEquipo(5).getNombre());
-		mdJ2Banquillo.addElement(combate.getJ2().getLeyendaEquipo(3).getNombre());
-		mdJ2Banquillo.addElement(combate.getJ2().getLeyendaEquipo(4).getNombre());
-		mdJ2Banquillo.addElement(combate.getJ2().getLeyendaEquipo(5).getNombre());
-		
-		
+
+		actualizaNombresLeys(combate);
+		// Listeners
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				MenuPrincipal v = new MenuPrincipal();
+				v.setVisible(true);
+			}
+		});
+
+		btSigTurno.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				contTurno++;
+				lbTurno.setText("Turno " + contTurno);
+				btSigTurno.setVisible(false);
+				revalidate();
+
+				leyendasEnCombate = combate.ordenVelocidad();
+				siguienteLeyenda(combate);
+			}
+		});
+		// Listeners para cada boton de las habilidades
+		for (int j = 0; j < btHabilidades.length; j++) {
+			JButton boton = btHabilidades[j];
+			int h = j;
+
+			boton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// Si el boton no tiene ninguna habilidad asociada
+					if (boton.getText().equals("NULL")) {
+						return;
+					}
+					Random r = new Random();
+					// Ataca el j1 al j2
+					if (indiceLeyEnCurso < 3) {
+						combate.leyendaAtacaLeyenda(true, indiceLeyEnCurso, r.nextInt(3), h);
+					}
+					// Ataca el j2 al j1
+					else {
+						combate.leyendaAtacaLeyenda(false, r.nextInt(3), indiceLeyEnCurso - 3, h);
+					}
+					// Actualizar nombres
+					actualizaNombresLeys(combate);
+					JLabel lbleyEnCurso = lbLeyEnBatalla[indiceLeyEnCurso];
+					lbleyEnCurso.setForeground(Color.BLACK);
+
+					pnHabilidades.setVisible(false);
+
+					// Si ya han atacado todos se termina el turno
+					if (!leyendasEnCombate.isEmpty()) {
+						siguienteLeyenda(combate);
+					} else {
+						btSigTurno.setVisible(true);
+					}
+
+				}
+			});
+		}
+
 	}
-	public static void main(String[] args) {
-		Combate c = new Combate();
-		VenCombate v = new VenCombate(c);
-		v.setVisible(true);
+
+	/**
+	 * Selecciona la siguiente leyenda a atacar
+	 * 
+	 * @param combate
+	 */
+	private void siguienteLeyenda(Combate combate) {
+
+		leyendaEnCurso = leyendasEnCombate.pollFirst();
+
+		indiceLeyEnCurso = combate.indiceEnBatalla(leyendaEnCurso);
+
+		// Cambia el color de quien ataca
+		JLabel lbleyEnCurso = lbLeyEnBatalla[indiceLeyEnCurso];
+		lbleyEnCurso.setForeground(Color.RED);
+
+		// Hacer aparecer panel con movs
+		Habilidad[] hs = leyendaEnCurso.getHabilidades();
+		for (int i = 0; i < hs.length; i++) {
+			String nombre = "NULL";
+			if (hs[i] != null) {
+				nombre = hs[i].getNombre();
+			}
+			btHabilidades[i].setText(nombre);
+		}
+
+		pnHabilidades.setVisible(true);
+
+	}
+
+	/**
+	 * Actualiza los nombres de las leyendas en el combate
+	 * 
+	 * @param combate
+	 */
+	private void actualizaNombresLeys(Combate combate) {
+
+		for (int i = 0; i < lbLeyEnBatalla.length; i++) {
+			int j = i - 3;
+			if (i >= 3) {
+				lbLeyEnBatalla[i].setText(combate.getJ2().getLeyendaEquipo(j).getNombreCombate());
+			} else {
+				lbLeyEnBatalla[i].setText(combate.getJ1().getLeyendaEquipo(i).getNombreCombate());
+			}
+		}
+		mdJ1Banquillo.clear();
+
+		mdJ1Banquillo.addElement(combate.getJ1().getLeyendaEquipo(3).getNombreCombate());
+		mdJ1Banquillo.addElement(combate.getJ1().getLeyendaEquipo(4).getNombreCombate());
+		mdJ1Banquillo.addElement(combate.getJ1().getLeyendaEquipo(5).getNombreCombate());
+
+		mdJ2Banquillo.clear();
+
+		mdJ2Banquillo.addElement(combate.getJ2().getLeyendaEquipo(3).getNombreCombate());
+		mdJ2Banquillo.addElement(combate.getJ2().getLeyendaEquipo(4).getNombreCombate());
+		mdJ2Banquillo.addElement(combate.getJ2().getLeyendaEquipo(5).getNombreCombate());
+
 	}
 
 }

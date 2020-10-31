@@ -111,4 +111,40 @@ public class Habilidad {
 		this.tipo = tipo;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + potencia;
+		long temp;
+		temp = Double.doubleToLongBits(precision);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Habilidad other = (Habilidad) obj;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		if (potencia != other.potencia)
+			return false;
+		if (Double.doubleToLongBits(precision) != Double.doubleToLongBits(other.precision))
+			return false;
+		if (tipo != other.tipo)
+			return false;
+		return true;
+	}
+
 }

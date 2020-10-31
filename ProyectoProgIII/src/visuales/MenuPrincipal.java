@@ -6,12 +6,18 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import objetos.Combate;
 
 /**
  * 
@@ -21,6 +27,17 @@ import javax.swing.JPanel;
 public class MenuPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+
+	private static Logger logger = Logger.getLogger(MenuPrincipal.class.getName());
+	private static final boolean ANYADIR_A_FIC_LOG = false; // poner true para no sobreescribir
+	static {
+		try {
+			logger.addHandler(
+					new FileHandler("src/logs/" + MenuPrincipal.class.getName() + ".log.xml", ANYADIR_A_FIC_LOG));
+		} catch (SecurityException | IOException e) {
+			logger.log(Level.SEVERE, "Error en creacion fichero log");
+		}
+	}
 
 	private static final String TITULO = "MYTHS of the LEGENDARY WAR";
 	private static final Dimension MIN_DIM = new Dimension(400, 400);
@@ -82,7 +99,7 @@ public class MenuPrincipal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO
-				System.out.println("Abrir ventana de Gestion de Equipo");
+				logger.log(Level.INFO, "Abrir ventana de Gestion de Equipo");
 			}
 		});
 		btValhalla.addActionListener(new ActionListener() {
@@ -90,7 +107,7 @@ public class MenuPrincipal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO NO PROYECTO MINIMO VIABLE
-				System.out.println("No disponible de momento el Valhalla");
+				logger.log(Level.INFO, "No disponible de momento el Valhalla");
 			}
 		});
 		btJugar.addActionListener(new ActionListener() {
@@ -98,7 +115,12 @@ public class MenuPrincipal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO
-				System.out.println("Abrir ventana de batalla");
+				logger.log(Level.INFO, "Abrir ventana de batalla");
+				setVisible(false);
+				Combate c = new Combate(); // FIXME
+				VenCombate v = new VenCombate(c);
+				v.setVisible(true);
+				dispose();
 			}
 		});
 		btUsuario.addActionListener(new ActionListener() {
@@ -106,7 +128,7 @@ public class MenuPrincipal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO
-				System.out.println("Abrir logger");
+				logger.log(Level.INFO, "Abrir loggeo de usuario");
 			}
 		});
 		btOpciones.addActionListener(new ActionListener() {
@@ -114,28 +136,19 @@ public class MenuPrincipal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO
-				System.out.println("Abrir ventana de opciones");
+				logger.log(Level.INFO, "Abrir ventana de opciones");
 			}
 		});
 		btSalir.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Ventana Cerrada");
 				dispose();
 				// TODO hacer ventana de confirmacion?
 			}
 		});
 
-	}
-
-	/**
-	 * Main de prueba
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		MenuPrincipal m = new MenuPrincipal();
-		m.setVisible(true);
 	}
 
 }
