@@ -128,6 +128,10 @@ public class Combate {
 			defensor = j1.getLeyendaEquipo(iLey1);
 			atacante = j2.getLeyendaEquipo(iLey2);
 		}
+		if (atacante.estaMuerto() || defensor.estaMuerto()) {
+			return false;
+		}
+		
 		Habilidad ataque = atacante.getHabilidades()[iHab];
 
 		int atkLey = atacante.getAtaque();
