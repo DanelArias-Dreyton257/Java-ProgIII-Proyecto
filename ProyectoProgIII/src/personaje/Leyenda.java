@@ -53,9 +53,8 @@ public class Leyenda extends Especie {
 	 * @param descripcion
 	 * @param tipos
 	 */
-	public Leyenda(String nombre, String descripcion, Tipo[] tipos, Habilidad[] habilidades) {
+	public Leyenda(String nombre, String descripcion, Tipo[] tipos) {
 		super(nombre, descripcion, tipos);
-		setHabilidades(habilidades);
 		generarStatsRandom();
 
 	}
@@ -116,6 +115,11 @@ public class Leyenda extends Especie {
 		setDefensa(defensaN);
 		int velocidadN = r.nextInt(25 + 1) + 25;
 		setVelocidad(velocidadN);
+		Habilidad[] hs = new Habilidad[4];
+		hs[0] = GestorDeDatos.buscarHabilidadEnBD(tipos[0]);
+		if (tipos[1] != null) {
+			hs[1] = GestorDeDatos.buscarHabilidadEnBD(tipos[1]);
+		}
 	}
 
 	/**

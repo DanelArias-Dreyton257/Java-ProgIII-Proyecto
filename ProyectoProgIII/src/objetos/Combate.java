@@ -153,30 +153,30 @@ public class Combate {
 		defensor.danyar(danyo);
 
 	}
+
 	/**
-	 * Si es del jugador 1 devuelve su indice en el equipo
-	 * Si es del jugador 2 devuelve su indice en el equipo + 3
-	 * sino es ninguno, return -1
+	 * Si es del jugador 1 devuelve su indice en el equipo Si es del jugador 2
+	 * devuelve su indice en el equipo + 3 sino es ninguno, return -1
+	 * 
 	 * @param leyendaEnCurso
 	 * @return
 	 */
 	public int indiceEnBatalla(Leyenda leyendaEnCurso) {
-		
-		Leyenda[] eq1 = this.j1.getEquipo(); //{l1,l2,l3,l4,l5,l6}
-		Leyenda[] eq2 = this.j2.getEquipo(); //{l7,l8,l9,l10,l11,l12}
-		
+
+		Leyenda[] eq1 = this.j1.getEquipo(); // {l1,l2,l3,l4,l5,l6}
+		Leyenda[] eq2 = this.j2.getEquipo(); // {l7,l8,l9,l10,l11,l12}
+
 		int indice = -1;
-		
-		for (int i = 0; i<3;i++) {
+
+		for (int i = 0; i < 3; i++) {
 			if (eq1[i].equals(leyendaEnCurso)) {
 				indice = i;
-			}
-			else if (eq2[i].equals(leyendaEnCurso)) {
-				indice = i+3;
+			} else if (eq2[i].equals(leyendaEnCurso)) {
+				indice = i + 3;
 			}
 		}
-			
+
 		return indice;
 	}
-	
+
 }

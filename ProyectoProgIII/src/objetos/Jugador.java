@@ -220,11 +220,7 @@ public class Jugador {
 			Random r1 = new Random();
 			int it2 = r1.nextInt(Tipo.values().length);
 			Tipo[] tipos = { Tipo.values()[it1], Tipo.values()[it2] };
-
-			Random r2 = new Random();
-			Habilidad[] hs = new Habilidad[4];
-			hs[0]=GestorDeDatos.buscarHabilidadEnBD(tipos[0]);
-			anyadirNuevaLeyenda(new Leyenda("Leyenda " + i, "", tipos, hs));
+			anyadirNuevaLeyenda(new Leyenda("Leyenda " + i, "", tipos));
 		}
 	}
 
