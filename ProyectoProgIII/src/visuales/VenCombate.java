@@ -40,6 +40,7 @@ public class VenCombate extends JFrame {
 	private JPanel pn5 = new JPanel(new BorderLayout());
 	private JPanel pnBanquilloJ1 = new JPanel();
 	private JPanel pnBanquilloJ2 = new JPanel();
+	private JPanel pnSur = new JPanel();
 
 	private JPanel pnHabilidades = new JPanel(new GridLayout(2, 2));
 
@@ -55,6 +56,8 @@ public class VenCombate extends JFrame {
 			new JLabel("Leyenda"), new JLabel("Leyenda"), new JLabel("Leyenda") };
 
 	private JLabel lbTurno = new JLabel("Turno 0");
+	
+	private JLabel lbMensaje = new JLabel("");
 
 	private JButton btOpciones = new JButton("Opciones");
 	private JButton btSigTurno = new JButton("Siguiente turno");
@@ -84,7 +87,11 @@ public class VenCombate extends JFrame {
 		setTitle(TITULO);
 
 		// Anyadir a principal
-		getContentPane().add(pnPrincipal);
+		getContentPane().add(pnPrincipal,BorderLayout.CENTER);
+		getContentPane().add(pnSur,BorderLayout.SOUTH);
+		
+		pnSur.add(lbMensaje);
+		
 		pnPrincipal.add(pn1);
 		pnPrincipal.add(pnGrid2);
 		pnPrincipal.add(pn3);
@@ -166,14 +173,23 @@ public class VenCombate extends JFrame {
 						return;
 					}
 					Random r = new Random();
+					boolean ataqueExitoso = false;
 					// Ataca el j1 al j2
 					if (indiceLeyEnCurso < 3) {
-						combate.leyendaAtacaLeyenda(true, indiceLeyEnCurso, r.nextInt(3), h);
+						ataqueExitoso = combate.leyendaAtacaLeyenda(true, indiceLeyEnCurso, r.nextInt(3), h);
 					}
 					// Ataca el j2 al j1
 					else {
-						combate.leyendaAtacaLeyenda(false, r.nextInt(3), indiceLeyEnCurso - 3, h);
+						ataqueExitoso = combate.leyendaAtacaLeyenda(false, r.nextInt(3), indiceLeyEnCurso - 3, h);
 					}
+					
+					if (ataqueExitoso) {
+						lbMensaje.setText("Ataque exitoso");
+					}
+					else {
+						lbMensaje.setText("Ataque fallado");
+					}
+					
 					// Actualizar nombres
 					actualizaNombresLeys(combate);
 					JLabel lbleyEnCurso = lbLeyEnBatalla[indiceLeyEnCurso];

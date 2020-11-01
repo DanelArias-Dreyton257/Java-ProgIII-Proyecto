@@ -114,8 +114,9 @@ public class Combate {
 	 * @param iLey1
 	 * @param iLey2
 	 * @param iHab
+	 * @return devuelve true si se ha realizado un ataque y false si se ha fallado
 	 */
-	public void leyendaAtacaLeyenda(boolean j1Aj2, int iLey1, int iLey2, int iHab) {
+	public boolean leyendaAtacaLeyenda(boolean j1Aj2, int iLey1, int iLey2, int iHab) {
 		// FIXME comprobar que i1 y i2 son validos
 		Leyenda atacante;
 		Leyenda defensor;
@@ -139,7 +140,7 @@ public class Combate {
 		Random r = new Random();
 		double randomN = r.nextDouble();
 		if (randomN > precHab) {
-			return;
+			return false;
 		}
 		double multiplicador;
 		if (tiposLey[1] == null) {
@@ -151,6 +152,7 @@ public class Combate {
 		double danyo = (atkLey + potHab) * (multiplicador);
 
 		defensor.danyar(danyo);
+		return true;
 
 	}
 

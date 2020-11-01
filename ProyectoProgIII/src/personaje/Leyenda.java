@@ -119,7 +119,6 @@ public class Leyenda extends Especie {
 		if (tipos[1] != null) {
 			habilidades[1] = GestorDeDatos.buscarHabilidadEnBD(tipos[1]);
 		}
-		System.out.println(this);
 	}
 
 	/**
