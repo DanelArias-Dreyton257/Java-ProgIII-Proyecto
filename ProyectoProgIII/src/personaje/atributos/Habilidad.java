@@ -8,6 +8,7 @@ package personaje.atributos;
 public class Habilidad {
 
 	protected String nombre;
+	protected String descripcion = "";
 	protected Tipo tipo;
 	protected int potencia;
 	protected double precision;
@@ -22,6 +23,23 @@ public class Habilidad {
 	 */
 	public Habilidad(String nombre, Tipo tipo, int potencia, double precision) {
 		setNombre(nombre);
+		setTipo(tipo);
+		setPotencia(potencia);
+		setPrecision(precision);
+	}
+
+	/**
+	 * Crea un movimiento
+	 * 
+	 * @param nombre
+	 * @param descripcion
+	 * @param tipo
+	 * @param potencia
+	 * @param precision
+	 */
+	public Habilidad(String nombre, String descripcion, Tipo tipo, int potencia, double precision) {
+		setNombre(nombre);
+		setDescripcion(descripcion);
 		setTipo(tipo);
 		setPotencia(potencia);
 		setPrecision(precision);
@@ -43,6 +61,24 @@ public class Habilidad {
 	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	/**
+	 * Devuelve la descripcion del movimiento
+	 * 
+	 * @return
+	 */
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	/**
+	 * Establece la descripcion del movimiento
+	 * 
+	 * @param descripcion
+	 */
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	/**

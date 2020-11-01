@@ -3,9 +3,8 @@ package objetos;
 import java.util.ArrayList;
 import java.util.Random;
 
-import gestion.GestorDeDatos;
+
 import personaje.Leyenda;
-import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;
 
 /**

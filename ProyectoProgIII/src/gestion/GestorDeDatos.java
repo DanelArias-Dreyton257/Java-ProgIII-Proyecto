@@ -98,7 +98,7 @@ public class GestorDeDatos {
 		if (tipo2 != null)
 			t2.toString();
 		Especie esp = null;
-		for (String l: listaPer) {
+		for (String l : listaPer) {
 			String t = "\t";
 
 			int a = l.indexOf(t);
@@ -111,25 +111,25 @@ public class GestorDeDatos {
 			String readt2 = l.substring(b + 1, c);
 
 			String desc = l.substring(c + 1);
-			
+
 			if (t1.equals(readt1) && t2.equals(readt2)) {
 				if (t2.equals("NULL")) {
 					tipo2 = null;
 				}
-				Tipo[] tipos = {tipo1,tipo2};
-				esp = new Especie(nombre, desc,tipos);
+				Tipo[] tipos = { tipo1, tipo2 };
+				esp = new Especie(nombre, desc, tipos);
 				break;
 			}
 		}
 		return esp;
 
 	}
-	
+
 	public static Habilidad buscarHabilidadEnBD(Tipo tipo) {
 		TreeSet<String> listaHabs = readListaHabilidades();
 		String tipoStr = tipo.toString();
 		Habilidad h = null;
-		for (String l: listaHabs) {
+		for (String l : listaHabs) {
 			String t = "\t";
 
 			int a = l.indexOf(t);
@@ -145,11 +145,11 @@ public class GestorDeDatos {
 			String prec = l.substring(c + 1, d);
 
 			String desc = l.substring(d + 1);
-			
-			if(tipoStr.equals(tipoRead)) {
-				h = new Habilidad(nombre, tipo, Integer.parseInt(pot), Double.parseDouble(prec));
+
+			if (tipoStr.equals(tipoRead)) {
+				h = new Habilidad(nombre, desc, tipo, Integer.parseInt(pot), Double.parseDouble(prec));
 			}
-			
+
 		}
 		return h;
 	}
