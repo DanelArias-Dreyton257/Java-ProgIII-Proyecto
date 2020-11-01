@@ -3,7 +3,8 @@ package objetos;
 import java.util.ArrayList;
 import java.util.Random;
 
-
+import gestion.GestorDeDatos;
+import personaje.Especie;
 import personaje.Leyenda;
 import personaje.atributos.Tipo;
 
@@ -214,12 +215,21 @@ public class Jugador {
 
 	public void anyadirLeyendasRandom(int numLeyendas) {
 		for (int i = 0; i < numLeyendas; i++) {
-			Random r = new Random();
-			int it1 = r.nextInt(Tipo.values().length);
-			Random r1 = new Random();
-			int it2 = r1.nextInt(Tipo.values().length);
-			Tipo[] tipos = { Tipo.values()[it1], Tipo.values()[it2] };
-			anyadirNuevaLeyenda(new Leyenda("Leyenda " + i, "", tipos));
+			Especie esp = null;
+			Tipo[] tipos = new Tipo[2];
+			tipos[1] = null;
+			while (esp == null) {
+				Random r = new Random();
+				int it1 = r.nextInt(Tipo.values().length);
+				Random r1 = new Random();
+				int it2 = r1.nextInt(Tipo.values().length + 5);
+				tipos[0] = Tipo.values()[it1];
+				if (it2 < Tipo.values().length) {
+					tipos[1] = Tipo.values()[it2];
+				}
+				esp = GestorDeDatos.buscarEspecieEnBD(tipos[0], tipos[1]);
+			}
+			anyadirNuevaLeyenda(new Leyenda(esp.getNombre(), esp.getDescripcion(), tipos));
 		}
 	}
 

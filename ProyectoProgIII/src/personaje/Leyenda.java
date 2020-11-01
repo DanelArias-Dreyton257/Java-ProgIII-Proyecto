@@ -115,11 +115,11 @@ public class Leyenda extends Especie {
 		setDefensa(defensaN);
 		int velocidadN = r.nextInt(25 + 1) + 25;
 		setVelocidad(velocidadN);
-		Habilidad[] hs = new Habilidad[4];
-		hs[0] = GestorDeDatos.buscarHabilidadEnBD(tipos[0]);
+		habilidades[0] = GestorDeDatos.buscarHabilidadEnBD(tipos[0]);
 		if (tipos[1] != null) {
-			hs[1] = GestorDeDatos.buscarHabilidadEnBD(tipos[1]);
+			habilidades[1] = GestorDeDatos.buscarHabilidadEnBD(tipos[1]);
 		}
+		System.out.println(this);
 	}
 
 	/**
@@ -361,5 +361,12 @@ public class Leyenda extends Especie {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Leyenda [nombre = " + nombre + ", descripcion="+descripcion+", tipos="+Arrays.toString(tipos)+", habilidades=" + Arrays.toString(habilidades) + ", ataque=" + ataque + ", defensa=" + defensa
+				+ ", velocidad=" + velocidad + ", vida=" + vida + ", vidaMax=" + vidaMax + "]";
+	}
+	
 
 }

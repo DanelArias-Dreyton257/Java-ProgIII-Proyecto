@@ -183,4 +183,10 @@ public class Habilidad {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Habilidad [nombre=" + nombre + ", descripcion=" + descripcion + ", tipo=" + tipo + ", potencia="
+				+ potencia + ", precision=" + precision + "]";
+	}
+
 }

@@ -96,7 +96,7 @@ public class GestorDeDatos {
 		String t1 = tipo1.toString();
 		String t2 = "NULL";
 		if (tipo2 != null)
-			t2.toString();
+			t2 = tipo2.toString();
 		Especie esp = null;
 		for (String l : listaPer) {
 			String t = "\t";
@@ -127,29 +127,31 @@ public class GestorDeDatos {
 
 	public static Habilidad buscarHabilidadEnBD(Tipo tipo) {
 		TreeSet<String> listaHabs = readListaHabilidades();
-		String tipoStr = tipo.toString();
 		Habilidad h = null;
-		for (String l : listaHabs) {
-			String t = "\t";
+		if (tipo!=null) {
+			String tipoStr = tipo.toString();
+			for (String l : listaHabs) {
+				String t = "\t";
 
-			int a = l.indexOf(t);
-			String nombre = l.substring(0, a);
+				int a = l.indexOf(t);
+				String nombre = l.substring(0, a);
 
-			int b = l.indexOf(t, a + 1);
-			String tipoRead = l.substring(a + 1, b);
+				int b = l.indexOf(t, a + 1);
+				String tipoRead = l.substring(a + 1, b);
 
-			int c = l.indexOf(t, b + 1);
-			String pot = l.substring(b + 1, c);
+				int c = l.indexOf(t, b + 1);
+				String pot = l.substring(b + 1, c);
 
-			int d = l.indexOf(t, c + 1);
-			String prec = l.substring(c + 1, d);
+				int d = l.indexOf(t, c + 1);
+				String prec = l.substring(c + 1, d);
 
-			String desc = l.substring(d + 1);
+				String desc = l.substring(d + 1);
 
-			if (tipoStr.equals(tipoRead)) {
-				h = new Habilidad(nombre, desc, tipo, Integer.parseInt(pot), Double.parseDouble(prec));
+				if (tipoStr.equals(tipoRead)) {
+					h = new Habilidad(nombre, desc, tipo, Integer.parseInt(pot), Double.parseDouble(prec));
+				}
+
 			}
-
 		}
 		return h;
 	}

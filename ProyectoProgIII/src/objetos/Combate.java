@@ -37,8 +37,8 @@ public class Combate {
 	 * Esta clase crea unos personajes y unos jugadores
 	 */
 	private void combateDePrueba() {
-		Jugador j1 = new Jugador("Willyrex");
-		Jugador j2 = new Jugador("Folagor");
+		Jugador j1 = new Jugador("DeltaWolf33");
+		Jugador j2 = new Jugador("Dreyton257");
 		j1.anyadirLeyendasRandom(30);
 		j2.anyadirLeyendasRandom(30);
 		setJ1(j1);
