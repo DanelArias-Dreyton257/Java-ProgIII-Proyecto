@@ -20,7 +20,9 @@ import personaje.atributos.Tipo;
  *
  */
 public class GestorDeDatos {
-
+	/**
+	 * Agregamos un logger
+	 */
 	private static Logger logger = Logger.getLogger(GestorDeDatos.class.getName());
 	private static final boolean ANYADIR_A_FIC_LOG = false; // poner true para no sobreescribir
 	static {
@@ -35,6 +37,11 @@ public class GestorDeDatos {
 	private static final File FIC_HABS = new File("src/soloDesarrollo/ficheros/habilidades.txt");
 	private static final File FIC_LEYS = new File("src/soloDesarrollo/ficheros/personajes.txt");
 
+	/**
+	 * Funcion que se encargara de leer la lista
+	 * @param f
+	 * @return
+	 */
 	public static TreeSet<String> readLista(File f) {
 		logger.log(Level.INFO, "inicio de lectura de fichero: " + f.getName());
 		TreeSet<String> lista = new TreeSet<>();
@@ -52,7 +59,11 @@ public class GestorDeDatos {
 		}
 		return lista;
 	}
-
+/**
+ * Funcion que se encargara de escribir en la lista
+ * @param lista
+ * @param f
+ */
 	public static void writeLista(TreeSet<String> lista, File f) {
 		logger.log(Level.INFO, "inicio de escritura de fichero: " + f.getName());
 		try {
@@ -66,19 +77,31 @@ public class GestorDeDatos {
 			e.printStackTrace();
 		}
 	}
-
+/**
+ * Leera la lista de leyendas y te dara las leyendas
+ * @return
+ */
 	public static TreeSet<String> readListaLeyendas() {
 		return readLista(FIC_LEYS);
 	}
-
+/**
+ * Leera la lista de habilidades y te dara las habilidades
+ * @return
+ */
 	public static TreeSet<String> readListaHabilidades() {
 		return readLista(FIC_HABS);
 	}
-
+/**
+ * Escribiras en la lista de leyendas
+ * @param listaLeyendas
+ */
 	public static void writeListaLeyendas(TreeSet<String> listaLeyendas) {
 		writeLista(listaLeyendas, FIC_LEYS);
 	}
-
+/**
+ * Escribiras en la lista de habilidades
+ * @param listaHabs
+ */
 	public static void writeListaHabilidades(TreeSet<String> listaHabs) {
 		writeLista(listaHabs, FIC_HABS);
 	}
@@ -124,7 +147,11 @@ public class GestorDeDatos {
 		return esp;
 
 	}
-
+/**
+ * Metodo que buscara la habilidad en la base de datos
+ * @param tipo
+ * @return
+ */
 	public static Habilidad buscarHabilidadEnBD(Tipo tipo) {
 		TreeSet<String> listaHabs = readListaHabilidades();
 		Habilidad h = null;

@@ -61,7 +61,10 @@ public class MenuPrincipal extends JFrame {
 	private JButton btSalir = new JButton("Salir");
 
 	private Jugador usuario;
-
+/**
+ * Constructor del menu principal 
+ * @param jugador
+ */
 	public MenuPrincipal(Jugador jugador) {
 
 		/*
@@ -171,11 +174,18 @@ public class MenuPrincipal extends JFrame {
 		});
 
 	}
-
+/**
+ * Devuelve el parametro usuario
+ * @return
+ */
 	public Jugador getUsuario() {
 		return usuario;
 	}
 
+	/**
+	 *  introduce el parametro usuario
+	 * @param usuario
+	 */
 	public void setUsuario(Jugador usuario) {
 		this.usuario = usuario;
 	}

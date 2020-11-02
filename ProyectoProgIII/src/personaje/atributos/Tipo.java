@@ -27,7 +27,11 @@ public enum Tipo {
 	public double[] getMultiplicadoresAaD() { // Atacante a defensor
 		return MULTIPLICADORES_AAD[this.ordinal()];
 	}
-
+/**
+ * Metodo que usaremos para saber la eficacia del ataque de un atacante hacia un defensor en funcion de sus tipos 
+ * @param defensor
+ * @return
+ */
 	public double getMultiplicadorAaD(Tipo defensor) {
 		return MULTIPLICADORES_AAD[this.ordinal()][defensor.ordinal()];
 	}

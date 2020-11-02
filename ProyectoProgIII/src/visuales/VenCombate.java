@@ -272,11 +272,18 @@ public class VenCombate extends JFrame {
 		mdJ2Banquillo.addElement(combate.getJ2().getLeyendaEquipo(5).getNombreCombate());
 
 	}
-
+/**
+ *  Metodo que devuelve el combate
+ * @return
+ */
 	public Combate getCombate() {
 		return combate;
 	}
 
+	/**
+	 *  Metodo que introduce el combate
+	 * @param combate
+	 */
 	public void setCombate(Combate combate) {
 		this.combate = combate;
 	}

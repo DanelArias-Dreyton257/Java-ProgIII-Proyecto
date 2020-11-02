@@ -53,6 +53,10 @@ public class VenFusiones extends JFrame {
 	private Leyenda ley2 = null;
 	private int ind2 = -1;
 
+	/**
+	 * Constructo de ventana fusiones
+	 * @param jugador
+	 */
 	public VenFusiones(Jugador jugador) {
 		setUsuario(jugador);
 		// Colocar ventana
@@ -172,6 +176,10 @@ public class VenFusiones extends JFrame {
 
 	}
 
+	/**
+	 * Metodo que se usa para actualizar la lista de tus personajes
+	 * Se usa a la hora de hacer fusiones, para añadir el nuevo que se haya obtenido
+	 */
 	private void actualizaLista() {
 		mdLista.clear();
 		for (Leyenda l : usuario.getEquipo()) {
@@ -186,6 +194,9 @@ public class VenFusiones extends JFrame {
 		}
 	}
 
+	/**
+	 * Metodo que se usara para eliminar los personajes fusionados
+	 */
 	private void eliminaPreFusiones() {
 		boolean i1enEtern = ind1 >= usuario.getNumLeyendasEnEquipo();
 		boolean i2enEtern = ind2 >= usuario.getNumLeyendasEnEquipo();
@@ -218,10 +229,18 @@ public class VenFusiones extends JFrame {
 		}
 	}
 
+	/**
+	 * Metodo que devuelve el usuario
+	 * @return
+	 */
 	public Jugador getUsuario() {
 		return usuario;
 	}
 
+	/**
+	 *  Metodo que introduce el usuario
+	 * @param usuario
+	 */
 	public void setUsuario(Jugador usuario) {
 		this.usuario = usuario;
 	}

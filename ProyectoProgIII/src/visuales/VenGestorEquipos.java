@@ -32,6 +32,10 @@ public class VenGestorEquipos extends JFrame {
 	private JPanel pnIzq = new JPanel(new BorderLayout());
 	private JPanel pnIzqAbajo = new JPanel();
 
+	/**
+	 * Constructor de la ventana de gestion de equipos
+	 * @param jugador
+	 */
 	public VenGestorEquipos(Jugador jugador) {
 		setUsuario(jugador);
 		// Colocar ventana
@@ -74,10 +78,18 @@ public class VenGestorEquipos extends JFrame {
 
 	}
 
+	/**
+	 *  Devuelve el parametro usuario
+	 * @return
+	 */
 	public Jugador getUsuario() {
 		return usuario;
 	}
 
+	/**
+	 *  Introduce el parametro usuario
+	 * @param usuario
+	 */
 	public void setUsuario(Jugador usuario) {
 		this.usuario = usuario;
 	}

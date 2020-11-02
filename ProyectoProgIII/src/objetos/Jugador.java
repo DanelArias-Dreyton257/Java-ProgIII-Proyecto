@@ -228,6 +228,10 @@ public class Jugador {
 		anyadirAEternidad(l1);
 	}
 
+	/**
+	 * Funcion que nos dara una leyenda aleatoria de la base de datos
+	 * @param numLeyendas
+	 */
 	public void anyadirLeyendasRandom(int numLeyendas) {
 		for (int i = 0; i < numLeyendas; i++) {
 			Especie esp = null;
@@ -279,7 +283,9 @@ public class Jugador {
 	public ArrayList<Leyenda> getEternidad() {
 		return eternidad;
 	}
-
+/**
+ * Funcion que reorganiza al equipo
+ */
 	public void reorganizaEquipo() {
 		if (getNumLeyendasEnEquipo() == 0) {
 			if (!eternidad.isEmpty()) {
