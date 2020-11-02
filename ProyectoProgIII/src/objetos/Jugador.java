@@ -233,4 +233,36 @@ public class Jugador {
 		}
 	}
 
+	/**
+	 * Devuelve el numero de personajes no nulos del equipo
+	 * 
+	 * @return
+	 */
+	public int getNumLeyendasEnEquipo() {
+		int cont = NUM_PER;
+		for (Leyenda l : equipo) {
+			if (l == null)
+				cont--;
+		}
+		return cont;
+	}
+
+	/**
+	 * Devuelve el numero de personajes en la eternidad
+	 * 
+	 * @return
+	 */
+	public int getNumLeyendasEnEternidad() {
+		return eternidad.size();
+	}
+
+	/**
+	 * Devuelve la ArrayList que representa la eternidad del jugador
+	 * 
+	 * @return
+	 */
+	public ArrayList<Leyenda> getEternidad() {
+		return eternidad;
+	}
+
 }

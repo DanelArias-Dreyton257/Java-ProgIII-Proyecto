@@ -27,9 +27,11 @@ public class VenCombate extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String TITULO = "MYTHS of the LEGENDARY WAR";
+	private static final String TITULO = "MLW: Combate";
 	private static final Dimension MIN_DIM = new Dimension(1100, 400);
 	private static final Dimension PREF_DIM = new Dimension(1200, 600);
+
+	private Combate combate;
 
 	private JPanel pnPrincipal = new JPanel(new GridLayout(1, 5));
 	private JPanel pn1 = new JPanel(new BorderLayout());
@@ -56,7 +58,7 @@ public class VenCombate extends JFrame {
 			new JLabel("Leyenda"), new JLabel("Leyenda"), new JLabel("Leyenda") };
 
 	private JLabel lbTurno = new JLabel("Turno 0");
-	
+
 	private JLabel lbMensaje = new JLabel("");
 
 	private JButton btOpciones = new JButton("Opciones");
@@ -76,6 +78,9 @@ public class VenCombate extends JFrame {
 	 * @param combate
 	 */
 	public VenCombate(Combate combate) {
+
+		setCombate(combate);
+
 		// Colocar ventana
 		setMinimumSize(MIN_DIM);
 		setPreferredSize(PREF_DIM);
@@ -87,11 +92,11 @@ public class VenCombate extends JFrame {
 		setTitle(TITULO);
 
 		// Anyadir a principal
-		getContentPane().add(pnPrincipal,BorderLayout.CENTER);
-		getContentPane().add(pnSur,BorderLayout.SOUTH);
-		
+		getContentPane().add(pnPrincipal, BorderLayout.CENTER);
+		getContentPane().add(pnSur, BorderLayout.SOUTH);
+
 		pnSur.add(lbMensaje);
-		
+
 		pnPrincipal.add(pn1);
 		pnPrincipal.add(pnGrid2);
 		pnPrincipal.add(pn3);
@@ -137,12 +142,13 @@ public class VenCombate extends JFrame {
 		lbJugador1.setText(combate.getJ1().getNombre());
 		lbJugador2.setText(combate.getJ2().getNombre());
 
-		actualizaNombresLeys(combate);
+		actualizaNombresLeys();
 		// Listeners
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				MenuPrincipal v = new MenuPrincipal();
+				v.setUsuario(combate.getJ1());
 				v.setVisible(true);
 			}
 		});
@@ -157,7 +163,7 @@ public class VenCombate extends JFrame {
 				revalidate();
 
 				leyendasEnCombate = combate.ordenVelocidad();
-				siguienteLeyenda(combate);
+				siguienteLeyenda();
 			}
 		});
 		// Listeners para cada boton de las habilidades
@@ -182,16 +188,15 @@ public class VenCombate extends JFrame {
 					else {
 						ataqueExitoso = combate.leyendaAtacaLeyenda(false, r.nextInt(3), indiceLeyEnCurso - 3, h);
 					}
-					
+
 					if (ataqueExitoso) {
 						lbMensaje.setText("Ataque exitoso");
-					}
-					else {
+					} else {
 						lbMensaje.setText("Ataque fallado");
 					}
-					
+
 					// Actualizar nombres
-					actualizaNombresLeys(combate);
+					actualizaNombresLeys();
 					JLabel lbleyEnCurso = lbLeyEnBatalla[indiceLeyEnCurso];
 					lbleyEnCurso.setForeground(Color.BLACK);
 
@@ -199,7 +204,7 @@ public class VenCombate extends JFrame {
 
 					// Si ya han atacado todos se termina el turno
 					if (!leyendasEnCombate.isEmpty()) {
-						siguienteLeyenda(combate);
+						siguienteLeyenda();
 					} else {
 						btSigTurno.setVisible(true);
 					}
@@ -215,7 +220,7 @@ public class VenCombate extends JFrame {
 	 * 
 	 * @param combate
 	 */
-	private void siguienteLeyenda(Combate combate) {
+	private void siguienteLeyenda() {
 
 		leyendaEnCurso = leyendasEnCombate.pollFirst();
 
@@ -244,7 +249,7 @@ public class VenCombate extends JFrame {
 	 * 
 	 * @param combate
 	 */
-	private void actualizaNombresLeys(Combate combate) {
+	private void actualizaNombresLeys() {
 
 		for (int i = 0; i < lbLeyEnBatalla.length; i++) {
 			int j = i - 3;
@@ -266,6 +271,14 @@ public class VenCombate extends JFrame {
 		mdJ2Banquillo.addElement(combate.getJ2().getLeyendaEquipo(4).getNombreCombate());
 		mdJ2Banquillo.addElement(combate.getJ2().getLeyendaEquipo(5).getNombreCombate());
 
+	}
+
+	public Combate getCombate() {
+		return combate;
+	}
+
+	public void setCombate(Combate combate) {
+		this.combate = combate;
 	}
 
 }

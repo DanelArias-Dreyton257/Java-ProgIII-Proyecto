@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import objetos.Combate;
+import objetos.Jugador;
 
 /**
  * 
@@ -59,7 +60,20 @@ public class MenuPrincipal extends JFrame {
 	private JButton btOpciones = new JButton("Opciones");
 	private JButton btSalir = new JButton("Salir");
 
+	private Jugador usuario;
+
 	public MenuPrincipal() {
+		
+		
+		/*
+		 * SOLO PARA DESARROLLO
+		 */
+		usuario = new Jugador("Simple alumno");
+		usuario.anyadirLeyendasRandom(30);
+		/*
+		 * SOLO PARA DESARROLLO
+		 */
+		
 
 		// Colocar ventana
 		setMinimumSize(MIN_DIM);
@@ -100,6 +114,10 @@ public class MenuPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO
 				logger.log(Level.INFO, "Abrir ventana de Gestion de Equipo");
+				setVisible(false);
+				VenGestorEquipos v = new VenGestorEquipos(usuario);
+				v.setVisible(true);
+				dispose();
 			}
 		});
 		btValhalla.addActionListener(new ActionListener() {
@@ -117,7 +135,7 @@ public class MenuPrincipal extends JFrame {
 				// TODO
 				logger.log(Level.INFO, "Abrir ventana de batalla");
 				setVisible(false);
-				Combate c = new Combate(); // FIXME
+				Combate c = new Combate(usuario); // FIXME
 				VenCombate v = new VenCombate(c);
 				v.setVisible(true);
 				dispose();
@@ -150,5 +168,14 @@ public class MenuPrincipal extends JFrame {
 		});
 
 	}
+
+	public Jugador getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Jugador usuario) {
+		this.usuario = usuario;
+	}
+	
 
 }

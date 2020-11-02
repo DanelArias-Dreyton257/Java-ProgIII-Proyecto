@@ -26,22 +26,40 @@ public class Combate {
 	/**
 	 * Constructor solo para desarrollo
 	 * 
-	 * @param j1
-	 * @param j2
 	 */
 	public Combate() {
 		combateDePrueba();
 	}
 
 	/**
+	 * Constructor solo para desarrollo
+	 * 
+	 * @param usuario
+	 * 
+	 */
+	public Combate(Jugador usuario) {
+		combateDePrueba(usuario);
+	}
+
+	/**
 	 * Esta clase crea unos personajes y unos jugadores
 	 */
 	private void combateDePrueba() {
-		Jugador j1 = new Jugador("DeltaWolf33");
-		Jugador j2 = new Jugador("Dreyton257");
+		Jugador j1 = new Jugador("Un simple alumno");
+		Jugador j2 = new Jugador("Andoni EL destructor");
 		j1.anyadirLeyendasRandom(30);
 		j2.anyadirLeyendasRandom(30);
 		setJ1(j1);
+		setJ2(j2);
+	}
+
+	/**
+	 * Esta clase crea unos personajes y unos jugadores
+	 */
+	private void combateDePrueba(Jugador usuario) {
+		Jugador j2 = new Jugador("Andoni EL destructor");
+		j2.anyadirLeyendasRandom(30);
+		setJ1(usuario);
 		setJ2(j2);
 	}
 
@@ -131,7 +149,7 @@ public class Combate {
 		if (atacante.estaMuerto() || defensor.estaMuerto()) {
 			return false;
 		}
-		
+
 		Habilidad ataque = atacante.getHabilidades()[iHab];
 
 		int atkLey = atacante.getAtaque();
