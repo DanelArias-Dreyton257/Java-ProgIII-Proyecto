@@ -44,7 +44,7 @@ public class VenFusiones extends JFrame {
 
 	private JPanel pnPrincipal = new JPanel(new GridLayout(2, 1));
 	private JPanel pnArriba = new JPanel();
-	private JPanel pnAbajo = new JPanel();
+	private JPanel pnAbajo = new JPanel(new BorderLayout());
 	private JPanel pnSuma = new JPanel();
 	private JPanel pnBotones = new JPanel();
 
@@ -69,9 +69,8 @@ public class VenFusiones extends JFrame {
 		getContentPane().add(pnPrincipal, BorderLayout.CENTER);
 		pnPrincipal.add(pnArriba);
 		pnPrincipal.add(pnAbajo);
-		pnAbajo.setLayout(new BoxLayout(pnAbajo, BoxLayout.X_AXIS));
-		pnAbajo.add(pnSuma);
-		pnAbajo.add(pnBotones);
+		pnAbajo.add(pnSuma, BorderLayout.CENTER);
+		pnAbajo.add(pnBotones, BorderLayout.EAST);
 		pnSuma.setLayout(new BoxLayout(pnSuma, BoxLayout.X_AXIS));
 		pnSuma.add(btLey1);
 		pnSuma.add(lbSuma);
@@ -99,19 +98,26 @@ public class VenFusiones extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (ind1 != -1 && ind2 != -1) {
 					Leyenda fusion = Leyenda.fusion(ley1, ley2);
-					JOptionPane.showMessageDialog(VenFusiones.this,
-							"La fusion de: " + ley1.getNombre() + " y " + ley2.getNombre() + " salio: " + fusion,
+					JOptionPane.showMessageDialog(
+							VenFusiones.this, "La fusion de: " + ley1.getNombre() + " y " + ley2.getNombre()
+									+ " salio: " + fusion.getNombre(),
 							"FUSION EXISTOSA", JOptionPane.INFORMATION_MESSAGE);
+					eliminaPreFusiones();
 					usuario.anyadirNuevaLeyenda(fusion);
 					actualizaLista();
 					ind1 = -1;
 					ind2 = -1;
+					ley1 = null;
+					ley2 = null;
+					btLey1.setText("Seleccione personaje 1");
+					btLey2.setText("Seleccione personaje 2");
 				} else {
 					JOptionPane.showMessageDialog(VenFusiones.this, "Selecciona 2 personajes", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
+
 		});
 
 		btLey1.addActionListener(new ActionListener() {
@@ -177,6 +183,34 @@ public class VenFusiones extends JFrame {
 			if (l1 != null) {
 				mdLista.addElement(l1.getNombre());
 			}
+		}
+	}
+
+	private void eliminaPreFusiones() {
+		boolean i1enEtern = ind1 >= usuario.getNumLeyendasEnEquipo();
+		boolean i2enEtern = ind2 >= usuario.getNumLeyendasEnEquipo();
+		int i1 = ind1;
+		int i2 = ind2;
+		if (i1enEtern)
+			i1 -= usuario.getNumLeyendasEnEquipo();
+		if (i2enEtern)
+			i2 -= usuario.getNumLeyendasEnEquipo();
+		if (!i1enEtern) {
+
+			usuario.delLeyendaEquipo(i1, false);
+		} else {
+
+			usuario.delLeyendaEternidad(i1);
+		}
+		if (!i2enEtern) {
+
+			usuario.delLeyendaEquipo(i2);
+		} else if (i2enEtern && !i1enEtern) {
+
+			usuario.delLeyendaEternidad(i2);
+		} else if (i2enEtern && i1enEtern) {
+
+			usuario.delLeyendaEternidad(i2 - 1);
 		}
 	}
 

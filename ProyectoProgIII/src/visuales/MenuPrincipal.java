@@ -62,18 +62,21 @@ public class MenuPrincipal extends JFrame {
 
 	private Jugador usuario;
 
-	public MenuPrincipal() {
-		
-		
+	public MenuPrincipal(Jugador jugador) {
+
 		/*
 		 * SOLO PARA DESARROLLO
 		 */
-		usuario = new Jugador("Simple alumno");
-		usuario.anyadirLeyendasRandom(30);
+		if (usuario == null) {
+			usuario = new Jugador("Simple alumno");
+			usuario.anyadirLeyendasRandom(30);
+		}
+		else {
+			setUsuario(jugador);
+		}
 		/*
 		 * SOLO PARA DESARROLLO
 		 */
-		
 
 		// Colocar ventana
 		setMinimumSize(MIN_DIM);
@@ -176,6 +179,5 @@ public class MenuPrincipal extends JFrame {
 	public void setUsuario(Jugador usuario) {
 		this.usuario = usuario;
 	}
-	
 
 }

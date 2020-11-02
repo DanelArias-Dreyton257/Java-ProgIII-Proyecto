@@ -12,7 +12,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		MenuPrincipal m = new MenuPrincipal();
+		MenuPrincipal m = new MenuPrincipal(null);
 		m.setVisible(true);
 	}
 }

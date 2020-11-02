@@ -283,10 +283,6 @@ public class Leyenda extends Especie {
 			}
 
 			esp = GestorDeDatos.buscarEspecieEnBD(tipo1, tipo2);
-			if (esp != null) {
-				System.out.println(esp.getNombre());
-			} else
-				System.out.println(esp);
 		}
 
 		Leyenda l = new Leyenda(esp.nombre, esp.descripcion, esp.tipos, habsElegidas, 1, 1, 1, 1);

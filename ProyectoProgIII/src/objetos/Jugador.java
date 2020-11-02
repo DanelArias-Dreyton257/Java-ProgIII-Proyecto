@@ -89,14 +89,29 @@ public class Jugador {
 
 	/**
 	 * Elimina el personaje del equipo indicado con el indice como parametro,
+	 * Despues se reorganiza el equipo
 	 * 
 	 * @param id Indice
 	 * @throws ArrayIndexOutOfBoundsException
 	 */
 	public void delLeyendaEquipo(int id) throws ArrayIndexOutOfBoundsException {
-		if (id >= 0 && id <= NUM_PER)
+		delLeyendaEquipo(id, true);
+	}
+
+	/**
+	 * Elimina el personaje del equipo indicado con el indice como parametro,
+	 * 
+	 * @param id      Indice
+	 * @param boolean que indica si se quiere reorganizar el equipo tras el borrado
+	 * @throws ArrayIndexOutOfBoundsException
+	 */
+	public void delLeyendaEquipo(int id, boolean reorganizar) throws ArrayIndexOutOfBoundsException {
+		if (id >= 0 && id <= NUM_PER) {
 			equipo[id] = null;
-		else
+			if (reorganizar) {
+				reorganizaEquipo();
+			}
+		} else
 			throw new ArrayIndexOutOfBoundsException(
 					"Indice introducido:" + id + "deberia encontrarse entre" + 0 + " y " + NUM_PER);
 	}
@@ -263,6 +278,20 @@ public class Jugador {
 	 */
 	public ArrayList<Leyenda> getEternidad() {
 		return eternidad;
+	}
+
+	public void reorganizaEquipo() {
+		if (getNumLeyendasEnEquipo() == 0) {
+			Leyenda l = eternidad.remove(eternidad.size() - 1);
+			anyadirNuevaLeyenda(l);
+		}
+		Leyenda[] copia = equipo;
+		equipo = new Leyenda[NUM_PER];
+		for (Leyenda ley : copia) {
+			if (ley != null) {
+				anyadirNuevaLeyenda(ley);
+			}
+		}
 	}
 
 }
