@@ -242,7 +242,7 @@ public class Leyenda extends Especie {
 		int nAtk = ((p1.getAtaque() + p2.getAtaque()) / 2) + extraPts;
 		int nDef = ((p1.getDefensa() + p2.getDefensa()) / 2) + extraPts;
 		int nVel = ((p1.getVelocidad() + p2.getVelocidad()) / 2) + extraPts;
-		int nVida = ((p1.getVida() + p2.getVida()) / 2) + extraPts*10;
+		int nVida = ((p1.getVida() + p2.getVida()) / 2) + extraPts * 10;
 
 		// Seleccion de los movimientos
 		ArrayList<Habilidad> posHabs = new ArrayList<>();
@@ -256,14 +256,16 @@ public class Leyenda extends Especie {
 			habsElegidas[x] = posHabs.get(id);
 			posHabs.remove(id);
 		}
+
 		Especie esp = null;
 		while (esp == null) {
 			// Seleccion de los tipos
 			ArrayList<Tipo> posTipos = new ArrayList<>();
 			posTipos.addAll(Arrays.asList(p1.getTipos()));
 			posTipos.addAll(Arrays.asList(p2.getTipos()));
+
 			Tipo tipo1 = null;
-			int id = 0;
+			int id = -1;
 			while (tipo1 == null) {
 				Random r = new Random();
 				id = r.nextInt(posTipos.size());
@@ -271,7 +273,7 @@ public class Leyenda extends Especie {
 			}
 
 			Tipo tipo2 = tipo1;
-			while (tipo2.equals(tipo1)) {
+			while (tipo1.equals(tipo2)) {
 				posTipos.remove(id); // primero elimina el tipo elegido en el primer while y luego va borrando el
 										// anterior seleccionado ya que ha vuelto a ejecutar el while por lo que
 										// significa que es un tipo no valido
@@ -281,9 +283,35 @@ public class Leyenda extends Especie {
 			}
 
 			esp = GestorDeDatos.buscarEspecieEnBD(tipo1, tipo2);
+			if (esp != null) {
+				System.out.println(esp.getNombre());
+			} else
+				System.out.println(esp);
 		}
 
-		Leyenda l = new Leyenda(esp.nombre, esp.descripcion, esp.tipos, habsElegidas, nDef, nVel, nVida, nAtk);
+		Leyenda l = new Leyenda(esp.nombre, esp.descripcion, esp.tipos, habsElegidas, 1, 1, 1, 1);
+		try {
+			l.setAtaque(nAtk);
+		} catch (IllegalArgumentException e) {
+			l.setAtaque(99);
+		}
+		try {
+			l.setDefensa(nDef);
+		} catch (IllegalArgumentException e) {
+			l.setDefensa(99);
+		}
+		try {
+			l.setVelocidad(nVel);
+		} catch (IllegalArgumentException e) {
+			l.setVelocidad(99);
+		}
+		try {
+			l.setVida(nVida);
+			l.setVidaMax(nVida);
+		} catch (IllegalArgumentException e) {
+			l.setVida(999);
+			l.setVidaMax(999);
+		}
 
 		return l;
 	}
@@ -363,9 +391,9 @@ public class Leyenda extends Especie {
 
 	@Override
 	public String toString() {
-		return "Leyenda [nombre = " + nombre + ", descripcion="+descripcion+", tipos="+Arrays.toString(tipos)+", habilidades=" + Arrays.toString(habilidades) + ", ataque=" + ataque + ", defensa=" + defensa
+		return "Leyenda [nombre = " + nombre + ", descripcion=" + descripcion + ", tipos=" + Arrays.toString(tipos)
+				+ ", habilidades=" + Arrays.toString(habilidades) + ", ataque=" + ataque + ", defensa=" + defensa
 				+ ", velocidad=" + velocidad + ", vida=" + vida + ", vidaMax=" + vidaMax + "]";
 	}
-	
 
 }
