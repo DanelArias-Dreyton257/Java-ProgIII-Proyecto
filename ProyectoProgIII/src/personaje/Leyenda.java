@@ -242,7 +242,7 @@ public class Leyenda extends Especie {
 		int nAtk = ((p1.getAtaque() + p2.getAtaque()) / 2) + extraPts;
 		int nDef = ((p1.getDefensa() + p2.getDefensa()) / 2) + extraPts;
 		int nVel = ((p1.getVelocidad() + p2.getVelocidad()) / 2) + extraPts;
-		int nVida = ((p1.getVida() + p2.getVida()) / 2) + extraPts * 10;
+		int nVida = ((p1.getVidaMax() + p2.getVidaMax()) / 2) + extraPts * 10;
 
 		// Seleccion de los movimientos
 		ArrayList<Habilidad> posHabs = new ArrayList<>();

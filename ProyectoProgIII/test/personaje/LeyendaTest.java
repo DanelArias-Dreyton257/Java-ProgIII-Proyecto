@@ -40,7 +40,12 @@ public Leyenda l2;
 	@Test
 	public void testFusion() {
 		//TODO faltan comprobaciones
+		int nAtk = ((l1.getAtaque() + l2.getAtaque()) / 2) + 5;
+		int nVida = ((l1.getVidaMax() + l2.getVidaMax()) / 2) + 50;
 		Leyenda fusionada = Leyenda.fusion(l1, l2);
+		assertEquals(nAtk, fusionada.getAtaque());
+		assertEquals(nVida, fusionada.getVidaMax());
+		
 	}
 
 }
