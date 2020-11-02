@@ -195,22 +195,26 @@ public class VenFusiones extends JFrame {
 			i1 -= usuario.getNumLeyendasEnEquipo();
 		if (i2enEtern)
 			i2 -= usuario.getNumLeyendasEnEquipo();
+		
+		
 		if (!i1enEtern) {
-
 			usuario.delLeyendaEquipo(i1, false);
 		} else {
-
 			usuario.delLeyendaEternidad(i1);
 		}
 		if (!i2enEtern) {
-
 			usuario.delLeyendaEquipo(i2);
+			
 		} else if (i2enEtern && !i1enEtern) {
-
 			usuario.delLeyendaEternidad(i2);
+			
 		} else if (i2enEtern && i1enEtern) {
-
-			usuario.delLeyendaEternidad(i2 - 1);
+			if (i2>i1) {
+				usuario.delLeyendaEternidad(i2 - 1);
+			}
+			else {
+				usuario.delLeyendaEternidad(i2);
+			}
 		}
 	}
 

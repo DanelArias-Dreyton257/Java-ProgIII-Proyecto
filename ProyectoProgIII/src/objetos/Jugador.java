@@ -282,8 +282,10 @@ public class Jugador {
 
 	public void reorganizaEquipo() {
 		if (getNumLeyendasEnEquipo() == 0) {
-			Leyenda l = eternidad.remove(eternidad.size() - 1);
-			anyadirNuevaLeyenda(l);
+			if (!eternidad.isEmpty()) {
+				Leyenda l = eternidad.remove(eternidad.size() - 1);
+				anyadirNuevaLeyenda(l);
+			}
 		}
 		Leyenda[] copia = equipo;
 		equipo = new Leyenda[NUM_PER];
