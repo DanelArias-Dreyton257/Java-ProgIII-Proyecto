@@ -47,8 +47,8 @@ public class Combate {
 	private void combateDePrueba() {
 		Jugador j1 = new Jugador("Un simple alumno");
 		Jugador j2 = new Jugador("Andoni El Destructor de Mundos");
-		j1.anyadirLeyendasRandom(30);
-		j2.anyadirLeyendasRandom(30);
+		j1.anyadirLeyendasRandom(10);
+		j2.anyadirLeyendasRandom(10);
 		setJ1(j1);
 		setJ2(j2);
 	}
@@ -58,7 +58,7 @@ public class Combate {
 	 */
 	private void combateDePrueba(Jugador usuario) {
 		Jugador j2 = new Jugador("Andoni EL destructor");
-		j2.anyadirLeyendasRandom(30);
+		j2.anyadirLeyendasRandom(10);
 		setJ1(usuario);
 		setJ2(j2);
 	}

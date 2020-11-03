@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import personaje.Leyenda;
 
-
 /**
  * 
  * @author danel y jon ander
@@ -307,8 +306,37 @@ public class Jugador {
 	 * 
 	 * @param doblones
 	 */
-	public void setDoblones(int doblones) {
-		this.doblones = doblones;
+	public void setDoblones(int doblones) throws IllegalArgumentException {
+		if (doblones >= 0)
+			this.doblones = doblones;
+		else
+			throw new IllegalArgumentException("Los doblones introducidos NO deben ser negativos");
+	}
+	/**
+	 * Incrementa la cantidad de doblones del jugador segun lo indicado como parametro
+	 * @param incremento
+	 */
+	public void incDoblones(int incremento) {
+		setDoblones(doblones + incremento);
+	}
+
+	/**
+	 * Hace pagar al jugador el numero de doblones inidcado como parametro Estos se
+	 * descuentan si el jugador los tiene disponibles. Si se descuentan se devolvera
+	 * true. En caso contrario, o sea el jugador no tiene suficientes doblones como
+	 * para pagar devuelve false
+	 * 
+	 * @param coste
+	 * @return
+	 */
+	public boolean pagar(int coste) {
+		try {
+			setDoblones(doblones-coste);
+			return true;
+		} catch (IllegalArgumentException e) {
+			return false;
+		}
+		
 	}
 
 }
