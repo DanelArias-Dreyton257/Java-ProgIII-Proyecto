@@ -46,7 +46,7 @@ public class Combate {
 	 */
 	private void combateDePrueba() {
 		Jugador j1 = new Jugador("Un simple alumno");
-		Jugador j2 = new Jugador("Andoni EL destructor");
+		Jugador j2 = new Jugador("Andoni El Destructor de Mundos");
 		j1.anyadirLeyendasRandom(30);
 		j2.anyadirLeyendasRandom(30);
 		setJ1(j1);

@@ -1,3 +1,4 @@
+import objetos.Jugador;
 import visuales.MenuPrincipal;
 
 /**
@@ -12,7 +13,9 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		MenuPrincipal m = new MenuPrincipal(null);
+		Jugador usuario = new Jugador("Simple alumno");
+		usuario.anyadirLeyendasRandom(30);
+		MenuPrincipal m = new MenuPrincipal(usuario);
 		m.setVisible(true);
 	}
 }

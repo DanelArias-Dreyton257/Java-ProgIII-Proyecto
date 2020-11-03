@@ -91,7 +91,7 @@ public class VenFusiones extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				VenGestorEquipos v = new VenGestorEquipos(jugador);
+				VenGestorEquipos v = new VenGestorEquipos(usuario);
 				v.setVisible(true);
 			}
 		});

@@ -152,7 +152,9 @@ public class Jugador {
 	 * @param leyenda
 	 */
 	public void anyadirAEternidad(Leyenda leyenda) {
-		eternidad.add(leyenda);
+		if (leyenda != null) {
+			eternidad.add(leyenda);
+		}
 	}
 
 	/**
@@ -163,19 +165,21 @@ public class Jugador {
 	 */
 	public void anyadirNuevaLeyenda(Leyenda p) {
 		int indHueco = -1;
-		// Compruebo si hay un hueco libre en el equipo
-		for (int i = 0; i < NUM_PER; i++)
-			if (equipo[i] == null) {
-				indHueco = i;
-				break;
-			}
-		// Si hay hueco libre lo anyade al equipo y sino a la eternidad
-		if (indHueco != -1)
-			equipo[indHueco] = p;
-		else
-			eternidad.add(p);
+		if (p != null) {
+			// Compruebo si hay un hueco libre en el equipo
+			for (int i = 0; i < NUM_PER; i++)
+				if (equipo[i] == null) {
+					indHueco = i;
+					break;
+				}
+			// Si hay hueco libre lo anyade al equipo y sino a la eternidad
+			if (indHueco != -1)
+				equipo[indHueco] = p;
+			else
+				eternidad.add(p);
 
-		// TODO FALTARIA COMPROBAR SI ESE PERSONAJE YA ESTABA O YA ESTA ANYADIDO ??
+			// TODO FALTARIA COMPROBAR SI ESE PERSONAJE YA ESTABA O YA ESTA ANYADIDO ??
+		}
 	}
 
 	/**
@@ -224,12 +228,14 @@ public class Jugador {
 	public void intercambiarEquipoEternidad(int iEquipo, int iEternidad) {
 		Leyenda l1 = getLeyendaEquipo(iEquipo);
 		Leyenda l2 = getLeyendaEternidad(iEternidad);
+		delLeyendaEternidad(iEternidad);
 		anyadirAEquipo(iEquipo, l2);
 		anyadirAEternidad(l1);
 	}
 
 	/**
 	 * Funcion que nos dara una leyenda aleatoria de la base de datos
+	 * 
 	 * @param numLeyendas
 	 */
 	public void anyadirLeyendasRandom(int numLeyendas) {
@@ -283,9 +289,10 @@ public class Jugador {
 	public ArrayList<Leyenda> getEternidad() {
 		return eternidad;
 	}
-/**
- * Funcion que reorganiza al equipo
- */
+
+	/**
+	 * Funcion que reorganiza al equipo
+	 */
 	public void reorganizaEquipo() {
 		if (getNumLeyendasEnEquipo() == 0) {
 			if (!eternidad.isEmpty()) {

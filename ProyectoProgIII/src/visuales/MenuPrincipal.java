@@ -61,25 +61,15 @@ public class MenuPrincipal extends JFrame {
 	private JButton btSalir = new JButton("Salir");
 
 	private Jugador usuario;
-/**
- * Constructor del menu principal 
- * @param jugador
- */
-	public MenuPrincipal(Jugador jugador) {
 
-		/*
-		 * SOLO PARA DESARROLLO
-		 */
-		if (usuario == null) {
-			usuario = new Jugador("Simple alumno");
-			usuario.anyadirLeyendasRandom(30);
-		}
-		else {
-			setUsuario(jugador);
-		}
-		/*
-		 * SOLO PARA DESARROLLO
-		 */
+	/**
+	 * Constructor del menu principal
+	 * 
+	 * @param jugador
+	 */
+	public MenuPrincipal(Jugador jugador) {
+		
+		setUsuario(jugador);
 
 		// Colocar ventana
 		setMinimumSize(MIN_DIM);
@@ -174,16 +164,19 @@ public class MenuPrincipal extends JFrame {
 		});
 
 	}
-/**
- * Devuelve el parametro usuario
- * @return
- */
+
+	/**
+	 * Devuelve el parametro usuario
+	 * 
+	 * @return
+	 */
 	public Jugador getUsuario() {
 		return usuario;
 	}
 
 	/**
-	 *  introduce el parametro usuario
+	 * introduce el parametro usuario
+	 * 
 	 * @param usuario
 	 */
 	public void setUsuario(Jugador usuario) {
