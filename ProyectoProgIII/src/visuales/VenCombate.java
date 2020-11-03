@@ -147,7 +147,7 @@ public class VenCombate extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				MenuPrincipal v = new MenuPrincipal(combate.getJ1());
+				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJ1());
 				v.setUsuario(combate.getJ1());
 				v.setVisible(true);
 			}

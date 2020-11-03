@@ -92,7 +92,7 @@ public class VenGestorEquipos extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				setVisible(false);
-				MenuPrincipal v = new MenuPrincipal(usuario);
+				VenMenuPrincipal v = new VenMenuPrincipal(usuario);
 				v.setVisible(true);
 				dispose();
 			}

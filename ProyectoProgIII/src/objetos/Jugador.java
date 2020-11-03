@@ -18,7 +18,7 @@ public class Jugador {
 	private String nombre;
 	private Leyenda[] equipo = new Leyenda[NUM_PER]; // donde se guardan los personajes del equipo
 	private ArrayList<Leyenda> eternidad = new ArrayList<>(); // donde se guardan todos los personajes no usados en el
-
+	private int doblones = 0;
 	/**
 	 * Crea un jugador con el equipo y la eternidad vacia
 	 * 
@@ -307,6 +307,20 @@ public class Jugador {
 				anyadirNuevaLeyenda(ley);
 			}
 		}
+	}
+	/**
+	 * Devuelve los doblones del jugador
+	 * @return
+	 */
+	public int getDoblones() {
+		return doblones;
+	}
+	/**
+	 * Establece los doblones del jugador
+	 * @param doblones
+	 */
+	public void setDoblones(int doblones) {
+		this.doblones = doblones;
 	}
 
 }

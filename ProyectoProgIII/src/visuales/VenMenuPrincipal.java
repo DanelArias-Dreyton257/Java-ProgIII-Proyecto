@@ -25,16 +25,16 @@ import objetos.Jugador;
  * @author danel y jon ander
  *
  */
-public class MenuPrincipal extends JFrame {
+public class VenMenuPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private static Logger logger = Logger.getLogger(MenuPrincipal.class.getName());
+	private static Logger logger = Logger.getLogger(VenMenuPrincipal.class.getName());
 	private static final boolean ANYADIR_A_FIC_LOG = false; // poner true para no sobreescribir
 	static {
 		try {
 			logger.addHandler(
-					new FileHandler("src/logs/" + MenuPrincipal.class.getName() + ".log.xml", ANYADIR_A_FIC_LOG));
+					new FileHandler("src/logs/" + VenMenuPrincipal.class.getName() + ".log.xml", ANYADIR_A_FIC_LOG));
 		} catch (SecurityException | IOException e) {
 			logger.log(Level.SEVERE, "Error en creacion fichero log");
 		}
@@ -67,7 +67,7 @@ public class MenuPrincipal extends JFrame {
 	 * 
 	 * @param jugador
 	 */
-	public MenuPrincipal(Jugador jugador) {
+	public VenMenuPrincipal(Jugador jugador) {
 		
 		setUsuario(jugador);
 
