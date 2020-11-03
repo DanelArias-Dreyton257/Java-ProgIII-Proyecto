@@ -42,7 +42,7 @@ public class MenuPrincipal extends JFrame {
 
 	private static final String TITULO = "MYTHS of the LEGENDARY WAR";
 	private static final Dimension MIN_DIM = new Dimension(400, 400);
-	private static final Dimension PREF_DIM = new Dimension(800, 800);
+	private static final Dimension PREF_DIM = new Dimension(600, 600);
 
 	private JPanel pnCentral = new JPanel(new GridLayout(2, 1));
 	private JPanel pnCenArriba = new JPanel();

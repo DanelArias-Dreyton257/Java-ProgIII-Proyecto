@@ -93,6 +93,7 @@ public class VenFusiones extends JFrame {
 			public void windowClosing(WindowEvent e) {
 				VenGestorEquipos v = new VenGestorEquipos(usuario);
 				v.setVisible(true);
+				dispose();
 			}
 		});
 
