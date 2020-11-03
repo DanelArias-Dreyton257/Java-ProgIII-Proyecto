@@ -43,10 +43,12 @@ public class VenFusiones extends JFrame {
 	private JList<String> lsListaLey = new JList<>();
 
 	private JPanel pnPrincipal = new JPanel(new GridLayout(2, 1));
-	private JPanel pnArriba = new JPanel();
+	private JPanel pnArriba = new JPanel(new BorderLayout());
 	private JPanel pnAbajo = new JPanel(new BorderLayout());
 	private JPanel pnSuma = new JPanel();
 	private JPanel pnBotones = new JPanel();
+	
+	private JLabel lbPersonajes = new JLabel("Personajes");
 
 	private Leyenda ley1 = null;
 	private int ind1 = -1;
@@ -79,11 +81,13 @@ public class VenFusiones extends JFrame {
 		pnSuma.add(btLey1);
 		pnSuma.add(lbSuma);
 		pnSuma.add(btLey2);
+		pnBotones.setLayout(new BoxLayout(pnBotones, BoxLayout.X_AXIS));
 		pnBotones.add(btFusion);
-
-		pnArriba.add(new JScrollPane(lsListaLey));
-		actualizaLista();
+		
+		pnArriba.add(lbPersonajes,BorderLayout.NORTH);
+		pnArriba.add(new JScrollPane(lsListaLey),BorderLayout.CENTER);
 		lsListaLey.setModel(mdLista);
+		actualizaLista();
 
 		lbSuma.setFont(new Font("suma", 1, 40));
 

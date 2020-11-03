@@ -94,6 +94,7 @@ public class VenGestorEquipos extends JFrame {
 				setVisible(false);
 				MenuPrincipal v = new MenuPrincipal(usuario);
 				v.setVisible(true);
+				dispose();
 			}
 		});
 
@@ -104,6 +105,7 @@ public class VenGestorEquipos extends JFrame {
 				setVisible(false);
 				VenFusiones v = new VenFusiones(usuario);
 				v.setVisible(true);
+				dispose();
 			}
 		});
 
