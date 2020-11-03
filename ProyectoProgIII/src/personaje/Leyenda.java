@@ -102,7 +102,7 @@ public class Leyenda extends Especie {
 	}
 
 	/**
-	 * genera estadisticas aleatorias
+	 * Genera estadisticas aleatorias
 	 */
 	private void generarStatsRandom() {
 		Random r = new Random();
@@ -346,6 +346,24 @@ public class Leyenda extends Especie {
 	 */
 	public boolean estaMuerto() {
 		return vida <= 0;
+	}
+
+	public static Leyenda getLeyendaRandom() {
+		Especie esp = null;
+		Tipo[] tipos = new Tipo[2];
+		tipos[1] = null;
+		while (esp == null) {
+			Random r = new Random();
+			int it1 = r.nextInt(Tipo.values().length);
+			Random r1 = new Random();
+			int it2 = r1.nextInt(Tipo.values().length + 5);
+			tipos[0] = Tipo.values()[it1];
+			if (it2 < Tipo.values().length) {
+				tipos[1] = Tipo.values()[it2];
+			}
+			esp = GestorDeDatos.buscarEspecieEnBD(tipos[0], tipos[1]);
+		}
+		return new Leyenda(esp.getNombre(), esp.getDescripcion(), tipos);
 	}
 
 	@Override

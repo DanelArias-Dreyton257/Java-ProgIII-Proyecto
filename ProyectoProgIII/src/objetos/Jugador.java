@@ -1,12 +1,9 @@
 package objetos;
 
 import java.util.ArrayList;
-import java.util.Random;
 
-import gestion.GestorDeDatos;
-import personaje.Especie;
 import personaje.Leyenda;
-import personaje.atributos.Tipo;
+
 
 /**
  * 
@@ -19,6 +16,7 @@ public class Jugador {
 	private Leyenda[] equipo = new Leyenda[NUM_PER]; // donde se guardan los personajes del equipo
 	private ArrayList<Leyenda> eternidad = new ArrayList<>(); // donde se guardan todos los personajes no usados en el
 	private int doblones = 0;
+
 	/**
 	 * Crea un jugador con el equipo y la eternidad vacia
 	 * 
@@ -234,27 +232,13 @@ public class Jugador {
 	}
 
 	/**
-	 * Funcion que nos dara una leyenda aleatoria de la base de datos
+	 * Funcion que nos dara leyendas aleatoria de la base de datos
 	 * 
 	 * @param numLeyendas
 	 */
 	public void anyadirLeyendasRandom(int numLeyendas) {
 		for (int i = 0; i < numLeyendas; i++) {
-			Especie esp = null;
-			Tipo[] tipos = new Tipo[2];
-			tipos[1] = null;
-			while (esp == null) {
-				Random r = new Random();
-				int it1 = r.nextInt(Tipo.values().length);
-				Random r1 = new Random();
-				int it2 = r1.nextInt(Tipo.values().length + 5);
-				tipos[0] = Tipo.values()[it1];
-				if (it2 < Tipo.values().length) {
-					tipos[1] = Tipo.values()[it2];
-				}
-				esp = GestorDeDatos.buscarEspecieEnBD(tipos[0], tipos[1]);
-			}
-			anyadirNuevaLeyenda(new Leyenda(esp.getNombre(), esp.getDescripcion(), tipos));
+			anyadirNuevaLeyenda(Leyenda.getLeyendaRandom());
 		}
 	}
 
@@ -308,15 +292,19 @@ public class Jugador {
 			}
 		}
 	}
+
 	/**
 	 * Devuelve los doblones del jugador
+	 * 
 	 * @return
 	 */
 	public int getDoblones() {
 		return doblones;
 	}
+
 	/**
 	 * Establece los doblones del jugador
+	 * 
 	 * @param doblones
 	 */
 	public void setDoblones(int doblones) {

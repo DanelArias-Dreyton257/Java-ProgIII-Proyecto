@@ -108,7 +108,6 @@ public class VenMenuPrincipal extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO
 				logger.log(Level.INFO, "Abrir ventana de Gestion de Equipo");
 				setVisible(false);
 				VenGestorEquipos v = new VenGestorEquipos(usuario);
@@ -120,8 +119,11 @@ public class VenMenuPrincipal extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO NO PROYECTO MINIMO VIABLE
-				logger.log(Level.INFO, "No disponible de momento el Valhalla");
+				logger.log(Level.INFO, "Abrir Valhalla");
+				setVisible(false);
+				VenValhalla v = new VenValhalla(usuario);
+				v.setVisible(true);
+				dispose();
 			}
 		});
 		btJugar.addActionListener(new ActionListener() {
