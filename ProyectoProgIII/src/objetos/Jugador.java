@@ -23,6 +23,7 @@ public class Jugador {
 	 */
 	public Jugador(String nombre) {
 		setNombre(nombre);
+		incDoblones(1500);
 	}
 
 	/**

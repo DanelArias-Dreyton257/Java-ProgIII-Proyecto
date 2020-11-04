@@ -102,6 +102,7 @@ public class VenMenuPrincipal extends JFrame {
 		pnSur.add(btUsuario);
 		pnSur.add(btOpciones);
 		pnSur.add(btSalir);
+		
 
 		// Listeners
 		btEquipo.addActionListener(new ActionListener() {

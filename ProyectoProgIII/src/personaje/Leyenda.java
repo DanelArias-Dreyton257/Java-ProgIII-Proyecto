@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import gestion.GestorDeDatos;
+import interfaces.ToolTipAble;
 import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;
 
@@ -13,7 +14,7 @@ import personaje.atributos.Tipo;
  * @author danel y jon ander
  *
  */
-public class Leyenda extends Especie {
+public class Leyenda extends Especie implements ToolTipAble{
 	// Estado estado;
 	Habilidad[] habilidades = new Habilidad[4];
 	int ataque;
@@ -408,6 +409,12 @@ public class Leyenda extends Especie {
 		return "Leyenda [nombre = " + nombre + ", descripcion=" + descripcion + ", tipos=" + Arrays.toString(tipos)
 				+ ", habilidades=" + Arrays.toString(habilidades) + ", ataque=" + ataque + ", defensa=" + defensa
 				+ ", velocidad=" + velocidad + ", vida=" + vida + ", vidaMax=" + vidaMax + "]";
+	}
+
+	@Override
+	public String getToolTipNombre() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

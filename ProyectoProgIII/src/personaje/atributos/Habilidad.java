@@ -1,11 +1,13 @@
 package personaje.atributos;
 
+import interfaces.ToolTipAble;
+
 /**
  * 
  * @author jon ander y danel
  *
  */
-public class Habilidad {
+public class Habilidad implements ToolTipAble{
 
 	protected String nombre;
 	protected String descripcion = "";
@@ -187,6 +189,12 @@ public class Habilidad {
 	public String toString() {
 		return "Habilidad [nombre=" + nombre + ", descripcion=" + descripcion + ", tipo=" + tipo + ", potencia="
 				+ potencia + ", precision=" + precision + "]";
+	}
+
+	@Override
+	public String getToolTipNombre() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
