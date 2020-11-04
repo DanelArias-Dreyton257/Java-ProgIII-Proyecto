@@ -68,7 +68,7 @@ public class VenMenuPrincipal extends JFrame {
 	 * @param jugador
 	 */
 	public VenMenuPrincipal(Jugador jugador) {
-		
+
 		setUsuario(jugador);
 
 		// Colocar ventana
@@ -102,7 +102,6 @@ public class VenMenuPrincipal extends JFrame {
 		pnSur.add(btUsuario);
 		pnSur.add(btOpciones);
 		pnSur.add(btSalir);
-		
 
 		// Listeners
 		btEquipo.addActionListener(new ActionListener() {
@@ -165,6 +164,19 @@ public class VenMenuPrincipal extends JFrame {
 				// TODO hacer ventana de confirmacion?
 			}
 		});
+
+		comprobarNuevoUsuario();
+
+	}
+
+	/**
+	 * Comprueba si el jugador es un nuevo usuario y si es asi no le permite jugar
+	 * hasta que tenga un equipo
+	 */
+	private void comprobarNuevoUsuario() {
+		boolean nuevo = usuario == null || (usuario != null && usuario.getNumLeyendas() <= 0);
+		btJugar.setEnabled(!nuevo);
+		btEquipo.setEnabled(!nuevo);
 
 	}
 

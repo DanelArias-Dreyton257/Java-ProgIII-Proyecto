@@ -7,6 +7,7 @@ import java.util.TreeSet;
 import personaje.Leyenda;
 import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;
+
 /**
  * 
  * @author jon ander y danel
@@ -109,7 +110,7 @@ public class Combate {
 	 * @return
 	 */
 	public TreeSet<Leyenda> ordenVelocidad() {
-		
+
 		Comparator<Leyenda> c = new Comparator<Leyenda>() {
 			@Override
 			public int compare(Leyenda o1, Leyenda o2) {
@@ -118,12 +119,16 @@ public class Combate {
 		};
 
 		TreeSet<Leyenda> lista = new TreeSet<Leyenda>(c);
-		lista.add(j1.getLeyendaEquipo(0));
-		lista.add(j1.getLeyendaEquipo(1));
-		lista.add(j1.getLeyendaEquipo(2));
-		lista.add(j2.getLeyendaEquipo(0));
-		lista.add(j2.getLeyendaEquipo(1));
-		lista.add(j2.getLeyendaEquipo(2));
+		for (int i = 0; i < 3; i++) {
+			Leyenda eq1 = j1.getLeyendaEquipo(i);
+			Leyenda eq2 = j2.getLeyendaEquipo(i);
+			if (eq1 != null && !eq1.estaMuerto())
+				lista.add(eq1);
+
+			if (eq2 != null && !eq2.estaMuerto())
+				lista.add(eq2);
+
+		}
 		return lista;
 
 	}
@@ -149,7 +154,7 @@ public class Combate {
 			defensor = j1.getLeyendaEquipo(iLey1);
 			atacante = j2.getLeyendaEquipo(iLey2);
 		}
-		if (atacante.estaMuerto() || defensor.estaMuerto()) {
+		if (atacante == null || defensor == null || atacante.estaMuerto() || defensor.estaMuerto()) {
 			return false;
 		}
 
@@ -167,7 +172,7 @@ public class Combate {
 		if (randomN > precHab) {
 			return false;
 		}
-		//Calculo del multiplicador
+		// Calculo del multiplicador
 		double multiplicador;
 		if (tiposLey[1] == null) {
 			multiplicador = tipoHab.getMultiplicadorAaD(tiposLey[0]);
@@ -178,7 +183,7 @@ public class Combate {
 		double danyo = (atkLey + potHab) * (multiplicador);
 
 		defensor.danyar(danyo);
-		
+
 		return true;
 
 	}
@@ -198,13 +203,13 @@ public class Combate {
 		int indice = -1;
 
 		for (int i = 0; i < 3; i++) {
-			
-			if (eq1[i].equals(leyendaEnCurso)) {
+
+			if (leyendaEnCurso.equals(eq1[i])) {
 				indice = i;
-				
-			} else if (eq2[i].equals(leyendaEnCurso)) {
+
+			} else if (leyendaEnCurso.equals(eq2[i])) {
 				indice = i + 3;
-				
+
 			}
 		}
 

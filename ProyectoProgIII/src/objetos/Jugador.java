@@ -343,5 +343,13 @@ public class Jugador {
 		}
 
 	}
+	/**
+	 * Devuelve el numero de leyendas en posesion
+	 * num de leyendas en equipo + num leyendas en eterenidad
+	 * @return
+	 */
+	public int getNumLeyendas() {
+		return getNumLeyendasEnEquipo() + getNumLeyendasEnEternidad();
+	}
 
 }

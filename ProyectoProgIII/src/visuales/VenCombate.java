@@ -252,37 +252,50 @@ public class VenCombate extends JFrame {
 	 */
 	private void actualizaNombresLeys() {
 
+		combate.getJ1().reorganizaEquipo();
+		combate.getJ2().reorganizaEquipo();
+
 		for (int i = 0; i < lbLeyEnBatalla.length; i++) {
 			int j = i - 3;
-			if (i >= 3) {
-				lbLeyEnBatalla[i].setText(combate.getJ2().getLeyendaEquipo(j).getNombreCombate());
-			} else {
-				lbLeyEnBatalla[i].setText(combate.getJ1().getLeyendaEquipo(i).getNombreCombate());
-			}
+			Leyenda correspondiente = null;
+
+			if (i >= 3)
+				correspondiente = combate.getJ2().getLeyendaEquipo(j);
+			else
+				correspondiente = combate.getJ1().getLeyendaEquipo(i);
+
+			if (correspondiente != null)
+				lbLeyEnBatalla[i].setText(correspondiente.getNombreCombate());
+			else
+				lbLeyEnBatalla[i].setText(GestorDeDatos.NULL_STR);
 		}
+
 		mdJ1Banquillo.clear();
-
-		mdJ1Banquillo.addElement(combate.getJ1().getLeyendaEquipo(3).getNombreCombate());
-		mdJ1Banquillo.addElement(combate.getJ1().getLeyendaEquipo(4).getNombreCombate());
-		mdJ1Banquillo.addElement(combate.getJ1().getLeyendaEquipo(5).getNombreCombate());
-
 		mdJ2Banquillo.clear();
 
-		mdJ2Banquillo.addElement(combate.getJ2().getLeyendaEquipo(3).getNombreCombate());
-		mdJ2Banquillo.addElement(combate.getJ2().getLeyendaEquipo(4).getNombreCombate());
-		mdJ2Banquillo.addElement(combate.getJ2().getLeyendaEquipo(5).getNombreCombate());
+		for (int x = 3; x < 6; x++) {
+			Leyenda banquillo1 = combate.getJ1().getLeyendaEquipo(x);
+			if (banquillo1 != null)
+				mdJ1Banquillo.addElement(banquillo1.getNombreCombate());
 
+			Leyenda banquillo2 = combate.getJ2().getLeyendaEquipo(x);
+			if (banquillo2 != null)
+				mdJ2Banquillo.addElement(banquillo2.getNombreCombate());
+		}
 	}
-/**
- *  Metodo que devuelve el combate
- * @return
- */
+
+	/**
+	 * Metodo que devuelve el combate
+	 * 
+	 * @return
+	 */
 	public Combate getCombate() {
 		return combate;
 	}
 
 	/**
-	 *  Metodo que introduce el combate
+	 * Metodo que introduce el combate
+	 * 
 	 * @param combate
 	 */
 	public void setCombate(Combate combate) {
