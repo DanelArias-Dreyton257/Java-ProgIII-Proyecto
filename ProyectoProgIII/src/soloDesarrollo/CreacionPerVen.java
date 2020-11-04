@@ -128,9 +128,9 @@ public class CreacionPerVen extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String t = "\t";
+				String t = GestorDeDatos.STR_SEPARATOR;
 				if (txNombre.getText().length() >= 1) {
-					String tipo2 = "NULL";
+					String tipo2 = GestorDeDatos.NULL_STR;
 					if (ch2tipos.isSelected() && cbTipo1.getSelectedItem() != cbTipo2.getSelectedItem())
 						tipo2 = cbTipo2.getSelectedItem().toString();
 					listaPer.add(
@@ -207,7 +207,7 @@ public class CreacionPerVen extends JFrame {
 	}
 
 	private void fillWith(String l) {
-		String t = "\t";
+		String t = GestorDeDatos.STR_SEPARATOR;
 
 		int a = l.indexOf(t);
 		String nombre = l.substring(0, a);
@@ -225,7 +225,7 @@ public class CreacionPerVen extends JFrame {
 		Tipo t1 = Tipo.FUEGO;
 		Tipo t2 = Tipo.FUEGO;
 
-		boolean unTipo = tipo2.equals("NULL");
+		boolean unTipo = tipo2.equals(GestorDeDatos.NULL_STR);
 
 		for (Tipo tipo : Tipo.values()) {
 			if (tipo.toString().equals(tipo1)) {
@@ -263,7 +263,7 @@ public class CreacionPerVen extends JFrame {
 	private void reDoList() {
 		mdLista.clear();
 		for (String l : listaPer) {
-			int i = l.indexOf("\t");
+			int i = l.indexOf(GestorDeDatos.STR_SEPARATOR);
 			String p = l.substring(0, i);
 			mdLista.addElement(p);
 		}

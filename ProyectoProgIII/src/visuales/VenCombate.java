@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import gestion.GestorDeDatos;
 import objetos.Combate;
 import personaje.Leyenda;
 import personaje.atributos.Habilidad;
@@ -175,7 +176,7 @@ public class VenCombate extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// Si el boton no tiene ninguna habilidad asociada
-					if (boton.getText().equals("NULL")) {
+					if (boton.getText().equals(GestorDeDatos.NULL_STR)) {
 						return;
 					}
 					Random r = new Random();
@@ -233,7 +234,7 @@ public class VenCombate extends JFrame {
 		// Hacer aparecer panel con movs
 		Habilidad[] hs = leyendaEnCurso.getHabilidades();
 		for (int i = 0; i < hs.length; i++) {
-			String nombre = "NULL";
+			String nombre = GestorDeDatos.NULL_STR;
 			if (hs[i] != null) {
 				nombre = hs[i].getNombre();
 			}

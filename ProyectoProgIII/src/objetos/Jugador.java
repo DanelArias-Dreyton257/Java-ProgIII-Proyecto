@@ -275,7 +275,8 @@ public class Jugador {
 	}
 
 	/**
-	 * Funcion que reorganiza al equipo
+	 * Funcion que reorganiza al equipo, para que los espacios vacios se queden al
+	 * final del equipo y no hayas huecos intermedios
 	 */
 	public void reorganizaEquipo() {
 		if (getNumLeyendasEnEquipo() == 0) {
@@ -313,8 +314,11 @@ public class Jugador {
 		else
 			throw new IllegalArgumentException("Los doblones introducidos NO deben ser negativos");
 	}
+
 	/**
-	 * Incrementa la cantidad de doblones del jugador segun lo indicado como parametro
+	 * Incrementa la cantidad de doblones del jugador segun lo indicado como
+	 * parametro
+	 * 
 	 * @param incremento
 	 */
 	public void incDoblones(int incremento) {
@@ -332,12 +336,12 @@ public class Jugador {
 	 */
 	public boolean pagar(int coste) {
 		try {
-			setDoblones(doblones-coste);
+			setDoblones(doblones - coste);
 			return true;
 		} catch (IllegalArgumentException e) {
 			return false;
 		}
-		
+
 	}
 
 }

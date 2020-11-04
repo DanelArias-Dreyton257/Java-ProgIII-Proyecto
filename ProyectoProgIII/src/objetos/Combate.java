@@ -7,7 +7,11 @@ import java.util.TreeSet;
 import personaje.Leyenda;
 import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;
-
+/**
+ * 
+ * @author jon ander y danel
+ *
+ */
 public class Combate {
 	private Jugador j1;
 	private Jugador j2;
@@ -105,11 +109,10 @@ public class Combate {
 	 * @return
 	 */
 	public TreeSet<Leyenda> ordenVelocidad() {
+		
 		Comparator<Leyenda> c = new Comparator<Leyenda>() {
-
 			@Override
 			public int compare(Leyenda o1, Leyenda o2) {
-				// TODO Auto-generated method stub
 				return o2.getVelocidad() - o1.getVelocidad();
 			}
 		};
@@ -164,6 +167,7 @@ public class Combate {
 		if (randomN > precHab) {
 			return false;
 		}
+		//Calculo del multiplicador
 		double multiplicador;
 		if (tiposLey[1] == null) {
 			multiplicador = tipoHab.getMultiplicadorAaD(tiposLey[0]);
@@ -174,6 +178,7 @@ public class Combate {
 		double danyo = (atkLey + potHab) * (multiplicador);
 
 		defensor.danyar(danyo);
+		
 		return true;
 
 	}
@@ -187,16 +192,19 @@ public class Combate {
 	 */
 	public int indiceEnBatalla(Leyenda leyendaEnCurso) {
 
-		Leyenda[] eq1 = this.j1.getEquipo(); // {l1,l2,l3,l4,l5,l6}
-		Leyenda[] eq2 = this.j2.getEquipo(); // {l7,l8,l9,l10,l11,l12}
+		Leyenda[] eq1 = this.j1.getEquipo(); // {l1, l2, l3, l4, l5, l6}
+		Leyenda[] eq2 = this.j2.getEquipo(); // {l7, l8, l9, l10,l11,l12}
 
 		int indice = -1;
 
 		for (int i = 0; i < 3; i++) {
+			
 			if (eq1[i].equals(leyendaEnCurso)) {
 				indice = i;
+				
 			} else if (eq2[i].equals(leyendaEnCurso)) {
 				indice = i + 3;
+				
 			}
 		}
 

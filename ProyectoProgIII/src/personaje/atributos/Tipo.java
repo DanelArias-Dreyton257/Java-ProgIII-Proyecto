@@ -1,5 +1,9 @@
 package personaje.atributos;
-
+/**
+ * 
+ * @author jon ander y danel
+ *
+ */
 public enum Tipo {
 	FUEGO, AGUA, PLANTA, CIELO, TIERRA, ELECTRICIDAD, HIELO, LUZ, OSCURIDAD, TIEMPO, ESPACIO, MENTE, CUERPO, MUERTE;
 
@@ -7,7 +11,7 @@ public enum Tipo {
 	private static final double EFICAZ = 2;
 	private static final double NO_EFICAZ = 0.5;
 	private static final double NULO = 0;
-
+	
 	private static final double[][] MULTIPLICADORES_AAD = { 
 			{NULO,		NO_EFICAZ,	EFICAZ,		NO_EFICAZ,	NEUTRO,	NEUTRO,		EFICAZ,		NEUTRO,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		EFICAZ}, // FUEGO
 			{EFICAZ,	NULO,		NO_EFICAZ,	NEUTRO,		NEUTRO,	NO_EFICAZ,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO}, // AGUA
@@ -23,15 +27,19 @@ public enum Tipo {
 			{NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NO_EFICAZ,	EFICAZ,	NEUTRO,		NEUTRO,		EFICAZ,		NEUTRO}, // MENTE
 			{NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	EFICAZ,		EFICAZ,		NEUTRO,		NEUTRO}, // CUERPO
 			{NO_EFICAZ,	NEUTRO,		EFICAZ,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NO_EFICAZ,	NEUTRO,		NEUTRO,	NEUTRO,		EFICAZ,		EFICAZ,		NULO}};	 // MUERTE
-
+	
+	/**
+	 * Devuelve la lista de efectividades del tipo conttra el resto
+	 * @return
+	 */
 	public double[] getMultiplicadoresAaD() { // Atacante a defensor
 		return MULTIPLICADORES_AAD[this.ordinal()];
 	}
-/**
- * Metodo que usaremos para saber la eficacia del ataque de un atacante hacia un defensor en funcion de sus tipos 
- * @param defensor
- * @return
- */
+	/**
+	 * Metodo que usaremos para saber la eficacia del ataque de un atacante hacia un defensor en funcion de sus tipos 
+	 * @param defensor
+	 * @return
+	 */
 	public double getMultiplicadorAaD(Tipo defensor) {
 		return MULTIPLICADORES_AAD[this.ordinal()][defensor.ordinal()];
 	}

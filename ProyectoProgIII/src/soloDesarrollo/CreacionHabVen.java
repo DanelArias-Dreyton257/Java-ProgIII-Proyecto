@@ -215,7 +215,7 @@ public class CreacionHabVen extends JFrame {
 	}
 
 	private void fillWith(String l) {
-		String t = "\t";
+		String t = GestorDeDatos.STR_SEPARATOR;
 
 		int a = l.indexOf(t);
 		String nombre = l.substring(0, a);
@@ -267,7 +267,7 @@ public class CreacionHabVen extends JFrame {
 	private void reDoList() {
 		mdLista.clear();
 		for (String l : listaHabs) {
-			int i = l.indexOf("\t");
+			int i = l.indexOf(GestorDeDatos.STR_SEPARATOR);
 			String p = l.substring(0, i);
 			mdLista.addElement(p);
 		}

@@ -17,6 +17,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import gestion.GestorDeDatos;
 import objetos.Jugador;
 import personaje.Leyenda;
 /**
@@ -151,7 +152,7 @@ public class VenGestorEquipos extends JFrame {
 	private void actualizaEquipo() {
 		for (int i = 0; i < usuario.getEquipo().length; i++) {
 			Leyenda l = usuario.getLeyendaEquipo(i);
-			String s = "NULL";
+			String s = GestorDeDatos.NULL_STR;
 			if (l != null)
 				s = l.getNombre();
 			btEquipo[i].setText(s);

@@ -7,7 +7,7 @@ import interfaces.ToolTipAble;
  * @author jon ander y danel
  *
  */
-public class Habilidad implements ToolTipAble{
+public class Habilidad implements ToolTipAble {
 
 	protected String nombre;
 	protected String descripcion = "";

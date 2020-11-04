@@ -14,7 +14,7 @@ import personaje.atributos.Tipo;
  * @author danel y jon ander
  *
  */
-public class Leyenda extends Especie implements ToolTipAble{
+public class Leyenda extends Especie implements ToolTipAble {
 	// Estado estado;
 	Habilidad[] habilidades = new Habilidad[4];
 	int ataque;
@@ -348,7 +348,10 @@ public class Leyenda extends Especie implements ToolTipAble{
 	public boolean estaMuerto() {
 		return vida <= 0;
 	}
-
+	/**
+	 * Devuelve una leyenda aleatoria creada a traves de la seleccion aleatoria de tipos y de estadisticas entre ciertos valores
+	 * @return
+	 */
 	public static Leyenda getLeyendaRandom() {
 		Especie esp = null;
 		Tipo[] tipos = new Tipo[2];

@@ -12,13 +12,13 @@ public class Especie {
 	String descripcion;
 	Tipo[] tipos = new Tipo[2];
 
-	
-/**
- * Constructor de especie
- * @param nombre
- * @param descripcion
- * @param tipos
- */
+	/**
+	 * Constructor de especie
+	 * 
+	 * @param nombre
+	 * @param descripcion
+	 * @param tipos
+	 */
 	public Especie(String nombre, String descripcion, Tipo[] tipos) {
 		super();
 		this.nombre = nombre;
