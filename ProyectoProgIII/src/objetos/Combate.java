@@ -140,9 +140,9 @@ public class Combate {
 	 * @param iLey1
 	 * @param iLey2
 	 * @param iHab
-	 * @return devuelve true si se ha realizado un ataque y false si se ha fallado
+	 * @return devuelve un String que informa de lo ocurrido
 	 */
-	public boolean leyendaAtacaLeyenda(boolean j1Aj2, int iLey1, int iLey2, int iHab) {
+	public String leyendaAtacaLeyenda(boolean j1Aj2, int iLey1, int iLey2, int iHab) {
 		// FIXME comprobar que i1 y i2 son validos
 		Leyenda atacante;
 		Leyenda defensor;
@@ -154,8 +154,12 @@ public class Combate {
 			defensor = j1.getLeyendaEquipo(iLey1);
 			atacante = j2.getLeyendaEquipo(iLey2);
 		}
-		if (atacante == null || defensor == null || atacante.estaMuerto() || defensor.estaMuerto()) {
-			return false;
+		if (atacante == null || atacante.estaMuerto()) {
+			return atacante.getNombre()+ " esta muerto, no puede atacar";
+		} else if (defensor == null) {
+			return atacante.getNombre() + " ataco al aire";
+		} else if (defensor.estaMuerto()) {
+			return atacante.getNombre() + " fallo porque el defensor ya estaba muerto";
 		}
 
 		Habilidad ataque = atacante.getHabilidades()[iHab];
@@ -170,7 +174,7 @@ public class Combate {
 		Random r = new Random();
 		double randomN = r.nextDouble();
 		if (randomN > precHab) {
-			return false;
+			return atacante.getNombre() + " fallo " + ataque.getNombre() + " por no ser preciso";
 		}
 		// Calculo del multiplicador
 		double multiplicador;
@@ -184,7 +188,8 @@ public class Combate {
 
 		defensor.danyar(danyo);
 
-		return true;
+		return atacante.getNombre() + " hizo " + ataque.getNombre() + " a " + defensor.getNombre() + " causando "
+				+ (int) danyo + " de danyo";
 
 	}
 

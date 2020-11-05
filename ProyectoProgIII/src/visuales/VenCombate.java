@@ -2,6 +2,7 @@ package visuales;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -9,9 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Random;
 import java.util.TreeSet;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -55,8 +56,8 @@ public class VenCombate extends JFrame {
 	private JLabel lbJugador1 = new JLabel("Jugador 1");
 	private JLabel lbJugador2 = new JLabel("Jugador 2");
 
-	private JLabel[] lbLeyEnBatalla = { new JLabel("Leyenda"), new JLabel("Leyenda"), new JLabel("Leyenda"),
-			new JLabel("Leyenda"), new JLabel("Leyenda"), new JLabel("Leyenda") };
+	private JButton[] btLeyEnBatalla = { new JButton("Leyenda"), new JButton("Leyenda"), new JButton("Leyenda"),
+			new JButton("Leyenda"), new JButton("Leyenda"), new JButton("Leyenda") };
 
 	private JLabel lbTurno = new JLabel("Turno 0");
 
@@ -72,6 +73,7 @@ public class VenCombate extends JFrame {
 	private TreeSet<Leyenda> leyendasEnCombate = new TreeSet<>();
 	private Leyenda leyendaEnCurso = null;
 	private int indiceLeyEnCurso = -1;
+	private int indiceHabElegida = -1;
 
 	/**
 	 * Contructor de la ventana de combate
@@ -114,19 +116,19 @@ public class VenCombate extends JFrame {
 		pnBanquilloJ2.add(lsJ2Banquillo);
 
 		// Anyadir leyendas
-		pnGrid2.add(lbLeyEnBatalla[0]);
-		pnGrid2.add(new JLabel(""));
-		pnGrid2.add(new JLabel(""));
-		pnGrid2.add(lbLeyEnBatalla[1]);
-		pnGrid2.add(lbLeyEnBatalla[2]);
-		pnGrid2.add(new JLabel(""));
+		pnGrid2.add(panelBoxLayoutX(btLeyEnBatalla[0]));
+		pnGrid2.add(panelBoxLayoutX(new JLabel("")));
+		pnGrid2.add(panelBoxLayoutX(new JLabel("")));
+		pnGrid2.add(panelBoxLayoutX(btLeyEnBatalla[1]));
+		pnGrid2.add(panelBoxLayoutX(btLeyEnBatalla[2]));
+		pnGrid2.add(panelBoxLayoutX(new JLabel("")));
 
-		pnGrid4.add(new JLabel(""));
-		pnGrid4.add(lbLeyEnBatalla[3]);
-		pnGrid4.add(lbLeyEnBatalla[4]);
-		pnGrid4.add(new JLabel(""));
-		pnGrid4.add(new JLabel(""));
-		pnGrid4.add(lbLeyEnBatalla[5]);
+		pnGrid4.add(panelBoxLayoutX(new JLabel("")));
+		pnGrid4.add(panelBoxLayoutX(btLeyEnBatalla[3]));
+		pnGrid4.add(panelBoxLayoutX(btLeyEnBatalla[4]));
+		pnGrid4.add(panelBoxLayoutX(new JLabel("")));
+		pnGrid4.add(panelBoxLayoutX(new JLabel("")));
+		pnGrid4.add(panelBoxLayoutX(btLeyEnBatalla[5]));
 
 		pn3.add(pn3Norte, BorderLayout.NORTH);
 		pn3Norte.add(lbTurno);
@@ -176,32 +178,45 @@ public class VenCombate extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// Si el boton no tiene ninguna habilidad asociada
-					if (boton.getText().equals(GestorDeDatos.NULL_STR)) {
-						return;
+					if (!boton.getText().equals(GestorDeDatos.NULL_STR)) {
+						indiceHabElegida = h;
+						pnHabilidades.setVisible(false);
 					}
-					Random r = new Random();
-					boolean ataqueExitoso = false;
+				}
+			});
+		}
+		// Listeners para cada boton de los personajes
+		for (int k = 0; k < btLeyEnBatalla.length; k++) {
+			JButton boton = btLeyEnBatalla[k];
+			int l = k;
+			boton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					if (indiceHabElegida < 0)
+						return;
+
+					String ataqueStr = "";
 					// Ataca el j1 al j2
 					if (indiceLeyEnCurso < 3) {
-						ataqueExitoso = combate.leyendaAtacaLeyenda(true, indiceLeyEnCurso, r.nextInt(3), h);
+						if (l - 3 < 0)
+							return;
+						ataqueStr = combate.leyendaAtacaLeyenda(true, indiceLeyEnCurso, l - 3, indiceHabElegida);
 					}
 					// Ataca el j2 al j1
 					else {
-						ataqueExitoso = combate.leyendaAtacaLeyenda(false, r.nextInt(3), indiceLeyEnCurso - 3, h);
+						if (l > 2)
+							return;
+						ataqueStr = combate.leyendaAtacaLeyenda(false, l, indiceLeyEnCurso - 3, indiceHabElegida);
 					}
 
-					if (ataqueExitoso) {
-						lbMensaje.setText("Ataque exitoso");
-					} else {
-						lbMensaje.setText("Ataque fallado");
-					}
+					lbMensaje.setText(ataqueStr);
 
 					// Actualizar nombres
 					actualizaNombresLeys();
-					JLabel lbleyEnCurso = lbLeyEnBatalla[indiceLeyEnCurso];
+					JButton lbleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];
 					lbleyEnCurso.setForeground(Color.BLACK);
-
-					pnHabilidades.setVisible(false);
 
 					// Si ya han atacado todos se termina el turno
 					if (!leyendasEnCombate.isEmpty()) {
@@ -228,7 +243,7 @@ public class VenCombate extends JFrame {
 		indiceLeyEnCurso = combate.indiceEnBatalla(leyendaEnCurso);
 
 		// Cambia el color de quien ataca
-		JLabel lbleyEnCurso = lbLeyEnBatalla[indiceLeyEnCurso];
+		JButton lbleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];
 		lbleyEnCurso.setForeground(Color.RED);
 
 		// Hacer aparecer panel con movs
@@ -255,7 +270,7 @@ public class VenCombate extends JFrame {
 		combate.getJ1().reorganizaEquipo();
 		combate.getJ2().reorganizaEquipo();
 
-		for (int i = 0; i < lbLeyEnBatalla.length; i++) {
+		for (int i = 0; i < btLeyEnBatalla.length; i++) {
 			int j = i - 3;
 			Leyenda correspondiente = null;
 
@@ -265,9 +280,9 @@ public class VenCombate extends JFrame {
 				correspondiente = combate.getJ1().getLeyendaEquipo(i);
 
 			if (correspondiente != null)
-				lbLeyEnBatalla[i].setText(correspondiente.getNombreCombate());
+				btLeyEnBatalla[i].setText(correspondiente.getNombreCombate());
 			else
-				lbLeyEnBatalla[i].setText(GestorDeDatos.NULL_STR);
+				btLeyEnBatalla[i].setText(GestorDeDatos.NULL_STR);
 		}
 
 		mdJ1Banquillo.clear();
@@ -300,6 +315,19 @@ public class VenCombate extends JFrame {
 	 */
 	public void setCombate(Combate combate) {
 		this.combate = combate;
+	}
+
+	/**
+	 * Devuelve un JPanel con una BoxLayout de eje X con el componente anyadido
+	 * 
+	 * @param c
+	 * @return
+	 */
+	private JPanel panelBoxLayoutX(Component c) {
+		JPanel pn = new JPanel();
+		pn.setLayout(new BoxLayout(pn, BoxLayout.X_AXIS));
+		pn.add(c);
+		return pn;
 	}
 
 }
