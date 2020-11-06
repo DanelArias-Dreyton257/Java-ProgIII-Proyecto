@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import gestion.GestorDeDatos;
 import objetos.Jugador;
 import personaje.Leyenda;
+
 /**
  * 
  * @author danel y jonander
@@ -38,10 +39,10 @@ public class VenGestorEquipos extends JFrame {
 	private JButton btVenFusion = new JButton("Ventana de fusion");
 	private JButton[] btEquipo = { new JButton("Equipo 1"), new JButton("Equipo 2"), new JButton("Equipo 3"),
 			new JButton("Equipo 4"), new JButton("Equipo 5"), new JButton("Equipo 6") };
-	
+
 	private JLabel lbEquipo = new JLabel("Equipo");
 	private JLabel lbEternidad = new JLabel("Eternidad");
-	
+
 	private JPanel pnPrincipal = new JPanel(new GridLayout(1, 2));
 	private JPanel pnDer = new JPanel(new BorderLayout());
 	private JPanel pnIzq = new JPanel(new BorderLayout());
@@ -74,15 +75,15 @@ public class VenGestorEquipos extends JFrame {
 		getContentPane().add(pnPrincipal, BorderLayout.CENTER);
 		pnPrincipal.add(pnIzq);
 		pnPrincipal.add(pnDer);
-		pnIzq.add(lbEquipo,BorderLayout.NORTH);
+		pnIzq.add(lbEquipo, BorderLayout.NORTH);
 		pnIzq.add(pnIzqAbajo, BorderLayout.SOUTH);
 		pnIzq.add(pnEquipo, BorderLayout.CENTER);
 
 		pnIzqAbajo.add(btVenFusion);
 
-		pnDer.add(lbEternidad,BorderLayout.NORTH);
+		pnDer.add(lbEternidad, BorderLayout.NORTH);
 		lsEternidad.setModel(mdEternidad);
-		pnDer.add(new JScrollPane(lsEternidad),BorderLayout.CENTER);
+		pnDer.add(new JScrollPane(lsEternidad), BorderLayout.CENTER);
 
 		for (JButton bt : btEquipo) {
 			pnEquipo.add(bt);
@@ -128,7 +129,7 @@ public class VenGestorEquipos extends JFrame {
 						if (indBotonSeleccionado != -1) {
 							usuario.intercambiarEnEquipo(h, indBotonSeleccionado);
 							btEquipo[indBotonSeleccionado].setEnabled(true);
-							indBotonSeleccionado=-1;
+							indBotonSeleccionado = -1;
 						} else {
 							btEquipo[h].setEnabled(false);
 							indBotonSeleccionado = h;
@@ -152,10 +153,13 @@ public class VenGestorEquipos extends JFrame {
 	private void actualizaEquipo() {
 		for (int i = 0; i < usuario.getEquipo().length; i++) {
 			Leyenda l = usuario.getLeyendaEquipo(i);
-			String s = GestorDeDatos.NULL_STR;
-			if (l != null)
-				s = l.getNombre();
-			btEquipo[i].setText(s);
+			if (l != null) {
+				btEquipo[i].setText(l.getNombre());
+				btEquipo[i].setToolTipText(l.getToolTipInfo());
+			} else {
+				btEquipo[i].setText(GestorDeDatos.NULL_STR);
+				btEquipo[i].setToolTipText("");
+			}
 		}
 	}
 

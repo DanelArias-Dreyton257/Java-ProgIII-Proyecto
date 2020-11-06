@@ -192,9 +192,8 @@ public class Habilidad implements ToolTipAble {
 	}
 
 	@Override
-	public String getToolTipNombre() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getToolTipInfo() {
+		return tipo.toString() + ". Pot: "+potencia+", Prec: "+(precision*100)+"%";
 	}
 
 }

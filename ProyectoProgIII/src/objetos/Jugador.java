@@ -351,5 +351,12 @@ public class Jugador {
 	public int getNumLeyendas() {
 		return getNumLeyendasEnEquipo() + getNumLeyendasEnEternidad();
 	}
+	/**
+	 * Cura la vida de todas las leyendas del jugador
+	 */
+	public void curarLeyendas() {
+		for (Leyenda l: equipo) l.curar();
+		for (Leyenda l: eternidad) l.curar();
+	}
 
 }

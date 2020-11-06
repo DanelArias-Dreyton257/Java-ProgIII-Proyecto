@@ -247,31 +247,29 @@ public class Leyenda extends Especie implements ToolTipAble {
 
 		// Seleccion de los movimientos
 		ArrayList<Habilidad> posHabs = new ArrayList<>();
-		
+
 		posHabs.addAll(Arrays.asList(p1.getHabilidades()));
 		posHabs.addAll(Arrays.asList(p2.getHabilidades()));
-		
+
 		int numHabs = 4;
 		Habilidad[] habsElegidas = new Habilidad[numHabs];
-		
+
 		int numNulls = 0;
 		for (int x = 0; x < numHabs; x++) {
 			Random r = new Random();
 			int id = r.nextInt(posHabs.size());
 			Habilidad h = posHabs.get(id);
-			if (h==null && numNulls<2) {
+			if (h == null && numNulls < 2) {
 				habsElegidas[x] = h;
 				posHabs.remove(id);
 				numNulls++;
-			}
-			else if (h==null && numNulls>=2) {
+			} else if (h == null && numNulls >= 2) {
 				x--;
-			}
-			else {
+			} else {
 				habsElegidas[x] = h;
 				posHabs.remove(id);
 			}
-			
+
 		}
 
 		Especie esp = null;
@@ -437,9 +435,35 @@ public class Leyenda extends Especie implements ToolTipAble {
 	}
 
 	@Override
-	public String getToolTipNombre() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getToolTipInfo() {
+		String tipo2 = GestorDeDatos.NULL_STR;
+		if (tipos[1] != null)
+			tipo2 = tipos[1].toString();
+		return tipos[0].toString() + ", " + tipo2 + ". ATK: " + ataque + ", DEF: " + defensa + ", VEL: " + velocidad;
+	}
+
+	/**
+	 * Cura a la leyenda el numero indicado por parametrom, tras curar el personaje
+	 * no superarara la vida maxima. Si los puntos a curar son un valor negativo no
+	 * se realizara la accion.
+	 * 
+	 * @param puntosACurar
+	 */
+	public void curar(int puntosACurar) {
+		if (puntosACurar >= 0) {
+			int vidaTrasCurar = vida + puntosACurar;
+			if (vidaTrasCurar > vidaMax)
+				setVida(vidaMax);
+			else
+				setVida(vidaTrasCurar);
+		}
+	}
+
+	/**
+	 * Cura a la leyenda por completo
+	 */
+	public void curar() {
+		curar(999);
 	}
 
 }

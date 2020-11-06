@@ -145,6 +145,8 @@ public class VenCombate extends JFrame {
 		lbJugador1.setText(combate.getJ1().getNombre());
 		lbJugador2.setText(combate.getJ2().getNombre());
 
+		combate.getJ1().curarLeyendas();
+		combate.getJ2().curarLeyendas();
 		actualizaNombresLeys();
 		// Listeners
 		addWindowListener(new WindowAdapter() {
@@ -250,11 +252,14 @@ public class VenCombate extends JFrame {
 		// Hacer aparecer panel con movs
 		Habilidad[] hs = leyendaEnCurso.getHabilidades();
 		for (int i = 0; i < hs.length; i++) {
-			String nombre = GestorDeDatos.NULL_STR;
 			if (hs[i] != null) {
-				nombre = hs[i].getNombre();
+				btHabilidades[i].setText(hs[i].getNombre());
+				btHabilidades[i].setToolTipText(hs[i].getToolTipInfo());
+			} else {
+				btHabilidades[i].setText(GestorDeDatos.NULL_STR);
+				btHabilidades[i].setToolTipText("");
 			}
-			btHabilidades[i].setText(nombre);
+
 		}
 
 		pnHabilidades.setVisible(true);
@@ -280,10 +285,12 @@ public class VenCombate extends JFrame {
 			else
 				correspondiente = combate.getJ1().getLeyendaEquipo(i);
 
-			if (correspondiente != null)
+			if (correspondiente != null) {
 				btLeyEnBatalla[i].setText(correspondiente.getNombreCombate());
-			else
+				btLeyEnBatalla[i].setToolTipText(correspondiente.getToolTipInfo());
+			} else {
 				btLeyEnBatalla[i].setText(GestorDeDatos.NULL_STR);
+				btLeyEnBatalla[i].setToolTipText("");}
 		}
 
 		mdJ1Banquillo.clear();
