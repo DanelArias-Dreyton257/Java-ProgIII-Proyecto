@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.TreeSet;
 
 import personaje.Leyenda;
+import personaje.atributos.Eficacia;
 import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;
 
@@ -114,7 +115,18 @@ public class Combate {
 		Comparator<Leyenda> c = new Comparator<Leyenda>() {
 			@Override
 			public int compare(Leyenda o1, Leyenda o2) {
-				return o2.getVelocidad() - o1.getVelocidad();
+				int v1 = o1.getVelocidad();
+				int v2 = o2.getVelocidad();
+				// Si tienen la misma velocidad se decide aleatoriamente quien va primero
+				if (v1 == v2) {
+					Random r = new Random();
+					boolean b = r.nextBoolean();
+					if (b)
+						v1++;
+					else
+						v2++;
+				}
+				return v2 - v1;
 			}
 		};
 
@@ -122,6 +134,7 @@ public class Combate {
 		for (int i = 0; i < 3; i++) {
 			Leyenda eq1 = j1.getLeyendaEquipo(i);
 			Leyenda eq2 = j2.getLeyendaEquipo(i);
+
 			if (eq1 != null && !eq1.estaMuerto())
 				lista.add(eq1);
 
@@ -155,7 +168,7 @@ public class Combate {
 			atacante = j2.getLeyendaEquipo(iLey2);
 		}
 		if (atacante == null || atacante.estaMuerto()) {
-			return atacante.getNombre()+ " esta muerto, no puede atacar";
+			return atacante.getNombre() + " esta muerto, no puede atacar";
 		} else if (defensor == null) {
 			return atacante.getNombre() + " ataco al aire";
 		} else if (defensor.estaMuerto()) {
@@ -177,19 +190,20 @@ public class Combate {
 			return atacante.getNombre() + " fallo " + ataque.getNombre() + " por no ser preciso";
 		}
 		// Calculo del multiplicador
-		double multiplicador;
+		Eficacia eficacia;
 		if (tiposLey[1] == null) {
-			multiplicador = tipoHab.getMultiplicadorAaD(tiposLey[0]);
+			eficacia = tipoHab.getMultiplicadorAaD(tiposLey[0]);
 		} else {
-			multiplicador = (tipoHab.getMultiplicadorAaD(tiposLey[0]) + tipoHab.getMultiplicadorAaD(tiposLey[1])) / 2;
+			eficacia = tipoHab.getMultiplicadorAaD(tiposLey[0])
+					.getMediaEficacia(tipoHab.getMultiplicadorAaD(tiposLey[1]));
 		}
 
-		double danyo = (atkLey + potHab) * (multiplicador);
+		double danyo = (atkLey + potHab) * (eficacia.getValor());
 
-		defensor.danyar(danyo);
+		danyo = defensor.danyar(danyo);
 
-		return atacante.getNombre() + " hizo " + ataque.getNombre() + " a " + defensor.getNombre() + " causando "
-				+ (int) danyo + " de danyo";
+		return atacante.getNombre() + " hizo " + ataque.getNombre() + " a " + defensor.getNombre() + ". "
+				+ eficacia.getTextoEficacia() + " causando " + (int) danyo + " de danyo";
 
 	}
 

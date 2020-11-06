@@ -6,33 +6,28 @@ package personaje.atributos;
  */
 public enum Tipo {
 	FUEGO, AGUA, PLANTA, CIELO, TIERRA, ELECTRICIDAD, HIELO, LUZ, OSCURIDAD, TIEMPO, ESPACIO, MENTE, CUERPO, MUERTE;
-
-	private static final double NEUTRO = 1;
-	private static final double EFICAZ = 2;
-	private static final double NO_EFICAZ = 0.5;
-	private static final double NULO = 0;
 	
-	private static final double[][] MULTIPLICADORES_AAD = { 
-			{NULO,		NO_EFICAZ,	EFICAZ,		NO_EFICAZ,	NEUTRO,	NEUTRO,		EFICAZ,		NEUTRO,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		EFICAZ}, // FUEGO
-			{EFICAZ,	NULO,		NO_EFICAZ,	NEUTRO,		NEUTRO,	NO_EFICAZ,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO}, // AGUA
-			{NO_EFICAZ,	EFICAZ,		NEUTRO,		NEUTRO,		EFICAZ,	NEUTRO,		NO_EFICAZ,	NEUTRO,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO}, // PLANTA
-			{EFICAZ,	NEUTRO,		NEUTRO,		NEUTRO,		EFICAZ,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	NO_EFICAZ,	NEUTRO,		NEUTRO,		NEUTRO}, // CIELO
-			{NEUTRO,	NEUTRO,		NO_EFICAZ,	EFICAZ,		NEUTRO,	EFICAZ,		NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO}, // TIERRA
-			{NEUTRO,	EFICAZ,		NEUTRO,		NEUTRO,		NULO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO}, // ELECTRICIDAD
-			{NO_EFICAZ,	NEUTRO,		EFICAZ,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO}, // HIELO
-			{NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NULO,		EFICAZ,		EFICAZ,	NEUTRO,		NEUTRO,		NEUTRO,		EFICAZ}, // LUZ
-			{NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		EFICAZ,		NULO,		NEUTRO,	NEUTRO,		EFICAZ,		NEUTRO,		NEUTRO}, // OSCURIDAD
-			{NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		EFICAZ,		EFICAZ,		NEUTRO,	EFICAZ,		NO_EFICAZ,	NEUTRO,		NEUTRO}, // TIEMPO
-			{NEUTRO,	NEUTRO,		NEUTRO,		EFICAZ,		NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	EFICAZ,		NEUTRO,		NO_EFICAZ,	NEUTRO}, // ESPACIO
-			{NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NO_EFICAZ,	EFICAZ,	NEUTRO,		NEUTRO,		EFICAZ,		NEUTRO}, // MENTE
-			{NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,		NEUTRO,	EFICAZ,		EFICAZ,		NEUTRO,		NEUTRO}, // CUERPO
-			{NO_EFICAZ,	NEUTRO,		EFICAZ,		NEUTRO,		NEUTRO,	NEUTRO,		NEUTRO,		NO_EFICAZ,	NEUTRO,		NEUTRO,	NEUTRO,		EFICAZ,		EFICAZ,		NULO}};	 // MUERTE
+	private static final Eficacia[][] MULTIPLICADORES_AAD = { 
+			{Eficacia.NULO,			Eficacia.NO_EFICAZ,	Eficacia.MUY_EFICAZ,Eficacia.NO_EFICAZ,	Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.MUY_EFICAZ,	Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.MUY_EFICAZ}, // FUEGO
+			{Eficacia.MUY_EFICAZ,	Eficacia.NULO,		Eficacia.NO_EFICAZ,	Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NO_EFICAZ,		Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO}, // AGUA
+			{Eficacia.NO_EFICAZ,	Eficacia.MUY_EFICAZ,Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.MUY_EFICAZ,Eficacia.NEUTRO,		Eficacia.NO_EFICAZ,		Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO}, // PLANTA
+			{Eficacia.MUY_EFICAZ,	Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.MUY_EFICAZ,Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NO_EFICAZ,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO}, // CIELO
+			{Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NO_EFICAZ,	Eficacia.MUY_EFICAZ,Eficacia.NEUTRO,	Eficacia.MUY_EFICAZ,	Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO}, // TIERRA
+			{Eficacia.NEUTRO,		Eficacia.MUY_EFICAZ,Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NULO,		Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO}, // ELECTRICIDAD
+			{Eficacia.NO_EFICAZ,	Eficacia.NEUTRO,	Eficacia.MUY_EFICAZ,Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO}, // HIELO
+			{Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NULO,			Eficacia.MUY_EFICAZ,Eficacia.MUY_EFICAZ,Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.MUY_EFICAZ}, // LUZ
+			{Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.MUY_EFICAZ,	Eficacia.NULO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.MUY_EFICAZ,Eficacia.NEUTRO,	Eficacia.NEUTRO}, // OSCURIDAD
+			{Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.MUY_EFICAZ,	Eficacia.MUY_EFICAZ,Eficacia.NEUTRO,	Eficacia.MUY_EFICAZ,	Eficacia.NO_EFICAZ,	Eficacia.NEUTRO,	Eficacia.NEUTRO}, // TIEMPO
+			{Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.MUY_EFICAZ,Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.MUY_EFICAZ,	Eficacia.NEUTRO,	Eficacia.NO_EFICAZ,	Eficacia.NEUTRO}, // ESPACIO
+			{Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NO_EFICAZ,	Eficacia.MUY_EFICAZ,Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.MUY_EFICAZ,Eficacia.NEUTRO}, // MENTE
+			{Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.MUY_EFICAZ,	Eficacia.MUY_EFICAZ,Eficacia.NEUTRO,	Eficacia.NEUTRO}, // CUERPO
+			{Eficacia.NO_EFICAZ,	Eficacia.NEUTRO,	Eficacia.MUY_EFICAZ,Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.NEUTRO,		Eficacia.NO_EFICAZ,		Eficacia.NEUTRO,	Eficacia.NEUTRO,	Eficacia.NEUTRO,		Eficacia.MUY_EFICAZ,Eficacia.MUY_EFICAZ,Eficacia.NULO}};  // MUERTE
 	
 	/**
-	 * Devuelve la lista de efectividades del tipo conttra el resto
+	 * Devuelve la lista de efectividades del tipo contra el resto
 	 * @return
 	 */
-	public double[] getMultiplicadoresAaD() { // Atacante a defensor
+	public Eficacia[] getMultiplicadoresAaD() { // Atacante a defensor
 		return MULTIPLICADORES_AAD[this.ordinal()];
 	}
 	/**
@@ -40,7 +35,8 @@ public enum Tipo {
 	 * @param defensor
 	 * @return
 	 */
-	public double getMultiplicadorAaD(Tipo defensor) {
+	public Eficacia getMultiplicadorAaD(Tipo defensor) {
 		return MULTIPLICADORES_AAD[this.ordinal()][defensor.ordinal()];
 	}
+	
 }

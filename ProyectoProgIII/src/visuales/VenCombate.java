@@ -241,6 +241,7 @@ public class VenCombate extends JFrame {
 		leyendaEnCurso = leyendasEnCombate.pollFirst();
 
 		indiceLeyEnCurso = combate.indiceEnBatalla(leyendaEnCurso);
+		indiceHabElegida = -1;
 
 		// Cambia el color de quien ataca
 		JButton lbleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];

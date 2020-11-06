@@ -247,15 +247,31 @@ public class Leyenda extends Especie implements ToolTipAble {
 
 		// Seleccion de los movimientos
 		ArrayList<Habilidad> posHabs = new ArrayList<>();
+		
 		posHabs.addAll(Arrays.asList(p1.getHabilidades()));
 		posHabs.addAll(Arrays.asList(p2.getHabilidades()));
+		
 		int numHabs = 4;
 		Habilidad[] habsElegidas = new Habilidad[numHabs];
+		
+		int numNulls = 0;
 		for (int x = 0; x < numHabs; x++) {
 			Random r = new Random();
 			int id = r.nextInt(posHabs.size());
-			habsElegidas[x] = posHabs.get(id);
-			posHabs.remove(id);
+			Habilidad h = posHabs.get(id);
+			if (h==null && numNulls<2) {
+				habsElegidas[x] = h;
+				posHabs.remove(id);
+				numNulls++;
+			}
+			else if (h==null && numNulls>=2) {
+				x--;
+			}
+			else {
+				habsElegidas[x] = h;
+				posHabs.remove(id);
+			}
+			
 		}
 
 		Especie esp = null;
@@ -317,12 +333,15 @@ public class Leyenda extends Especie implements ToolTipAble {
 	 * Reduce la vida de la leyenda segun el danyo pasado como parametro
 	 * 
 	 * @param danyo
+	 * @return danyo causado
 	 */
-	public void danyar(double danyo) {
+	public double danyar(double danyo) {
 		danyo -= this.defensa;
 		if (danyo >= 0) {
 			this.vida -= (int) danyo;
-		}
+			return danyo;
+		} else
+			return 0;
 	}
 
 	/**
@@ -348,8 +367,11 @@ public class Leyenda extends Especie implements ToolTipAble {
 	public boolean estaMuerto() {
 		return vida <= 0;
 	}
+
 	/**
-	 * Devuelve una leyenda aleatoria creada a traves de la seleccion aleatoria de tipos y de estadisticas entre ciertos valores
+	 * Devuelve una leyenda aleatoria creada a traves de la seleccion aleatoria de
+	 * tipos y de estadisticas entre ciertos valores
+	 * 
 	 * @return
 	 */
 	public static Leyenda getLeyendaRandom() {

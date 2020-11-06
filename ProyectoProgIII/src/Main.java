@@ -14,7 +14,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		Jugador usuario = new Jugador("Simple alumno");
-		//usuario.anyadirLeyendasRandom(15);
+		usuario.anyadirLeyendasRandom(15);
 		//usuario.incDoblones(10000);
 		VenMenuPrincipal m = new VenMenuPrincipal(usuario);
 		m.setVisible(true);
