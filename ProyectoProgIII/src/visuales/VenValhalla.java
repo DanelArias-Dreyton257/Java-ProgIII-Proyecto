@@ -1,6 +1,7 @@
 package visuales;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import gestion.GestorDeDatos;
 import objetos.Jugador;
 import personaje.Leyenda;
 
@@ -38,6 +40,10 @@ public class VenValhalla extends JFrame {
 
 	private JPanel pnPrincipal = new JPanel();
 
+	// Fuentes
+	private static final Font FUENTE_MENSAJE = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 20);
+	private static final Font FUENTE_BOTON = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
+
 	/**
 	 * Constructor de la ventana de Valhalla
 	 * 
@@ -60,7 +66,9 @@ public class VenValhalla extends JFrame {
 		// Colocacion de paneles
 		getContentPane().add(pnPrincipal);
 		pnPrincipal.add(lbDoblones);
+		lbDoblones.setFont(FUENTE_MENSAJE);
 		pnPrincipal.add(btTirada);
+		btTirada.setFont(FUENTE_BOTON);
 
 		// Listeners
 		addWindowListener(new WindowAdapter() {

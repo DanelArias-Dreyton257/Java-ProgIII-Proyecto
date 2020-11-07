@@ -2,6 +2,7 @@ package visuales;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -53,6 +54,11 @@ public class VenGestorEquipos extends JFrame {
 	private JList<String> lsEternidad = new JList<>();
 
 	private int indBotonSeleccionado = -1;
+	
+	// Fuentes
+	private static final Font FUENTE_LEYENDA = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 20);
+	private static final Font FUENTE_TOCHA = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 25);
+	private static final Font FUENTE_BOTON = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
 
 	/**
 	 * Constructor de la ventana de gestion de equipos
@@ -76,17 +82,22 @@ public class VenGestorEquipos extends JFrame {
 		pnPrincipal.add(pnIzq);
 		pnPrincipal.add(pnDer);
 		pnIzq.add(lbEquipo, BorderLayout.NORTH);
+		lbEquipo.setFont(FUENTE_TOCHA);
 		pnIzq.add(pnIzqAbajo, BorderLayout.SOUTH);
 		pnIzq.add(pnEquipo, BorderLayout.CENTER);
 
 		pnIzqAbajo.add(btVenFusion);
-
+		btVenFusion.setFont(FUENTE_BOTON);
+		
 		pnDer.add(lbEternidad, BorderLayout.NORTH);
+		lbEternidad.setFont(FUENTE_TOCHA);
 		lsEternidad.setModel(mdEternidad);
 		pnDer.add(new JScrollPane(lsEternidad), BorderLayout.CENTER);
-
+		lsEternidad.setFont(FUENTE_LEYENDA);
+		
 		for (JButton bt : btEquipo) {
 			pnEquipo.add(bt);
+			bt.setFont(FUENTE_LEYENDA);
 		}
 
 		// Listeners

@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import gestion.GestorDeDatos;
 import objetos.Jugador;
 import personaje.Leyenda;
 
@@ -47,7 +48,7 @@ public class VenFusiones extends JFrame {
 	private JPanel pnAbajo = new JPanel(new BorderLayout());
 	private JPanel pnSuma = new JPanel();
 	private JPanel pnBotones = new JPanel();
-	
+
 	private JLabel lbPersonajes = new JLabel("Personajes");
 
 	private Leyenda ley1 = null;
@@ -55,8 +56,14 @@ public class VenFusiones extends JFrame {
 	private Leyenda ley2 = null;
 	private int ind2 = -1;
 
+	// Fuentes
+	private static final Font FUENTE_LEYENDA = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 15);
+	private static final Font FUENTE_TOCHA = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 20);
+	private static final Font FUENTE_SUMA = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, 1, 40);
+	
 	/**
 	 * Constructo de ventana fusiones
+	 * 
 	 * @param jugador
 	 */
 	public VenFusiones(Jugador jugador) {
@@ -79,17 +86,21 @@ public class VenFusiones extends JFrame {
 		pnAbajo.add(pnBotones, BorderLayout.EAST);
 		pnSuma.setLayout(new BoxLayout(pnSuma, BoxLayout.X_AXIS));
 		pnSuma.add(btLey1);
+		btLey1.setFont(FUENTE_LEYENDA);
 		pnSuma.add(lbSuma);
+		lbSuma.setFont(FUENTE_SUMA);
 		pnSuma.add(btLey2);
+		btLey2.setFont(FUENTE_LEYENDA);
 		pnBotones.setLayout(new BoxLayout(pnBotones, BoxLayout.X_AXIS));
 		pnBotones.add(btFusion);
-		
-		pnArriba.add(lbPersonajes,BorderLayout.NORTH);
-		pnArriba.add(new JScrollPane(lsListaLey),BorderLayout.CENTER);
+		btFusion.setFont(FUENTE_TOCHA);
+
+		pnArriba.add(lbPersonajes, BorderLayout.NORTH);
+		lbPersonajes.setFont(FUENTE_TOCHA);
+		pnArriba.add(new JScrollPane(lsListaLey), BorderLayout.CENTER);
+		lsListaLey.setFont(FUENTE_LEYENDA);
 		lsListaLey.setModel(mdLista);
 		actualizaLista();
-
-		lbSuma.setFont(new Font("suma", 1, 40));
 
 		// Listeners
 		addWindowListener(new WindowAdapter() {
@@ -182,8 +193,8 @@ public class VenFusiones extends JFrame {
 	}
 
 	/**
-	 * Metodo que se usa para actualizar la lista de tus personajes
-	 * Se usa a la hora de hacer fusiones, para añadir el nuevo que se haya obtenido
+	 * Metodo que se usa para actualizar la lista de tus personajes Se usa a la hora
+	 * de hacer fusiones, para añadir el nuevo que se haya obtenido
 	 */
 	private void actualizaLista() {
 		mdLista.clear();
@@ -211,8 +222,7 @@ public class VenFusiones extends JFrame {
 			i1 -= usuario.getNumLeyendasEnEquipo();
 		if (i2enEtern)
 			i2 -= usuario.getNumLeyendasEnEquipo();
-		
-		
+
 		if (!i1enEtern) {
 			usuario.delLeyendaEquipo(i1, false);
 		} else {
@@ -220,15 +230,14 @@ public class VenFusiones extends JFrame {
 		}
 		if (!i2enEtern) {
 			usuario.delLeyendaEquipo(i2);
-			
+
 		} else if (i2enEtern && !i1enEtern) {
 			usuario.delLeyendaEternidad(i2);
-			
+
 		} else if (i2enEtern && i1enEtern) {
-			if (i2>i1) {
+			if (i2 > i1) {
 				usuario.delLeyendaEternidad(i2 - 1);
-			}
-			else {
+			} else {
 				usuario.delLeyendaEternidad(i2);
 			}
 		}
@@ -236,6 +245,7 @@ public class VenFusiones extends JFrame {
 
 	/**
 	 * Metodo que devuelve el usuario
+	 * 
 	 * @return
 	 */
 	public Jugador getUsuario() {
@@ -243,7 +253,8 @@ public class VenFusiones extends JFrame {
 	}
 
 	/**
-	 *  Metodo que introduce el usuario
+	 * Metodo que introduce el usuario
+	 * 
 	 * @param usuario
 	 */
 	public void setUsuario(Jugador usuario) {

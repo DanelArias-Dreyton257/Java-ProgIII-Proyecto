@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -30,8 +31,8 @@ public class VenCombate extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private static final String TITULO = "MLW: Combate";
-	private static final Dimension MIN_DIM = new Dimension(1100, 400);
-	private static final Dimension PREF_DIM = new Dimension(1200, 600);
+	private static final Dimension MIN_DIM = new Dimension(1300, 400);
+	private static final Dimension PREF_DIM = new Dimension(1500, 600);
 
 	private Combate combate;
 
@@ -75,6 +76,12 @@ public class VenCombate extends JFrame {
 	private int indiceLeyEnCurso = -1;
 	private int indiceHabElegida = -1;
 
+	// Fuentes
+	private static final Font FUENTE_LEYENDA = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 12);
+	private static final Font FUENTE_HABILIDAD = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
+	private static final Font FUENTE_JUGADOR = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 15);
+	private static final Font FUENTE_MENSAJE = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.BOLD, 15);
+
 	/**
 	 * Contructor de la ventana de combate
 	 * 
@@ -99,6 +106,7 @@ public class VenCombate extends JFrame {
 		getContentPane().add(pnSur, BorderLayout.SOUTH);
 
 		pnSur.add(lbMensaje);
+		lbMensaje.setFont(FUENTE_MENSAJE);
 
 		pnPrincipal.add(pn1);
 		pnPrincipal.add(pnGrid2);
@@ -107,13 +115,18 @@ public class VenCombate extends JFrame {
 		pnPrincipal.add(pn5);
 		// Paneles del grid principal
 		pn1.add(lbJugador1, BorderLayout.NORTH);
+		lbJugador1.setFont(FUENTE_JUGADOR);
 		pn1.add(pnBanquilloJ1, BorderLayout.CENTER);
 		pn5.add(lbJugador2, BorderLayout.NORTH);
+		lbJugador2.setFont(FUENTE_JUGADOR);
 		pn5.add(pnBanquilloJ2, BorderLayout.CENTER);
 		pn5.add(btOpciones, BorderLayout.SOUTH);
+		btOpciones.setFont(FUENTE_MENSAJE);
 
 		pnBanquilloJ1.add(lsJ1Banquillo);
 		pnBanquilloJ2.add(lsJ2Banquillo);
+		lsJ1Banquillo.setFont(FUENTE_LEYENDA);
+		lsJ2Banquillo.setFont(FUENTE_LEYENDA);
 
 		// Anyadir leyendas
 		pnGrid2.add(panelBoxLayoutX(btLeyEnBatalla[0]));
@@ -132,13 +145,16 @@ public class VenCombate extends JFrame {
 
 		pn3.add(pn3Norte, BorderLayout.NORTH);
 		pn3Norte.add(lbTurno);
+		lbTurno.setFont(FUENTE_MENSAJE);
 		pn3Norte.add(btSigTurno);
+		btSigTurno.setFont(FUENTE_MENSAJE);
 
 		pn3.add(pnHabilidades, BorderLayout.SOUTH);
 		pnHabilidades.setVisible(false);
 
 		for (JButton b : btHabilidades) {
 			pnHabilidades.add(b);
+			b.setFont(FUENTE_HABILIDAD);
 		}
 
 		// Cambiar textos
@@ -190,6 +206,9 @@ public class VenCombate extends JFrame {
 		// Listeners para cada boton de los personajes
 		for (int k = 0; k < btLeyEnBatalla.length; k++) {
 			JButton boton = btLeyEnBatalla[k];
+
+			boton.setFont(FUENTE_LEYENDA);// Fuente del boton
+
 			int l = k;
 			boton.addActionListener(new ActionListener() {
 
@@ -290,7 +309,8 @@ public class VenCombate extends JFrame {
 				btLeyEnBatalla[i].setToolTipText(correspondiente.getToolTipInfo());
 			} else {
 				btLeyEnBatalla[i].setText(GestorDeDatos.NULL_STR);
-				btLeyEnBatalla[i].setToolTipText("");}
+				btLeyEnBatalla[i].setToolTipText("");
+			}
 		}
 
 		mdJ1Banquillo.clear();
