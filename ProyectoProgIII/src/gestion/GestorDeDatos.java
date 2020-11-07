@@ -1,5 +1,8 @@
 package gestion;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -40,6 +43,31 @@ public class GestorDeDatos {
 	private static final File FIC_LEYS = new File("src/soloDesarrollo/ficheros/personajes.txt");
 	public static final String STR_SEPARATOR = "\t";
 	public static final String NULL_STR = "NULL";
+
+	private static final File TTF_PERPETUA_BOLD = new File("src/fonts/Perpetua-Bold.ttf");
+	private static final File TTF_PERPETUA_BOLD_ITALIC = new File("src/fonts/Perpetua-Bold-Italic.ttf");
+	private static final File TTF_PERPETUA_TITLING_MT_BOLD = new File("src/fonts/Perpetua-Titling-MT-Bold.ttf");
+
+	public static final String NOMBRE_PERPETUA_BOLD = "Perpetua Negrita";
+	public static final String NOMBRE_PERPETUA_BOLD_ITALIC = "Perpetua Negrita Cursiva";
+	public static final String NOMBRE_PERPETUA_TITLING_MT_BOLD = "Perpetua Titling MT Negrita";
+
+	// ---------------------------------------------------------------------------------------------------------------------
+	static {
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		try {
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, TTF_PERPETUA_BOLD).deriveFont(Font.BOLD));
+			
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, TTF_PERPETUA_BOLD_ITALIC)
+					.deriveFont(Font.ITALIC));
+			
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, TTF_PERPETUA_TITLING_MT_BOLD)
+					.deriveFont(Font.BOLD));
+		} catch (FontFormatException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	// -------------------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * Funcion que se encargara de leer la lista

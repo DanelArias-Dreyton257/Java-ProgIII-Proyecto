@@ -2,6 +2,9 @@ package visuales;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -16,7 +19,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.plaf.FontUIResource;
 
+import gestion.GestorDeDatos;
 import objetos.Combate;
 import objetos.Jugador;
 
@@ -43,6 +48,7 @@ public class VenMenuPrincipal extends JFrame {
 	private static final String TITULO = "MYTHS of the LEGENDARY WAR";
 	private static final Dimension MIN_DIM = new Dimension(400, 400);
 	private static final Dimension PREF_DIM = new Dimension(600, 600);
+	private static final Font FUENTE_BOTONES = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC,Font.ITALIC,15);
 
 	private JPanel pnCentral = new JPanel(new GridLayout(2, 1));
 	private JPanel pnCenArriba = new JPanel();
@@ -50,8 +56,11 @@ public class VenMenuPrincipal extends JFrame {
 	private JPanel pnCenAb1 = new JPanel();
 	private JPanel pnCenAb2 = new JPanel();
 	private JPanel pnSur = new JPanel();
+	private JPanel pnLogo = new JPanel(new GridLayout(2, 1));
+	private JPanel pnLogoArriba = new JPanel(new BorderLayout());
+	private JPanel pnLogoArribaDer = new JPanel(new GridLayout(2,1));
 
-	private JLabel lbLogo = new JLabel(TITULO);
+	private JLabel lbLogo[] = {new JLabel("MYTHS"),new JLabel("of"),new JLabel("the"),new JLabel("Legendary War")};
 
 	private JButton btEquipo = new JButton("EQUIPO");
 	private JButton btValhalla = new JButton("VALHALLA");
@@ -93,15 +102,33 @@ public class VenMenuPrincipal extends JFrame {
 
 		pnCenAbajo.add(pnCenAb1);
 		pnCenAbajo.add(pnCenAb2);
-
+		
+		//Anyadir logo
+		pnCenArriba.add(pnLogo);
+		pnLogo.add(pnLogoArriba);
+		pnLogoArriba.add(lbLogo[0]);
+		pnLogoArriba.add(pnLogoArribaDer,BorderLayout.EAST);
+		pnLogoArribaDer.add(lbLogo[1]);
+		pnLogoArribaDer.add(lbLogo[2]);
+		pnLogo.add(lbLogo[3]);
+		lbLogo[0].setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 50));
+		lbLogo[1].setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 25));
+		lbLogo[2].setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 25));
+		lbLogo[3].setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.BOLD, 40));
+		
 		// Anyadir los botones a los paneles
-		pnCenArriba.add(lbLogo);
 		pnCenAb1.add(btEquipo);
+		btEquipo.setFont(FUENTE_BOTONES);
 		pnCenAb1.add(btValhalla);
+		btValhalla.setFont(FUENTE_BOTONES);
 		pnCenAb2.add(btJugar);
+		btJugar.setFont(FUENTE_BOTONES);
 		pnSur.add(btUsuario);
+		btUsuario.setFont(FUENTE_BOTONES);
 		pnSur.add(btOpciones);
+		btOpciones.setFont(FUENTE_BOTONES);
 		pnSur.add(btSalir);
+		btSalir.setFont(FUENTE_BOTONES);
 
 		// Listeners
 		btEquipo.addActionListener(new ActionListener() {
