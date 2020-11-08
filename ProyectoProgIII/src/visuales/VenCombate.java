@@ -312,7 +312,7 @@ public class VenCombate extends JFrame {
 		// Cambia el color de quien ataca
 		JButton lbleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];
 		lbleyEnCurso.setForeground(Color.RED);
-
+		
 		// Hacer aparecer panel con movs
 		Habilidad[] hs = leyendaEnCurso.getHabilidades();
 		for (int i = 0; i < hs.length; i++) {

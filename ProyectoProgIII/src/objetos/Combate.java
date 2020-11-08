@@ -172,7 +172,7 @@ public class Combate {
 		} else if (defensor == null) {
 			return atacante.getNombre() + " ataco al aire";
 		} else if (defensor.estaMuerto()) {
-			return atacante.getNombre() + " fallo porque el defensor ya estaba muerto";
+			return atacante.getNombre() + " dejalo, el defensor YA ESTA MUERTO...";
 		}
 
 		Habilidad ataque = atacante.getHabilidades()[iHab];
