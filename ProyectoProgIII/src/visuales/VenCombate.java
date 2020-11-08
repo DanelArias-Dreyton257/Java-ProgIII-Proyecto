@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import gestion.GestorDeDatos;
@@ -75,6 +76,7 @@ public class VenCombate extends JFrame {
 	private Leyenda leyendaEnCurso = null;
 	private int indiceLeyEnCurso = -1;
 	private int indiceHabElegida = -1;
+	private boolean enTurno = false;
 
 	// Fuentes
 	private static final Font FUENTE_LEYENDA = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 12);
@@ -183,6 +185,7 @@ public class VenCombate extends JFrame {
 				btSigTurno.setVisible(false);
 				revalidate();
 
+				enTurno = true;
 				leyendasEnCombate = combate.ordenVelocidad();
 				siguienteLeyenda();
 			}
@@ -200,7 +203,7 @@ public class VenCombate extends JFrame {
 						indiceHabElegida = h;
 						pnHabilidades.setVisible(false);
 						Habilidad ataque = leyendaEnCurso.getHabilidades()[h];
-						lbMensaje.setText(ataque.getNombre()+" elegida");
+						lbMensaje.setText(ataque.getNombre() + " elegida");
 					}
 				}
 			});
@@ -209,49 +212,89 @@ public class VenCombate extends JFrame {
 		for (int k = 0; k < btLeyEnBatalla.length; k++) {
 			JButton boton = btLeyEnBatalla[k];
 
-			boton.setFont(FUENTE_LEYENDA);// Fuente del boton
+			boton.setFont(FUENTE_LEYENDA);// Fuente del boton, incluido aqui por comodidad del for loop
 
 			int l = k;
+			
 			boton.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
 
-					if (indiceHabElegida < 0)
-						return;
+					if (indiceHabElegida >= 0 && enTurno) {
 
-					String ataqueStr = "";
-					// Ataca el j1 al j2
-					if (indiceLeyEnCurso < 3) {
-						if (l - 3 < 0)
-							return;
-						ataqueStr = combate.leyendaAtacaLeyenda(true, indiceLeyEnCurso, l - 3, indiceHabElegida);
-					}
-					// Ataca el j2 al j1
-					else {
-						if (l > 2)
-							return;
-						ataqueStr = combate.leyendaAtacaLeyenda(false, l, indiceLeyEnCurso - 3, indiceHabElegida);
-					}
+						String ataqueStr = "";
+						// Ataca el j1 al j2
+						if (indiceLeyEnCurso < 3) {
+							if (l - 3 < 0)
+								return;
+							ataqueStr = combate.leyendaAtacaLeyenda(true, indiceLeyEnCurso, l - 3, indiceHabElegida);
+						}
+						// Ataca el j2 al j1
+						else {
+							if (l > 2)
+								return;
+							ataqueStr = combate.leyendaAtacaLeyenda(false, l, indiceLeyEnCurso - 3, indiceHabElegida);
+						}
 
-					lbMensaje.setText(ataqueStr);
+						lbMensaje.setText(ataqueStr);
 
-					// Actualizar nombres
-					actualizaNombresLeys();
-					JButton lbleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];
-					lbleyEnCurso.setForeground(Color.BLACK);
+						// Actualizar nombres
+						actualizaNombresLeys();
+						JButton lbleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];
+						lbleyEnCurso.setForeground(Color.BLACK);
 
-					// Si ya han atacado todos se termina el turno
-					if (!leyendasEnCombate.isEmpty()) {
-						siguienteLeyenda();
-					} else {
-						btSigTurno.setVisible(true);
+						checkFinalTurno();
+						
+					} else if (!enTurno) {
+						// Jugador 1
+						if (l < 3) {
+							int ind = lsJ1Banquillo.getSelectedIndex();
+							if (ind >= 0) {
+								//equipo = [0],[1],[2]  	  [3],[4],[5]
+								//     l = [0],[1],[2]	ind = [0],[1],[2]
+								combate.getJ1().intercambiarEnEquipo(l, ind+3);
+								actualizaNombresLeys();
+								
+							}
+							else {
+								JOptionPane.showMessageDialog(VenCombate.this, "Si quieres cambiar, selecciona primero una leyenda del banquillo","Error en intercambio",JOptionPane.INFORMATION_MESSAGE);
+							}
+						}
+						// Jugador 2
+						else {
+							int ind = lsJ2Banquillo.getSelectedIndex();
+							if (ind >= 0) {
+								//equipo = [0],[1],[2]  	  [3],[4],[5]
+								//     l = [3],[4],[5]	ind = [0],[1],[2]
+								combate.getJ2().intercambiarEnEquipo(l - 3, ind + 3);
+								actualizaNombresLeys();
+								
+							}
+							else {
+								JOptionPane.showMessageDialog(VenCombate.this, "Si quieres cambiar, selecciona primero una leyenda del banquillo","Error en intercambio",JOptionPane.INFORMATION_MESSAGE);
+							}
+						}
+
 					}
 
 				}
 			});
 		}
 
+	}
+
+	/**
+	 * Comprueba si el turno deberia terminar y si no continua
+	 */
+	private void checkFinalTurno() {
+		// Si ya han atacado todos se termina el turno
+		if (!leyendasEnCombate.isEmpty()) {
+			siguienteLeyenda();
+		} else {
+			enTurno = false;
+			btSigTurno.setVisible(true);
+		}
 	}
 
 	/**
