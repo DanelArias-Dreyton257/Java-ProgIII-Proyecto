@@ -215,7 +215,7 @@ public class VenCombate extends JFrame {
 			boton.setFont(FUENTE_LEYENDA);// Fuente del boton, incluido aqui por comodidad del for loop
 
 			int l = k;
-			
+
 			boton.addActionListener(new ActionListener() {
 
 				@Override
@@ -245,34 +245,52 @@ public class VenCombate extends JFrame {
 						lbleyEnCurso.setForeground(Color.BLACK);
 
 						checkFinalTurno();
-						
+
 					} else if (!enTurno) {
 						// Jugador 1
 						if (l < 3) {
 							int ind = lsJ1Banquillo.getSelectedIndex();
 							if (ind >= 0) {
-								//equipo = [0],[1],[2]  	  [3],[4],[5]
-								//     l = [0],[1],[2]	ind = [0],[1],[2]
-								combate.getJ1().intercambiarEnEquipo(l, ind+3);
-								actualizaNombresLeys();
-								
-							}
-							else {
-								JOptionPane.showMessageDialog(VenCombate.this, "Si quieres cambiar, selecciona primero una leyenda del banquillo","Error en intercambio",JOptionPane.INFORMATION_MESSAGE);
+								// equipo = [0],[1],[2] [3],[4],[5]
+								// l = [0],[1],[2] ind = [0],[1],[2]
+								Leyenda aCambiar = combate.getJ1().getLeyendaEquipo(ind + 3);
+								if (aCambiar != null && !aCambiar.estaMuerto()) {
+									combate.getJ1().intercambiarEnEquipo(l, ind + 3);
+									actualizaNombresLeys();
+								} else {
+									JOptionPane.showMessageDialog(VenCombate.this,
+											"No puedes dejar un hueco vacio en tu frente o sacar a un muerto al campo de batalla DESALMADO",
+											"Error en intercambio", JOptionPane.INFORMATION_MESSAGE);
+
+								}
+
+							} else {
+								JOptionPane.showMessageDialog(VenCombate.this,
+										"Si quieres cambiar, selecciona primero una leyenda del banquillo",
+										"Error en intercambio", JOptionPane.INFORMATION_MESSAGE);
 							}
 						}
 						// Jugador 2
 						else {
 							int ind = lsJ2Banquillo.getSelectedIndex();
 							if (ind >= 0) {
-								//equipo = [0],[1],[2]  	  [3],[4],[5]
-								//     l = [3],[4],[5]	ind = [0],[1],[2]
-								combate.getJ2().intercambiarEnEquipo(l - 3, ind + 3);
-								actualizaNombresLeys();
-								
-							}
-							else {
-								JOptionPane.showMessageDialog(VenCombate.this, "Si quieres cambiar, selecciona primero una leyenda del banquillo","Error en intercambio",JOptionPane.INFORMATION_MESSAGE);
+								// equipo = [0],[1],[2] [3],[4],[5]
+								// l = [3],[4],[5] ind = [0],[1],[2]
+								Leyenda aCambiar = combate.getJ1().getLeyendaEquipo(ind + 3);
+								if (aCambiar != null && !aCambiar.estaMuerto()) {
+									combate.getJ2().intercambiarEnEquipo(l - 3, ind + 3);
+									actualizaNombresLeys();
+								} else {
+									JOptionPane.showMessageDialog(VenCombate.this,
+											"No puedes dejar un hueco vacio en tu frente o sacar a un muerto al campo de batalla DESALMADO",
+											"Error en intercambio", JOptionPane.INFORMATION_MESSAGE);
+
+								}
+
+							} else {
+								JOptionPane.showMessageDialog(VenCombate.this,
+										"Si quieres cambiar, selecciona primero una leyenda del banquillo",
+										"Error en intercambio", JOptionPane.INFORMATION_MESSAGE);
 							}
 						}
 
@@ -312,7 +330,7 @@ public class VenCombate extends JFrame {
 		// Cambia el color de quien ataca
 		JButton lbleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];
 		lbleyEnCurso.setForeground(Color.RED);
-		
+
 		// Hacer aparecer panel con movs
 		Habilidad[] hs = leyendaEnCurso.getHabilidades();
 		for (int i = 0; i < hs.length; i++) {
