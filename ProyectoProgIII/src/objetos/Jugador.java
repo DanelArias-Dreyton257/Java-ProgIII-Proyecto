@@ -343,20 +343,27 @@ public class Jugador {
 		}
 
 	}
+
 	/**
-	 * Devuelve el numero de leyendas en posesion
-	 * num de leyendas en equipo + num leyendas en eterenidad
+	 * Devuelve el numero de leyendas en posesion num de leyendas en equipo + num
+	 * leyendas en eterenidad
+	 * 
 	 * @return
 	 */
 	public int getNumLeyendas() {
 		return getNumLeyendasEnEquipo() + getNumLeyendasEnEternidad();
 	}
+
 	/**
 	 * Cura la vida de todas las leyendas del jugador
 	 */
 	public void curarLeyendas() {
-		for (Leyenda l: equipo) l.curar();
-		for (Leyenda l: eternidad) l.curar();
+		for (Leyenda l : equipo)
+			if (l != null)
+				l.curar();
+		for (Leyenda l : eternidad)
+			if (l != null)
+				l.curar();
 	}
 
 }

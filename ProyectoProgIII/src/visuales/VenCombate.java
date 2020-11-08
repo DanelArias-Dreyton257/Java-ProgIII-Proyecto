@@ -199,6 +199,8 @@ public class VenCombate extends JFrame {
 					if (!boton.getText().equals(GestorDeDatos.NULL_STR)) {
 						indiceHabElegida = h;
 						pnHabilidades.setVisible(false);
+						Habilidad ataque = leyendaEnCurso.getHabilidades()[h];
+						lbMensaje.setText(ataque.getNombre()+" elegida");
 					}
 				}
 			});
