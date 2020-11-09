@@ -172,7 +172,7 @@ public class Combate {
 		} else if (defensor == null) {
 			return atacante.getNombre() + " ataco al aire";
 		} else if (defensor.estaMuerto()) {
-			return atacante.getNombre() + " dejalo, "+defensor.getNombre()+" YA ESTA MUERTO...";
+			return atacante.getNombre() + " dejalo, " + defensor.getNombre() + " YA ESTA MUERTO...";
 		}
 
 		Habilidad ataque = atacante.getHabilidades()[iHab];
@@ -233,6 +233,39 @@ public class Combate {
 		}
 
 		return indice;
+	}
+
+	/**
+	 * Comprueba si los integrantes del equipo de cada jugador estan vivos, si un
+	 * jugador tiene a todos los integrantes muertos mientras que el otro jugador
+	 * tiene al menos uno vivo, se considera que este ultimo ha ganado la partida.
+	 * 
+	 * @return devuelve -1 si ningun jugador ha ganado, 0 si ha ganado el Jugador 1
+	 *         del combate y 1 si ha ganado el Jugador 2
+	 */
+	public int checkGanadorBatalla() {
+		boolean eq1Muerto = true;
+		for (Leyenda l : j1.getEquipo()) {
+			if (!l.estaMuerto()) {
+				eq1Muerto = false;
+				break;
+			}
+		}
+		boolean eq2Muerto = true;
+		for (Leyenda l : j2.getEquipo()) {
+			if (!l.estaMuerto()) {
+				eq2Muerto = false;
+				break;
+			}
+		}
+		if (!eq1Muerto && !eq2Muerto)
+			return -1; // no gana nadie
+		else if (!eq1Muerto && eq2Muerto)
+			return 0; // gana j1
+		else if (eq1Muerto && !eq2Muerto)
+			return 1; // gana j2
+		else
+			return -1;
 	}
 
 }
