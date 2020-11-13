@@ -1,5 +1,6 @@
 package gestion;
 
+import java.sql.*;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -52,22 +53,107 @@ public class GestorDeDatos {
 	public static final String NOMBRE_PERPETUA_BOLD_ITALIC = "Perpetua Negrita Cursiva";
 	public static final String NOMBRE_PERPETUA_TITLING_MT_BOLD = "Perpetua Titling MT Negrita";
 
+	private static final String PATH_BD = "BaseDatos.db";
+
 	// ---------------------------------------------------------------------------------------------------------------------
 	static {
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		try {
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, TTF_PERPETUA_BOLD).deriveFont(Font.BOLD));
-			
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, TTF_PERPETUA_BOLD_ITALIC)
-					.deriveFont(Font.ITALIC));
-			
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, TTF_PERPETUA_TITLING_MT_BOLD)
-					.deriveFont(Font.BOLD));
+
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, TTF_PERPETUA_BOLD_ITALIC).deriveFont(Font.ITALIC));
+
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, TTF_PERPETUA_TITLING_MT_BOLD).deriveFont(Font.BOLD));
 		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 		}
 	}
 	// -------------------------------------------------------------------------------------------------------------------------
+
+	static {
+		try {
+			Class.forName("org.sqlite.JDBC");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+//	public static void haceCosas() {
+//		Connection conn = null;
+//
+//		try {
+//
+//			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
+//			Statement stmt = conn.createStatement();
+//
+//			conn.setAutoCommit(false);
+//
+//			TreeSet<String> lista = readListaLeyendas();
+//
+//			for (String lineaLey : lista) {
+//				int finNombre = lineaLey.indexOf(STR_SEPARATOR, 0);
+//				String nombre = lineaLey.substring(0, finNombre);
+//
+//				int finTipo1 = lineaLey.indexOf(STR_SEPARATOR, finNombre + 1);
+//				String tipo1 = lineaLey.substring(finNombre + 1, finTipo1);
+//
+//				int finTipo2 = lineaLey.indexOf(STR_SEPARATOR, finTipo1 + 1);
+//				String tipo2 = lineaLey.substring(finTipo1 + 1, finTipo2);
+//
+//				String query1 = "SELECT * FROM TIPO WHERE NOMBRE = '" + tipo1 + "'";
+//				ResultSet rs1 = stmt.executeQuery(query1);
+//				int codTipo1 = rs1.getInt("CODIGO");
+//				rs1.close();
+//				
+//				
+//				int codTipo2 = -1;
+//				if (!NULL_STR.equals(tipo2)) {
+//					String query2 = "SELECT * FROM TIPO WHERE NOMBRE = '" + tipo2 + "'";
+//					ResultSet rs2 = stmt.executeQuery(query2);
+//					codTipo2 = rs2.getInt("CODIGO");
+//					rs2.close();
+//				}
+//
+//				String query3 = "SELECT * FROM ESPECIE WHERE NOMBRE = '" + nombre + "'";
+//				ResultSet rs3 = stmt.executeQuery(query3);
+//				int codEsp = rs3.getInt("CODIGO");
+//				rs3.close();
+//
+//				String sql = "INSERT INTO ESPTIPO(COD_TIPO,COD_ESP) VALUES('" + codTipo1 + "','" + codEsp + "')";
+//				stmt.executeUpdate(sql);
+//				if (codTipo2 != -1) {
+//					String sql2 = "INSERT INTO ESPTIPO(COD_TIPO,COD_ESP) VALUES('" + codTipo2 + "','" + codEsp + "')";
+//					stmt.executeUpdate(sql2);
+//				}
+//
+//			}
+//
+//			conn.commit();
+//
+//			stmt.close();
+//		} catch (SQLException e) {
+//			try {
+//
+//				conn.rollback(); // HECHA PA TRAS
+//			} catch (SQLException excep) {
+//			}
+//		} finally {
+//			try {
+//				conn.setAutoCommit(true);
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//
+//		try {
+//			conn.close();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 	/**
 	 * Funcion que se encargara de leer la lista
@@ -90,6 +176,7 @@ public class GestorDeDatos {
 			logger.log(Level.SEVERE, "Error en lectura de fichero: " + f.getName());
 			e.printStackTrace();
 		}
+
 		return lista;
 	}
 
@@ -119,7 +206,80 @@ public class GestorDeDatos {
 	 * @return
 	 */
 	public static TreeSet<String> readListaLeyendas() {
-		return readLista(FIC_LEYS);
+		logger.log(Level.INFO, "inicio de lectura de fichero: " + FIC_LEYS.getName());
+		TreeSet<String> lista = new TreeSet<>();
+
+		Connection conn = null;
+
+		try {
+
+			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
+
+			Statement stmt = conn.createStatement();
+			String sql = "SELECT * FROM ESPECIE";
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				String nombre = rs.getString("NOMBRE");
+				String desc = rs.getString("DESCRIPCION");
+				int cod = rs.getInt("CODIGO");
+
+				String sqlTipo = "SELECT * FROM ESPTIPO WHERE COD_ESP=" + cod + ";";
+
+				Statement stmt2 = conn.createStatement();
+				ResultSet rsTipo = stmt2.executeQuery(sqlTipo);
+
+				int codTipo1 = -1;
+				int codTipo2 = -1;
+				while (rsTipo.next()) {
+					if (codTipo1 == -1) {
+						codTipo1 = rsTipo.getInt("COD_TIPO");
+					}
+					else {
+						int codigito = rsTipo.getInt("COD_TIPO");
+						if (codigito!=codTipo1) {
+							codTipo2=codigito;
+						}
+					}
+				}
+
+				rsTipo.close();
+				stmt2.close();
+
+				Statement stmt3 = conn.createStatement();
+				ResultSet rsTipo1 = stmt3.executeQuery("SELECT * FROM TIPO WHERE CODIGO=" + codTipo1);
+				String tipo1 = rsTipo1.getString("NOMBRE");
+				rsTipo1.close();
+				stmt3.close();
+
+				String tipo2 = NULL_STR;
+				if (codTipo2 != -1) {
+					Statement stmt4 = conn.createStatement();
+					ResultSet rsTipo2 = stmt4.executeQuery("SELECT * FROM TIPO WHERE CODIGO=" + codTipo2);
+					tipo2 = rsTipo2.getString("NOMBRE");
+					rsTipo2.close();
+					stmt4.close();
+				}
+
+				lista.add(nombre + STR_SEPARATOR + tipo1 + STR_SEPARATOR + tipo2 + STR_SEPARATOR + desc);
+
+			}
+			rs.close();
+
+			stmt.close();
+		} catch (SQLException e) {
+		}
+
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.out.println(lista);
+
+		return lista;
 	}
 
 	/**

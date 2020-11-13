@@ -82,6 +82,7 @@ public class CreacionPerVen extends JFrame {
 		setMinimumSize(new Dimension(700, 250));
 		
 		logger.log(Level.INFO, "Empieza proceso de lectura de datos");
+		
 		listaPer = GestorDeDatos.readListaLeyendas();
 
 		pnCentral.setLayout(new BoxLayout(pnCentral, BoxLayout.Y_AXIS));
