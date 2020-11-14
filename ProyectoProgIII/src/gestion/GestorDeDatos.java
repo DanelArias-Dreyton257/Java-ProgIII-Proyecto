@@ -365,7 +365,7 @@ public class GestorDeDatos {
 	 * @param tipo
 	 * @return
 	 */
-	public static Habilidad buscarHabilidadEnBD(Tipo tipo) {
+	public static Habilidad buscarHabilidadEnBD(Tipo tipo) { //FIXME implementarlo con BD
 		// Se transforma el treeset en una arraylist y se mezcla para mejorar la
 		// eficiencia y ya que no siempre se tardara lo mismo en caso de que se necesite
 		// una habilidad muy al final del fichero, ademas da la opcion de que si hay dos
@@ -398,6 +398,34 @@ public class GestorDeDatos {
 			}
 		}
 		return h;
+	}
+	
+	public String[] getNombresEspecies() {
+		//TODO
+		return null;
+	}
+	
+	public Especie getInfoEspecie(String nombre) {
+		//TODO
+		return null;
+	}
+	
+	public void insertEspecieBD(Especie esp) {
+		//TODO
+		
+	}
+	public String[] getNombresHabilidades() {
+		//TODO
+		return null;
+	}
+	public Habilidad getInfoHabilidad(String nombre) {
+		//TODO
+		return null;
+	}
+	
+	public void insertHabilidadBD(Habilidad esp) {
+		//TODO
+		
 	}
 
 }
