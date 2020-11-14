@@ -400,9 +400,33 @@ public class GestorDeDatos {
 		return h;
 	}
 	
-	public String[] getNombresEspecies() {
-		//TODO
-		return null;
+	public ArrayList<String> getNombresEspecies() {
+		Connection conn = null;
+		ArrayList<String> lista = new ArrayList<>();
+
+		try {
+
+			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
+
+			Statement stmt = conn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT NOMBRE FROM ESPECIE");
+			while(rs.next()) {
+				lista.add(rs.getString("NOMBRE"));
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+		}
+
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return lista;
 	}
 	
 	public Especie getInfoEspecie(String nombre) {
