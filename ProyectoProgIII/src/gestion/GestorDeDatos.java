@@ -358,6 +358,66 @@ public class GestorDeDatos {
 
 	}
 
+//	/**
+//	 * FALTA COMENTAR Y SIN TERMINAR
+//	 * 
+//	 * @param tipo1
+//	 * @param tipo2
+//	 * @return
+//	 */
+//	public static Especie buscarEspecieEnBD(Tipo tipo1, Tipo tipo2) {
+//
+//		String t1Str = tipo1.toString();
+//		// si el segundo tipo es nulo
+//		String t2Str = NULL_STR;
+//		if (tipo2 != null)
+//			t2Str = tipo2.toString();
+//		// Se inicializa la especie como nula
+//		Especie esp = null;
+//
+//		Connection conn = null;
+//
+//		try {
+//
+//			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
+//			
+//			//Buscar los codigos de los tipos
+//			Statement stmt = conn.createStatement();
+//			ResultSet rs = stmt.executeQuery("SELECT CODIGO FROM TIPO WHERE NOMBRE ='"+t1Str+"'");
+//			int codTipo1 = rs.getInt("CODIGO");
+//			rs.close();
+//			stmt.close();
+//			
+//			int codTipo2=-1;
+//			if (!NULL_STR.equals(t2Str)) {
+//				Statement stmt1 = conn.createStatement();
+//				ResultSet rs1 = stmt.executeQuery("SELECT CODIGO FROM TIPO WHERE NOMBRE ='"+t2Str+"'");
+//				codTipo2 = rs1.getInt("CODIGO");
+//				rs1.close();
+//				stmt1.close();
+//			}
+//			
+//			//Seleccionar el WHERE
+//			String where = "WHERE COD_TIPO IN("+codTipo1;
+//			if (!NULL_STR.equals(t2Str)) {
+//				where +=","+codTipo2; 
+//			}
+//			where+=");";
+//			
+//			
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		try {
+//			conn.close();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//
+//		return esp;
+//
+//	}
+
 	/**
 	 * Metodo que buscara la habilidad en la base de datos
 	 * 
@@ -371,6 +431,7 @@ public class GestorDeDatos {
 		// habilidades con el mismo tipo no siempre salga la primera que tenga ese
 		// tipo
 		ArrayList<String> listaHabs = new ArrayList<String>(readListaHabilidades());
+		Collections.shuffle(listaHabs);
 		Habilidad h = null;
 		if (tipo != null) {
 			String tipoStr = tipo.toString();
@@ -399,7 +460,7 @@ public class GestorDeDatos {
 		return h;
 	}
 
-	public static ArrayList<String> getNombresEspecies() { //FUNCIONA GUAY :)
+	public static ArrayList<String> getNombresEspecies() { // FUNCIONA GUAY :)
 		Connection conn = null;
 		ArrayList<String> lista = new ArrayList<>();
 
@@ -427,7 +488,7 @@ public class GestorDeDatos {
 		return lista;
 	}
 
-	public static Especie getInfoEspecie(String nombre) { //FUNCIONA :)
+	public static Especie getInfoEspecie(String nombre) { // FUNCIONA :)
 		Connection conn = null;
 		Especie esp = null;
 
@@ -503,7 +564,7 @@ public class GestorDeDatos {
 		return esp;
 	}
 
-	public static void insertEspecieBD(Especie esp) { //COMPROBAR !!
+	public static void insertEspecieBD(Especie esp) { // FUNCIOOOOOOOONAAAAAAAA :D
 
 		Connection conn = null;
 
@@ -533,8 +594,8 @@ public class GestorDeDatos {
 
 			int codTipo1 = -1;
 			int codTipo2 = -1;
-			
-			//Tipo1
+
+			// Tipo1
 			Statement stmt3 = conn.createStatement();
 
 			ResultSet rs3 = stmt3
@@ -544,9 +605,9 @@ public class GestorDeDatos {
 
 			rs3.close();
 			stmt3.close();
-			
-			//Tipo 2
-			if(esp.getTipos()[1]!=null) {
+
+			// Tipo 2
+			if (esp.getTipos()[1] != null) {
 				Statement stmt4 = conn.createStatement();
 
 				ResultSet rs4 = stmt4
@@ -557,17 +618,17 @@ public class GestorDeDatos {
 				rs4.close();
 				stmt4.close();
 			}
-			
-			//INSERTS en ESPTIPO
+
+			// INSERTS en ESPTIPO
 			Statement stmt5 = conn.createStatement();
-			
-			stmt5.executeUpdate("INSERT INTO ESPTIPO(COD_ESP,COD_TIPO) VALUES("+codigoEsp+","+codTipo1+")");
+
+			stmt5.executeUpdate("INSERT INTO ESPTIPO(COD_ESP,COD_TIPO) VALUES(" + codigoEsp + "," + codTipo1 + ")");
 			stmt5.close();
-			
-			if (codTipo2!=-1) {
+
+			if (codTipo2 != -1) {
 				Statement stmt6 = conn.createStatement();
-				
-				stmt6.executeUpdate("INSERT INTO ESPTIPO(COD_ESP,COD_TIPO) VALUES("+codigoEsp+","+codTipo2+")");
+
+				stmt6.executeUpdate("INSERT INTO ESPTIPO(COD_ESP,COD_TIPO) VALUES(" + codigoEsp + "," + codTipo2 + ")");
 				stmt6.close();
 
 			}
@@ -604,147 +665,113 @@ public class GestorDeDatos {
 	/**
 	 * COMENTADO PARA COMPROBAR
 	 */
-	/*public static Habilidad getInfoHabilidad(String nombre) {
-		Connection conn = null;
-		Habilidad hab = null;
-
-		try {
-
-			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
-
-			Statement stmt = conn.createStatement();
-
-			ResultSet rs = stmt.executeQuery("SELECT * FROM HABILIDAD WHERE NOMBRE = '" + hab.getNombre() + "'");
-			int cod = -1;
-			int pot = 0;
-			double pre = 0;
-
-			while (rs.next()) {
-				pot = rs.getInt("POTENCIA");
-				pre = rs.getDouble("PRECISION");
-				cod = rs.getInt("CODIGO");
-			}
-			rs.close();
-			stmt.close();
-
-			Statement stmt2 = conn.createStatement();
-			ResultSet rs2 = stmt2.executeQuery("SELECT * FROM ESPTIPO WHERE COD_HAB=" + cod);
-
-			// Busqueda de codigos de tipo
-			int codTipo = -1;
-			
-			while (rs2.next()) {
-				if (codTipo == -1) {
-					codTipo = rs2.getInt("COD_TIPO");
-				} else {
-					int codigito = rs2.getInt("COD_TIPO");
-					
-				}
-			}
-			rs2.close();
-			stmt2.close();
-
-			// Busqueda de tipo 1
-			Statement stmt3 = conn.createStatement();
-			ResultSet rsTipo1 = stmt3.executeQuery("SELECT * FROM TIPO WHERE CODIGO=" + codTipo);
-			String tipo1Str = rsTipo1.getString("NOMBRE");
-			rsTipo1.close();
-			stmt3.close();
-
-			
-
-			Tipo tipo1 = Tipo.getTipoPorNombre(tipo1Str);
-			
-
-			Tipo tipos =  tipo1;
-
-			hab = new Habilidad(nombre, tipos, pot, pre);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return hab;
-	}
-	*/
+	/*
+	 * public static Habilidad getInfoHabilidad(String nombre) { Connection conn =
+	 * null; Habilidad hab = null;
+	 * 
+	 * try {
+	 * 
+	 * conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
+	 * 
+	 * Statement stmt = conn.createStatement();
+	 * 
+	 * ResultSet rs = stmt.executeQuery("SELECT * FROM HABILIDAD WHERE NOMBRE = '" +
+	 * hab.getNombre() + "'"); int cod = -1; int pot = 0; double pre = 0;
+	 * 
+	 * while (rs.next()) { pot = rs.getInt("POTENCIA"); pre =
+	 * rs.getDouble("PRECISION"); cod = rs.getInt("CODIGO"); } rs.close();
+	 * stmt.close();
+	 * 
+	 * Statement stmt2 = conn.createStatement(); ResultSet rs2 =
+	 * stmt2.executeQuery("SELECT * FROM ESPTIPO WHERE COD_HAB=" + cod);
+	 * 
+	 * // Busqueda de codigos de tipo int codTipo = -1;
+	 * 
+	 * while (rs2.next()) { if (codTipo == -1) { codTipo = rs2.getInt("COD_TIPO"); }
+	 * else { int codigito = rs2.getInt("COD_TIPO");
+	 * 
+	 * } } rs2.close(); stmt2.close();
+	 * 
+	 * // Busqueda de tipo 1 Statement stmt3 = conn.createStatement(); ResultSet
+	 * rsTipo1 = stmt3.executeQuery("SELECT * FROM TIPO WHERE CODIGO=" + codTipo);
+	 * String tipo1Str = rsTipo1.getString("NOMBRE"); rsTipo1.close();
+	 * stmt3.close();
+	 * 
+	 * 
+	 * 
+	 * Tipo tipo1 = Tipo.getTipoPorNombre(tipo1Str);
+	 * 
+	 * 
+	 * Tipo tipos = tipo1;
+	 * 
+	 * hab = new Habilidad(nombre, tipos, pot, pre);
+	 * 
+	 * } catch (SQLException e) { e.printStackTrace(); } try { conn.close(); } catch
+	 * (SQLException e) { e.printStackTrace(); }
+	 * 
+	 * return hab; }
+	 */
 
 	/**
 	 * COMENTADO PARA REVISAR
 	 */
-	/*public static void insertHabilidadBD(Habilidad hab) {
-
-		Connection conn = null;
-
-		try {
-
-			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
-			conn.setAutoCommit(false);
-			// Insertar especie
-			Statement stmt = conn.createStatement();
-
-			stmt.executeUpdate("INSERT INTO HABILIDAD(NOMBRE,POTENCIA,PRECISION) VALUES('" + hab.getNombre() + "','"
-					+ hab.getPotencia() + "','" + hab.getPrecision() + "')");
-
-			stmt.close();
-
-			// Busqueda de cod de especie
-			Statement stmt2 = conn.createStatement();
-
-			ResultSet rs2 = stmt.executeQuery("SELECT CODIGO FROM HABILIDAD WHERE NOMBRE = '" + hab.getNombre() + "'");
-
-			int codigoHab = rs2.getInt("CODIGO");
-
-			rs2.close();
-			stmt2.close();
-
-			// Busqueda de cods de especie
-
-			int codTipo = -1;
-		
-			
-			//Tipo1
-			Statement stmt3 = conn.createStatement();
-
-			ResultSet rs3 = stmt3
-					.executeQuery("SELECT CODIGO FROM TIPO WHERE NOMBRE = '" + hab.getTipo().toString() + "'");
-
-			codTipo = rs3.getInt("CODIGO");
-
-			rs3.close();
-			stmt3.close();
-			
-			//INSERTS en ESPTIPO
-			Statement stmt5 = conn.createStatement();
-			
-			stmt5.executeUpdate("INSERT INTO HABTIPO(COD_HAB,COD_TIPO) VALUES("+codigoHab+","+codTipo+")");
-			stmt5.close();
-			conn.commit();
-
-		} catch (SQLException e) {
-			try {
-
-				conn.rollback(); // HECHA PA TRAS
-			} catch (SQLException excep) {
-			}
-		} finally {
-			try {
-				conn.setAutoCommit(true);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-	}*/
+	/*
+	 * public static void insertHabilidadBD(Habilidad hab) {
+	 * 
+	 * Connection conn = null;
+	 * 
+	 * try {
+	 * 
+	 * conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
+	 * conn.setAutoCommit(false); // Insertar especie Statement stmt =
+	 * conn.createStatement();
+	 * 
+	 * stmt.
+	 * executeUpdate("INSERT INTO HABILIDAD(NOMBRE,POTENCIA,PRECISION) VALUES('" +
+	 * hab.getNombre() + "','" + hab.getPotencia() + "','" + hab.getPrecision() +
+	 * "')");
+	 * 
+	 * stmt.close();
+	 * 
+	 * // Busqueda de cod de especie Statement stmt2 = conn.createStatement();
+	 * 
+	 * ResultSet rs2 =
+	 * stmt.executeQuery("SELECT CODIGO FROM HABILIDAD WHERE NOMBRE = '" +
+	 * hab.getNombre() + "'");
+	 * 
+	 * int codigoHab = rs2.getInt("CODIGO");
+	 * 
+	 * rs2.close(); stmt2.close();
+	 * 
+	 * // Busqueda de cods de especie
+	 * 
+	 * int codTipo = -1;
+	 * 
+	 * 
+	 * //Tipo1 Statement stmt3 = conn.createStatement();
+	 * 
+	 * ResultSet rs3 = stmt3
+	 * .executeQuery("SELECT CODIGO FROM TIPO WHERE NOMBRE = '" +
+	 * hab.getTipo().toString() + "'");
+	 * 
+	 * codTipo = rs3.getInt("CODIGO");
+	 * 
+	 * rs3.close(); stmt3.close();
+	 * 
+	 * //INSERTS en ESPTIPO Statement stmt5 = conn.createStatement();
+	 * 
+	 * stmt5.executeUpdate("INSERT INTO HABTIPO(COD_HAB,COD_TIPO) VALUES("+codigoHab
+	 * +","+codTipo+")"); stmt5.close(); conn.commit();
+	 * 
+	 * } catch (SQLException e) { try {
+	 * 
+	 * conn.rollback(); // HECHA PA TRAS } catch (SQLException excep) { } } finally
+	 * { try { conn.setAutoCommit(true); } catch (SQLException e) {
+	 * e.printStackTrace(); } }
+	 * 
+	 * try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+	 * 
+	 * }
+	 */
 
 }

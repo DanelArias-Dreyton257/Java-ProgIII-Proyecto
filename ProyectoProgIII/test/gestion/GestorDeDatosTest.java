@@ -19,15 +19,52 @@ public class GestorDeDatosTest {
 
 	private Especie esp1;
 	private Especie esp2;
+	
+	//private Especie espPrueba; // PARA EL INSERT
 
 	@Before
 	public void setUp() {
-
+//		Tipo[] tiposPrueba = {Tipo.FUEGO,Tipo.TIERRA};
+//		espPrueba = new Especie("Prueba", "No descripcion", tiposPrueba); //PAAR EL INSERT
 	}
 
 	@After
 	public void tearDown() {
-
+		//Esto es por si se intenta comprobar el insert
+//		Connection conn = null;
+//
+//		try {
+//
+//			conn = DriverManager.getConnection("jdbc:sqlite:" + "BaseDatos.db");
+//			conn.setAutoCommit(false);
+//			// Eliminar insert de prueba
+//			Statement stmt = conn.createStatement();
+//			
+//			stmt.executeUpdate("DELETE FROM ESPECIE WHERE NOMBRE='"+espPrueba.getNombre()+"'");
+//			
+//			stmt.close();
+//			
+//			conn.commit();
+//			
+//		} catch (SQLException e) {
+//			try {
+//
+//				conn.rollback(); // HECHA PA TRAS
+//			} catch (SQLException excep) {
+//			}
+//		} finally {
+//			try {
+//				conn.setAutoCommit(true);
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//
+//		try {
+//			conn.close();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	@Test
@@ -53,5 +90,11 @@ public class GestorDeDatosTest {
 		assertEquals(esp2, GestorDeDatos.getInfoEspecie(esp2.getNombre()));
 
 	}
+	
+//	@Test
+//	public void insertEspecieBDTest() { //YA LO COMPROBE! NO hacerlo otra vez para no andar jodiendo la BD
+//		GestorDeDatos.insertEspecieBD(espPrueba);
+//		assertEquals(espPrueba, GestorDeDatos.getInfoEspecie(espPrueba.getNombre())); //Ya se que el metodo getInfo funciona
+//	}
 
 }
