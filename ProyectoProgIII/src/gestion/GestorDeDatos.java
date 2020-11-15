@@ -427,7 +427,7 @@ public class GestorDeDatos {
 		return lista;
 	}
 
-	public static Especie getInfoEspecie(String nombre) { //TODO COMPROBAR!!
+	public static Especie getInfoEspecie(String nombre) { //FUNCIONA :)
 		Connection conn = null;
 		Especie esp = null;
 
