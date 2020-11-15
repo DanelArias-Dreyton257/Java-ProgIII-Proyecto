@@ -9,8 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import personaje.Leyenda;
-import personaje.atributos.Habilidad;
-import personaje.atributos.Tipo;
 
 public class CombateTest {
 	

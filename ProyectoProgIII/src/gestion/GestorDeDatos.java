@@ -399,7 +399,7 @@ public class GestorDeDatos {
 		return h;
 	}
 
-	public ArrayList<String> getNombresEspecies() {
+	public static ArrayList<String> getNombresEspecies() { //FUNCIONA GUAY :)
 		Connection conn = null;
 		ArrayList<String> lista = new ArrayList<>();
 
@@ -409,7 +409,7 @@ public class GestorDeDatos {
 
 			Statement stmt = conn.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT NOMBRE FROM ESPECIE");
+			ResultSet rs = stmt.executeQuery("SELECT NOMBRE FROM ESPECIE ORDER BY NOMBRE");
 			while (rs.next()) {
 				lista.add(rs.getString("NOMBRE"));
 			}
@@ -421,14 +421,13 @@ public class GestorDeDatos {
 		try {
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return lista;
 	}
 
-	public Especie getInfoEspecie(String nombre) {
+	public static Especie getInfoEspecie(String nombre) { //TODO COMPROBAR!!
 		Connection conn = null;
 		Especie esp = null;
 
@@ -450,7 +449,7 @@ public class GestorDeDatos {
 			stmt.close();
 
 			Statement stmt2 = conn.createStatement();
-			ResultSet rs2 = stmt2.executeQuery("SELECT * FROM TIPO WHERE COD_ESP=" + cod);
+			ResultSet rs2 = stmt2.executeQuery("SELECT * FROM ESPTIPO WHERE COD_ESP=" + cod);
 
 			// Busqueda de codigos de tipo
 			int codTipo1 = -1;
@@ -504,7 +503,7 @@ public class GestorDeDatos {
 		return esp;
 	}
 
-	public void insertEspecieBD(Especie esp) {
+	public static void insertEspecieBD(Especie esp) { //COMPROBAR !!
 
 		Connection conn = null;
 
@@ -597,7 +596,7 @@ public class GestorDeDatos {
 
 	}
 
-	public String[] getNombresHabilidades() {
+	public static ArrayList<String> getNombresHabilidades() {
 		// TODO
 		return null;
 	}
@@ -605,7 +604,7 @@ public class GestorDeDatos {
 	/**
 	 * COMENTADO PARA COMPROBAR
 	 */
-	/*public Habilidad getInfoHabilidad(String nombre) {
+	/*public static Habilidad getInfoHabilidad(String nombre) {
 		Connection conn = null;
 		Habilidad hab = null;
 
@@ -629,7 +628,7 @@ public class GestorDeDatos {
 			stmt.close();
 
 			Statement stmt2 = conn.createStatement();
-			ResultSet rs2 = stmt2.executeQuery("SELECT * FROM TIPO WHERE COD_HAB=" + cod);
+			ResultSet rs2 = stmt2.executeQuery("SELECT * FROM ESPTIPO WHERE COD_HAB=" + cod);
 
 			// Busqueda de codigos de tipo
 			int codTipo = -1;
@@ -677,7 +676,7 @@ public class GestorDeDatos {
 	/**
 	 * COMENTADO PARA REVISAR
 	 */
-	/*public void insertHabilidadBD(Habilidad hab) {
+	/*public static void insertHabilidadBD(Habilidad hab) {
 
 		Connection conn = null;
 
