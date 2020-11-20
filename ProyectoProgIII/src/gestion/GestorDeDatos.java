@@ -79,7 +79,6 @@ public class GestorDeDatos {
 		}
 	}
 
-
 	/**
 	 * Funcion que se encargara de leer la lista
 	 * 
@@ -434,46 +433,28 @@ public class GestorDeDatos {
 			rs.close();
 			stmt.close();
 
-			Statement stmt2 = conn.createStatement();
-			ResultSet rs2 = stmt2.executeQuery("SELECT * FROM ESPTIPO WHERE COD_ESP=" + cod);
-
-			// Busqueda de codigos de tipo
-			int codTipo1 = -1;
-			int codTipo2 = -1;
-			while (rs2.next()) {
-				if (codTipo1 == -1) {
-					codTipo1 = rs2.getInt("COD_TIPO");
-				} else {
-					int codigito = rs2.getInt("COD_TIPO");
-					if (codigito != codTipo1) {
-						codTipo2 = codigito;
-					}
-				}
-			}
-			rs2.close();
-			stmt2.close();
-
-			// Busqueda de tipo 1
 			Statement stmt3 = conn.createStatement();
-			ResultSet rsTipo1 = stmt3.executeQuery("SELECT * FROM TIPO WHERE CODIGO=" + codTipo1);
-			String tipo1Str = rsTipo1.getString("NOMBRE");
-			rsTipo1.close();
+			ResultSet rs3 = stmt3.executeQuery(
+					"SELECT COUNT() FROM ESPTIPO,TIPO WHERE COD_ESP=" + cod + " AND ESPTIPO.COD_TIPO = TIPO.CODIGO");
+			int numTipos = rs3.getInt("COUNT()");
+
+			rs3.close();
 			stmt3.close();
 
-			// Busqueda de tipo 2
-			String tipo2Str = NULL_STR;
-			if (codTipo2 != -1) {
-				Statement stmt4 = conn.createStatement();
-				ResultSet rsTipo2 = stmt4.executeQuery("SELECT * FROM TIPO WHERE CODIGO=" + codTipo2);
-				tipo2Str = rsTipo2.getString("NOMBRE");
-				rsTipo2.close();
-				stmt4.close();
+			Statement stmt2 = conn.createStatement();
+			ResultSet rs2 = stmt2.executeQuery(
+					"SELECT * FROM ESPTIPO,TIPO WHERE COD_ESP=" + cod + " AND ESPTIPO.COD_TIPO = TIPO.CODIGO");
+
+			Tipo[] tipos = new Tipo[2];
+			for (int i = 0; i < numTipos; i++) {
+				if (rs2.next()) {
+					tipos[i] = Tipo.getTipoPorNombre(rs2.getString("NOMBRE"));
+				}
+
 			}
 
-			Tipo tipo1 = Tipo.getTipoPorNombre(tipo1Str);
-			Tipo tipo2 = Tipo.getTipoPorNombre(tipo2Str);
-
-			Tipo[] tipos = { tipo1, tipo2 };
+			rs2.close();
+			stmt2.close();
 
 			esp = new Especie(nombre, desc, tipos);
 
@@ -586,15 +567,14 @@ public class GestorDeDatos {
 		// TODO
 		return null;
 	}
-	
-	
+
 	public static Habilidad getInfoHabilidad(String nombre) {
 		return null;
 	}
-	
-	public static void insertHabilidadBD(Habilidad hab) {}
-	
-	
+
+	public static void insertHabilidadBD(Habilidad hab) {
+	}
+
 	/**
 	 * COMENTADO PARA COMPROBAR
 	 */
@@ -645,9 +625,6 @@ public class GestorDeDatos {
 	 * return hab; }
 	 */
 
-	
-	
-	
 	/**
 	 * COMENTADO PARA REVISAR
 	 */
