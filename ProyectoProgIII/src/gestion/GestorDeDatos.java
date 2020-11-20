@@ -79,81 +79,6 @@ public class GestorDeDatos {
 		}
 	}
 
-//	public static void haceCosas() {
-//		Connection conn = null;
-//
-//		try {
-//
-//			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
-//			Statement stmt = conn.createStatement();
-//
-//			conn.setAutoCommit(false);
-//
-//			TreeSet<String> lista = readListaLeyendas();
-//
-//			for (String lineaLey : lista) {
-//				int finNombre = lineaLey.indexOf(STR_SEPARATOR, 0);
-//				String nombre = lineaLey.substring(0, finNombre);
-//
-//				int finTipo1 = lineaLey.indexOf(STR_SEPARATOR, finNombre + 1);
-//				String tipo1 = lineaLey.substring(finNombre + 1, finTipo1);
-//
-//				int finTipo2 = lineaLey.indexOf(STR_SEPARATOR, finTipo1 + 1);
-//				String tipo2 = lineaLey.substring(finTipo1 + 1, finTipo2);
-//
-//				String query1 = "SELECT * FROM TIPO WHERE NOMBRE = '" + tipo1 + "'";
-//				ResultSet rs1 = stmt.executeQuery(query1);
-//				int codTipo1 = rs1.getInt("CODIGO");
-//				rs1.close();
-//				
-//				
-//				int codTipo2 = -1;
-//				if (!NULL_STR.equals(tipo2)) {
-//					String query2 = "SELECT * FROM TIPO WHERE NOMBRE = '" + tipo2 + "'";
-//					ResultSet rs2 = stmt.executeQuery(query2);
-//					codTipo2 = rs2.getInt("CODIGO");
-//					rs2.close();
-//				}
-//
-//				String query3 = "SELECT * FROM ESPECIE WHERE NOMBRE = '" + nombre + "'";
-//				ResultSet rs3 = stmt.executeQuery(query3);
-//				int codEsp = rs3.getInt("CODIGO");
-//				rs3.close();
-//
-//				String sql = "INSERT INTO ESPTIPO(COD_TIPO,COD_ESP) VALUES('" + codTipo1 + "','" + codEsp + "')";
-//				stmt.executeUpdate(sql);
-//				if (codTipo2 != -1) {
-//					String sql2 = "INSERT INTO ESPTIPO(COD_TIPO,COD_ESP) VALUES('" + codTipo2 + "','" + codEsp + "')";
-//					stmt.executeUpdate(sql2);
-//				}
-//
-//			}
-//
-//			conn.commit();
-//
-//			stmt.close();
-//		} catch (SQLException e) {
-//			try {
-//
-//				conn.rollback(); // HECHA PA TRAS
-//			} catch (SQLException excep) {
-//			}
-//		} finally {
-//			try {
-//				conn.setAutoCommit(true);
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//
-//		try {
-//			conn.close();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//	}
 
 	/**
 	 * Funcion que se encargara de leer la lista
@@ -661,7 +586,15 @@ public class GestorDeDatos {
 		// TODO
 		return null;
 	}
-
+	
+	
+	public static Habilidad getInfoHabilidad(String nombre) {
+		return null;
+	}
+	
+	public static void insertHabilidadBD(Habilidad hab) {}
+	
+	
 	/**
 	 * COMENTADO PARA COMPROBAR
 	 */
@@ -712,6 +645,9 @@ public class GestorDeDatos {
 	 * return hab; }
 	 */
 
+	
+	
+	
 	/**
 	 * COMENTADO PARA REVISAR
 	 */

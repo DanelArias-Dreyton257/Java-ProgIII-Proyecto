@@ -7,10 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.util.TreeSet;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +28,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import gestion.GestorDeDatos;
+import personaje.Especie;
 import personaje.atributos.Tipo;
 
 public class CreacionPerVen extends JFrame {
@@ -62,7 +60,7 @@ public class CreacionPerVen extends JFrame {
 	private JList<String> lsNombres = new JList<>();
 	private JScrollPane spnPersonajes;
 
-	private TreeSet<String> listaPer;
+	//private TreeSet<String> listaPer;
 
 	private JLabel lbNombre = new JLabel("Nombre:");
 	private JLabel lbTipo1 = new JLabel("Tipo1:");
@@ -83,7 +81,7 @@ public class CreacionPerVen extends JFrame {
 		
 		logger.log(Level.INFO, "Empieza proceso de lectura de datos");
 		
-		listaPer = GestorDeDatos.readListaLeyendas();
+		//listaPer = GestorDeDatos.readListaLeyendas();
 
 		pnCentral.setLayout(new BoxLayout(pnCentral, BoxLayout.Y_AXIS));
 
@@ -129,13 +127,23 @@ public class CreacionPerVen extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String t = GestorDeDatos.STR_SEPARATOR;
 				if (txNombre.getText().length() >= 1) {
-					String tipo2 = GestorDeDatos.NULL_STR;
-					if (ch2tipos.isSelected() && cbTipo1.getSelectedItem() != cbTipo2.getSelectedItem())
-						tipo2 = cbTipo2.getSelectedItem().toString();
-					listaPer.add(
-							txNombre.getText() + t + cbTipo1.getSelectedItem() + t + tipo2 + t + taDescr.getText());
+					
+					Tipo[] tipos = new Tipo[2];
+					
+					tipos[0] = (Tipo) mdTipos.getSelectedItem();
+					
+					Tipo t2 = (Tipo) mdTipos2.getSelectedItem();
+					
+					if (t2!=null && !tipos[0].equals(t2) && ch2tipos.isSelected()) {
+						tipos[1] = t2;
+					}
+					
+					Especie esp = new Especie(txNombre.getText(), taDescr.getText(), tipos);
+					GestorDeDatos.insertEspecieBD(esp);
+					
+					
+					
 					logger.log(Level.INFO,"Añadido " + txNombre.getText());
 					reDoList();
 					clear();
@@ -163,35 +171,12 @@ public class CreacionPerVen extends JFrame {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int index = lsNombres.getSelectedIndex();
-				int i = 0;
-				String l = null;
-				for (String s : listaPer) {
-					if (i == index) {
-						l = s;
-						break;
-					}
-					i++;
-				}
-				if (l != null)
-					fillWith(l);
+				String nombreEleg = lsNombres.getSelectedValue();
+				Especie esp = GestorDeDatos.getInfoEspecie(nombreEleg);
+				if (esp != null)
+					fillWith(esp);
 
 			}
-		});
-
-		addWindowListener(new WindowAdapter() {
-
-			@Override
-			public void windowClosed(WindowEvent e) {
-				new Thread() {
-					@Override
-					public void run() {
-						GestorDeDatos.writeListaLeyendas(listaPer);
-					};
-				}.start();
-
-			}
-
 		});
 
 	}
@@ -207,45 +192,23 @@ public class CreacionPerVen extends JFrame {
 
 	}
 
-	private void fillWith(String l) {
-		String t = GestorDeDatos.STR_SEPARATOR;
+	private void fillWith(Especie esp) {
 
-		int a = l.indexOf(t);
-		String nombre = l.substring(0, a);
+		txNombre.setText(esp.getNombre());
 
-		int b = l.indexOf(t, a + 1);
-		String tipo1 = l.substring(a + 1, b);
-
-		int c = l.indexOf(t, b + 1);
-		String tipo2 = l.substring(b + 1, c);
-
-		String desc = l.substring(c + 1);
-
-		txNombre.setText(nombre);
-
-		Tipo t1 = Tipo.FUEGO;
+		
+		cbTipo1.setSelectedIndex(mdTipos.getIndexOf(esp.getTipos()[0]));
 		Tipo t2 = Tipo.FUEGO;
-
-		boolean unTipo = tipo2.equals(GestorDeDatos.NULL_STR);
-
-		for (Tipo tipo : Tipo.values()) {
-			if (tipo.toString().equals(tipo1)) {
-				t1 = tipo;
-
-			}
-			if (!unTipo && tipo.toString().equals(tipo2)) {
-				t2 = tipo;
-
-			}
+		boolean unTipo = esp.getTipos()[1]==null;
+		if (!unTipo) {
+			t2 = esp.getTipos()[1];
 		}
-
-		cbTipo1.setSelectedIndex(mdTipos.getIndexOf(t1));
 		cbTipo2.setSelectedIndex(mdTipos2.getIndexOf(t2));
 
 		ch2tipos.setSelected(!unTipo);
 		cbTipo2.setEnabled(!unTipo);
 
-		taDescr.setText(desc);
+		taDescr.setText(esp.getDescripcion());
 		setEditableAll(false);
 	}
 
@@ -263,10 +226,8 @@ public class CreacionPerVen extends JFrame {
 
 	private void reDoList() {
 		mdLista.clear();
-		for (String l : listaPer) {
-			int i = l.indexOf(GestorDeDatos.STR_SEPARATOR);
-			String p = l.substring(0, i);
-			mdLista.addElement(p);
+		for (String l : GestorDeDatos.getNombresEspecies()) {
+			mdLista.addElement(l);
 		}
 
 	}

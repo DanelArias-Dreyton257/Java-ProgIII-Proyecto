@@ -7,10 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.util.TreeSet;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,7 +61,7 @@ public class CreacionHabVen extends JFrame {
 	private JTextField txPot = new JTextField("99", 3);
 	private JTextField txPrec = new JTextField("100", 3);
 
-	private TreeSet<String> listaHabs;
+	//private TreeSet<String> listaHabs;
 
 	private JLabel lbNombre = new JLabel("Nombre:");
 	private JLabel lbTipo = new JLabel("Tipo:");
@@ -86,7 +83,7 @@ public class CreacionHabVen extends JFrame {
 		setMinimumSize(new Dimension(850, 200));
 		
 		logger.log(Level.INFO, "Empieza proceso de lectura de datos");
-		listaHabs = GestorDeDatos.readListaHabilidades();
+		//listaHabs = GestorDeDatos.readListaHabilidades();
 
 		pnCentral.setLayout(new BoxLayout(pnCentral, BoxLayout.Y_AXIS));
 
@@ -122,34 +119,29 @@ public class CreacionHabVen extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String t = "\t";
 
-				if (txNombre.getText().length() >= 1 && checkPotAndPrec(txPot.getText(), txPrec.getText())) {
-
-					double prec = Double.parseDouble(txPrec.getText()) / 100;
-
-					listaHabs.add(txNombre.getText() + t + cbTipo.getSelectedItem() + t + txPot.getText() + t + prec + t
-							+ taDescr.getText());
+				if (txNombre.getText().length() >= 1) {
+					try {
+						Habilidad h = new Habilidad(txNombre.getText(), (Tipo) mdTipos.getSelectedItem(), Integer.parseInt(txPot.getText()), Double.parseDouble(txPrec.getText()) / 100);
+						GestorDeDatos.insertHabilidadBD(h);
+					}
+					catch(IllegalArgumentException e1){
+						JOptionPane.showMessageDialog(CreacionHabVen.this,
+								"Error en el tipo de datos introducido. Asegure que 0<=potencia<=99 y 0<=precision<=100",
+								"Error", JOptionPane.ERROR_MESSAGE);
+						logger.log(Level.INFO, "Datos introducidos no son correctos");
+					}
 					
 					logger.log(Level.INFO, "Añadido " + txNombre.getText());
 					reDoList();
 					clear();
 				} else {
 					JOptionPane.showMessageDialog(CreacionHabVen.this,
-							"Error en el tipo de datos introducido. Asegure que el nombre no esta vacio, 0<=potencia<=99 y 0<=precision<=100",
+							"Error en el tipo de datos introducido. Asegure que el nombre no esta vacio",
 							"Error", JOptionPane.ERROR_MESSAGE);
 					logger.log(Level.INFO, "Datos introducidos no son correctos");
 				}
 
-			}
-
-			private boolean checkPotAndPrec(String strPot, String strPrec) {
-				try {
-					new Habilidad("", Tipo.AGUA, Integer.parseInt(strPot), Double.parseDouble(strPrec) / 100);
-					return true;
-				} catch (IllegalArgumentException e) {
-					return false;
-				}
 			}
 
 		});
@@ -168,36 +160,11 @@ public class CreacionHabVen extends JFrame {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int index = lsNombres.getSelectedIndex();
-				int i = 0;
-				String l = null;
-				for (String s : listaHabs) {
-					if (i == index) {
-						l = s;
-						break;
-					}
-					i++;
-				}
-				if (l != null)
-					fillWith(l);
+				String nombreEleg = lsNombres.getSelectedValue();
+				Habilidad h = GestorDeDatos.getInfoHabilidad(nombreEleg);
+				fillWith(h);
 
 			}
-		});
-
-		addWindowListener(new WindowAdapter() {
-
-			@Override
-			public void windowClosed(WindowEvent e) {
-				new Thread() {
-					@Override
-					public void run() {
-						logger.log(Level.INFO, "Empieza proceso de guardado de datos");
-						GestorDeDatos.writeListaHabilidades(listaHabs);
-					};
-				}.start();
-
-			}
-
 		});
 		
 		logger.log(Level.FINE, "Ventana creada correctamente");
@@ -214,41 +181,17 @@ public class CreacionHabVen extends JFrame {
 
 	}
 
-	private void fillWith(String l) {
-		String t = GestorDeDatos.STR_SEPARATOR;
+	private void fillWith(Habilidad h) {
 
-		int a = l.indexOf(t);
-		String nombre = l.substring(0, a);
+		txNombre.setText(h.getNombre());
 
-		int b = l.indexOf(t, a + 1);
-		String tipo1 = l.substring(a + 1, b);
+		mdTipos.setSelectedItem(h.getTipo());
 
-		int c = l.indexOf(t, b + 1);
-		String pot = l.substring(b + 1, c);
+		txPot.setText(h.getPotencia() + "");
 
-		int d = l.indexOf(t, c + 1);
-		String prec = l.substring(c + 1, d);
+		txPrec.setText((h.getPrecision() * 100) + "");
 
-		String desc = l.substring(d + 1);
-
-		txNombre.setText(nombre);
-
-		Tipo t1 = Tipo.FUEGO;
-
-		for (Tipo tipo : Tipo.values()) {
-			if (tipo.toString().equals(tipo1)) {
-				t1 = tipo;
-			}
-		}
-
-		txPot.setText(pot);
-
-		double p = Double.parseDouble(prec) * 100;
-		txPrec.setText(p + "");
-
-		cbTipo.setSelectedIndex(mdTipos.getIndexOf(t1));
-
-		taDescr.setText(desc);
+		taDescr.setText(h.getDescripcion());
 		setEditableAll(false);
 	}
 
@@ -266,10 +209,8 @@ public class CreacionHabVen extends JFrame {
 
 	private void reDoList() {
 		mdLista.clear();
-		for (String l : listaHabs) {
-			int i = l.indexOf(GestorDeDatos.STR_SEPARATOR);
-			String p = l.substring(0, i);
-			mdLista.addElement(p);
+		for (String l : GestorDeDatos.getNombresHabilidades()) {
+			mdLista.addElement(l);
 		}
 
 	}
