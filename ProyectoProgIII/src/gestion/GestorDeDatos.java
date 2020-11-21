@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.TreeSet;
 import java.util.logging.FileHandler;
@@ -237,13 +238,13 @@ public class GestorDeDatos {
 				ResultSet rsTipo = stmt2.executeQuery(sqlTipo);
 
 				int codTipo1 = -1;
-				
+
 				while (rsTipo.next()) {
 					if (codTipo1 == -1) {
 						codTipo1 = rsTipo.getInt("COD_TIPO");
 					} else {
 						codTipo1 = rsTipo.getInt("COD_TIPO");
-						
+
 					}
 				}
 
@@ -256,7 +257,8 @@ public class GestorDeDatos {
 				rsTipo1.close();
 				stmt3.close();
 
-				listaHabs.add(nombre + STR_SEPARATOR + tipo1 + STR_SEPARATOR + potencia + STR_SEPARATOR + precision + STR_SEPARATOR + descripcion);
+				listaHabs.add(nombre + STR_SEPARATOR + tipo1 + STR_SEPARATOR + potencia + STR_SEPARATOR + precision
+						+ STR_SEPARATOR + descripcion);
 
 			}
 			rs.close();
@@ -276,7 +278,6 @@ public class GestorDeDatos {
 
 		return listaHabs;
 	}
-	
 
 	/**
 	 * Escribiras en la lista de leyendas
@@ -304,107 +305,141 @@ public class GestorDeDatos {
 	 * @param tipo2
 	 * @return
 	 */
-	public static Especie buscarEspecieEnBD(Tipo tipo1, Tipo tipo2) {
-		// Se transforma el treeset en una arraylist y se mezcla para mejorar la
-		// eficiencia y ya que no siempre se tardara lo mismo en caso de que se necesite
-		// una especie muy al final del fichero, ademas da la opcionde que si hay dos
-		// especies con los mismos tipos no siempre salga la primera que tenga esos
-		// tipos
-		ArrayList<String> lista = new ArrayList<>(readListaLeyendas());
-		Collections.shuffle(lista);
-
-		String t1 = tipo1.toString();
-		// si el segundo tipo es nulo
-		String t2 = NULL_STR;
-		if (tipo2 != null)
-			t2 = tipo2.toString();
-		// Se inicializa la especie como nula
-		Especie esp = null;
-		for (String l : lista) {
-
-			int a = l.indexOf(STR_SEPARATOR);
-			String nombre = l.substring(0, a);
-
-			int b = l.indexOf(STR_SEPARATOR, a + 1);
-			String readt1 = l.substring(a + 1, b);
-
-			int c = l.indexOf(STR_SEPARATOR, b + 1);
-			String readt2 = l.substring(b + 1, c);
-
-			String desc = l.substring(c + 1);
-
-			if (t1.equals(readt1) && t2.equals(readt2)) {
-				if (t2.equals(NULL_STR)) {
-					tipo2 = null;
-				}
-				Tipo[] tipos = { tipo1, tipo2 };
-				esp = new Especie(nombre, desc, tipos);
-				break;
-			}
-		}
-		return esp;
-
-	}
-
-//	/**
-//	 * FALTA COMENTAR Y SIN TERMINAR
-//	 * 
-//	 * @param tipo1
-//	 * @param tipo2
-//	 * @return
-//	 */
 //	public static Especie buscarEspecieEnBD(Tipo tipo1, Tipo tipo2) {
+//		// Se transforma el treeset en una arraylist y se mezcla para mejorar la
+//		// eficiencia y ya que no siempre se tardara lo mismo en caso de que se necesite
+//		// una especie muy al final del fichero, ademas da la opcionde que si hay dos
+//		// especies con los mismos tipos no siempre salga la primera que tenga esos
+//		// tipos
+//		ArrayList<String> lista = new ArrayList<>(readListaLeyendas());
+//		Collections.shuffle(lista);
 //
-//		String t1Str = tipo1.toString();
+//		String t1 = tipo1.toString();
 //		// si el segundo tipo es nulo
-//		String t2Str = NULL_STR;
+//		String t2 = NULL_STR;
 //		if (tipo2 != null)
-//			t2Str = tipo2.toString();
+//			t2 = tipo2.toString();
 //		// Se inicializa la especie como nula
 //		Especie esp = null;
+//		for (String l : lista) {
 //
-//		Connection conn = null;
+//			int a = l.indexOf(STR_SEPARATOR);
+//			String nombre = l.substring(0, a);
 //
-//		try {
+//			int b = l.indexOf(STR_SEPARATOR, a + 1);
+//			String readt1 = l.substring(a + 1, b);
 //
-//			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
-//			
-//			//Buscar los codigos de los tipos
-//			Statement stmt = conn.createStatement();
-//			ResultSet rs = stmt.executeQuery("SELECT CODIGO FROM TIPO WHERE NOMBRE ='"+t1Str+"'");
-//			int codTipo1 = rs.getInt("CODIGO");
-//			rs.close();
-//			stmt.close();
-//			
-//			int codTipo2=-1;
-//			if (!NULL_STR.equals(t2Str)) {
-//				Statement stmt1 = conn.createStatement();
-//				ResultSet rs1 = stmt.executeQuery("SELECT CODIGO FROM TIPO WHERE NOMBRE ='"+t2Str+"'");
-//				codTipo2 = rs1.getInt("CODIGO");
-//				rs1.close();
-//				stmt1.close();
+//			int c = l.indexOf(STR_SEPARATOR, b + 1);
+//			String readt2 = l.substring(b + 1, c);
+//
+//			String desc = l.substring(c + 1);
+//
+//			if (t1.equals(readt1) && t2.equals(readt2)) {
+//				if (t2.equals(NULL_STR)) {
+//					tipo2 = null;
+//				}
+//				Tipo[] tipos = { tipo1, tipo2 };
+//				esp = new Especie(nombre, desc, tipos);
+//				break;
 //			}
-//			
-//			//Seleccionar el WHERE
-//			String where = "WHERE COD_TIPO IN("+codTipo1;
-//			if (!NULL_STR.equals(t2Str)) {
-//				where +=","+codTipo2; 
-//			}
-//			where+=");";
-//			
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
 //		}
-//		try {
-//			conn.close();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//
 //		return esp;
 //
 //	}
+
+	/**
+	 * FALTA COMPROBAR!!!
+	 * 
+	 * @param tipo1
+	 * @param tipo2
+	 * @return
+	 */
+	public static Especie buscarEspecieEnBD(Tipo tipo1, Tipo tipo2) {
+
+		String t1Str = tipo1.toString();
+		// si el segundo tipo es nulo
+		String t2Str = NULL_STR;
+		if (tipo2 != null)
+			t2Str = tipo2.toString();
+		// Se inicializa la especie como nula
+		Especie esp = null;
+
+		Connection conn = null;
+
+		try {
+
+			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
+			
+			//Buscar los codigos de los tipos
+			
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT COD_ESP FROM ESPTIPO,TIPO WHERE TIPO.NOMBRE=" + t1Str + " AND ESPTIPO.COD_TIPO = TIPO.CODIGO");
+			ArrayList<Integer> codEsp1 = new ArrayList<>();
+			while(rs.next()) {
+				codEsp1.add(rs.getInt("COD_ESP"));
+			}
+			rs.close();
+			stmt.close();
+			
+			ArrayList<Integer> codigosElegibles = new ArrayList<>();
+			
+			if (tipo2!=null) {
+				Statement stmt2 = conn.createStatement();
+				ResultSet rs2 = stmt2.executeQuery("SELECT COD_ESP FROM ESPTIPO,TIPO WHERE TIPO.NOMBRE=" + t2Str + " AND ESPTIPO.COD_TIPO = TIPO.CODIGO");
+				ArrayList<Integer> codEsp2 = new ArrayList<>();
+				while(rs.next()) {
+					codEsp2.add(rs2.getInt("COD_ESP"));
+				}
+				rs2.close();
+				stmt2.close();
+				
+				//Solo coger los que coincidan
+				for (int n:codEsp1) {
+					for (int m:codEsp2) {
+						if (n == m) {
+							codigosElegibles.add(n);
+						}
+					}
+				}
+			}
+			else {
+				codigosElegibles.addAll(codEsp1);
+			}
+			
+			//Elegir un codigo random
+			if (codigosElegibles.isEmpty()) return null;
+			else {
+				Random r = new Random();
+				int posEleg = r.nextInt(codigosElegibles.size());
+				int codEleg = codigosElegibles.get(posEleg);
+				
+				Statement stmt3 = conn.createStatement();
+				ResultSet rs3 = stmt3.executeQuery("SELECT * FROM ESPECIE WHERE CODIGO="+codEleg);
+				
+				String nombre = rs3.getString("NOMBRE");
+				String desc = rs3.getString("DESCRIPCION");
+				Tipo[] tipos = {tipo1,tipo2};
+				
+				rs3.close();
+				stmt3.close();
+				
+				esp = new Especie(nombre, desc, tipos);
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return esp;
+
+	}
 
 	/**
 	 * Metodo que buscara la habilidad en la base de datos
@@ -653,7 +688,7 @@ public class GestorDeDatos {
 		}
 
 		return listaHabs;
-	
+
 	}
 
 	public static Habilidad getInfoHabilidad(String nombre) {
@@ -668,8 +703,8 @@ public class GestorDeDatos {
 
 			ResultSet rs = stmt.executeQuery("SELECT * FROM HABILIDAD WHERE NOMBRE = '" + nombre + "'");
 			int cod = -1;
-			int pot =0;
-			double prec=0;
+			int pot = 0;
+			double prec = 0;
 			String desc = "";
 
 			while (rs.next()) {
@@ -681,31 +716,20 @@ public class GestorDeDatos {
 			rs.close();
 			stmt.close();
 
-			Statement stmt3 = conn.createStatement();
-			ResultSet rs3 = stmt3.executeQuery(
-					"SELECT COUNT() FROM HABTIPO,TIPO WHERE COD_HAB=" + cod + " AND HABTIPO.COD_TIPO = TIPO.CODIGO");
-			int numTipos = rs3.getInt("COUNT()");
-
-			rs3.close();
-			stmt3.close();
-
 			Statement stmt2 = conn.createStatement();
 			ResultSet rs2 = stmt2.executeQuery(
 					"SELECT * FROM HABTIPO,TIPO WHERE COD_HAB=" + cod + " AND HABTIPO.COD_TIPO = TIPO.CODIGO");
 
-		
 			Tipo tipos = null;
-				if (rs2.next()) {
-					
-					 tipos = Tipo.getTipoPorNombre(rs2.getString("NOMBRE"));
-				
+			if (rs2.next()) {
+
+				tipos = Tipo.getTipoPorNombre(rs2.getString("NOMBRE"));
 
 			}
 
 			rs2.close();
 			stmt2.close();
 
-			
 			hab = new Habilidad(nombre, desc, tipos, pot, prec);
 
 		} catch (SQLException e) {
@@ -718,7 +742,7 @@ public class GestorDeDatos {
 		}
 
 		return hab;
-	
+
 	}
 
 	public static void insertHabilidadBD(Habilidad hab) {
@@ -732,8 +756,8 @@ public class GestorDeDatos {
 			// Insertar habilidad
 			Statement stmt = conn.createStatement();
 
-			stmt.executeUpdate("INSERT INTO HABILIDAD(NOMBRE,POTENCIA,PRECISION,DESCRIPCION) VALUES('" + hab.getNombre() + "','"
-					+ hab.getPotencia() + "','"+ hab.getPrecision() + "','"+ hab.getDescripcion() + "')");
+			stmt.executeUpdate("INSERT INTO HABILIDAD(NOMBRE,POTENCIA,PRECISION,DESCRIPCION) VALUES('" + hab.getNombre()
+					+ "','" + hab.getPotencia() + "','" + hab.getPrecision() + "','" + hab.getDescripcion() + "')");
 
 			stmt.close();
 
@@ -750,7 +774,6 @@ public class GestorDeDatos {
 			// Busqueda de cods de especie
 
 			int codTipo1 = -1;
-			
 
 			// Tipo1
 			Statement stmt3 = conn.createStatement();
@@ -763,14 +786,11 @@ public class GestorDeDatos {
 			rs3.close();
 			stmt3.close();
 
-			
-
 			// INSERTS en ESPTIPO
 			Statement stmt5 = conn.createStatement();
 
 			stmt5.executeUpdate("INSERT INTO ESPTIPO(COD_ESP,COD_TIPO) VALUES(" + codigoHab + "," + codTipo1 + ")");
 			stmt5.close();
-
 
 			conn.commit();
 
@@ -794,7 +814,6 @@ public class GestorDeDatos {
 			e.printStackTrace();
 		}
 
-	
 	}
 
 	/**
