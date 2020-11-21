@@ -8,9 +8,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="F:/EclipseLibrerias/sqlite-jdbc-3.32.3.2.jar">
+	<classpathentry kind="lib" path="C:/Users/danel/eclipse-librerias/sqlite-3.32/sqlite-jdbc-3.32.3.2.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/F:/EclipseLibrerias/sqlite-jdbc-3.32.3.2-javadoc.jar.jar!/"/>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/danel/eclipse-librerias/sqlite-3.32/sqlite-jdbc-3.32.3.2-javadoc.jar.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin"/>

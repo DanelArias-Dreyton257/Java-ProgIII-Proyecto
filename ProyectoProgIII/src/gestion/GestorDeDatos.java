@@ -1,18 +1,17 @@
 package gestion;
 
-import java.sql.*;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
-import java.util.Scanner;
-import java.util.TreeSet;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,9 +39,7 @@ public class GestorDeDatos {
 			logger.log(Level.SEVERE, "Error en creacion fichero log");
 		}
 	}
-
-	private static final File FIC_HABS = new File("src/soloDesarrollo/ficheros/habilidades.txt");
-	private static final File FIC_LEYS = new File("src/soloDesarrollo/ficheros/personajes.txt");
+	
 	public static final String STR_SEPARATOR = "\t";
 	public static final String NULL_STR = "NULL";
 
