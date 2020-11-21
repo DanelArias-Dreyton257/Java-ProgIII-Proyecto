@@ -361,6 +361,8 @@ public class GestorDeDatos {
 				for (int cod: codEsp1) {
 					Statement s = conn.createStatement();
 					ResultSet rst = s.executeQuery("SELECT * FROM TIPO,ESPTIPO,ESPECIE WHERE TIPO.CODIGO=ESPTIPO.COD_TIPO AND ESPTIPO.COD_ESP=ESPECIE.CODIGO");
+					
+					rst.close();
 					s.close();
 				}
 			}
