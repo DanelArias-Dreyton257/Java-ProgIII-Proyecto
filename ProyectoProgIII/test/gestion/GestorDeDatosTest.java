@@ -96,5 +96,14 @@ public class GestorDeDatosTest {
 //		GestorDeDatos.insertEspecieBD(espPrueba);
 //		assertEquals(espPrueba, GestorDeDatos.getInfoEspecie(espPrueba.getNombre())); //Ya se que el metodo getInfo funciona
 //	}
+	
+	@Test
+	public void buscarEspecieEnBDTest() {
+		Especie esp = GestorDeDatos.buscarEspecieEnBD(Tipo.ELECTRICIDAD, Tipo.CIELO);
+		Tipo[] ts = {Tipo.ELECTRICIDAD, Tipo.CIELO};
+		System.out.println(esp);
+		assertEquals(ts[0], esp.getTipos()[0]);
+		assertEquals(ts[1], esp.getTipos()[1]);
+	}
 
 }
