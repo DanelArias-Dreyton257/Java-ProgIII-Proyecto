@@ -298,57 +298,7 @@ public class GestorDeDatos {
 	}
 
 	/**
-	 * --METODO PROVISIONAL--Dejarlo para que compile pero falta hacer los
-	 * constructores de verdad
-	 * 
-	 * @param tipo1
-	 * @param tipo2
-	 * @return
-	 */
-//	public static Especie buscarEspecieEnBD(Tipo tipo1, Tipo tipo2) {
-//		// Se transforma el treeset en una arraylist y se mezcla para mejorar la
-//		// eficiencia y ya que no siempre se tardara lo mismo en caso de que se necesite
-//		// una especie muy al final del fichero, ademas da la opcionde que si hay dos
-//		// especies con los mismos tipos no siempre salga la primera que tenga esos
-//		// tipos
-//		ArrayList<String> lista = new ArrayList<>(readListaLeyendas());
-//		Collections.shuffle(lista);
-//
-//		String t1 = tipo1.toString();
-//		// si el segundo tipo es nulo
-//		String t2 = NULL_STR;
-//		if (tipo2 != null)
-//			t2 = tipo2.toString();
-//		// Se inicializa la especie como nula
-//		Especie esp = null;
-//		for (String l : lista) {
-//
-//			int a = l.indexOf(STR_SEPARATOR);
-//			String nombre = l.substring(0, a);
-//
-//			int b = l.indexOf(STR_SEPARATOR, a + 1);
-//			String readt1 = l.substring(a + 1, b);
-//
-//			int c = l.indexOf(STR_SEPARATOR, b + 1);
-//			String readt2 = l.substring(b + 1, c);
-//
-//			String desc = l.substring(c + 1);
-//
-//			if (t1.equals(readt1) && t2.equals(readt2)) {
-//				if (t2.equals(NULL_STR)) {
-//					tipo2 = null;
-//				}
-//				Tipo[] tipos = { tipo1, tipo2 };
-//				esp = new Especie(nombre, desc, tipos);
-//				break;
-//			}
-//		}
-//		return esp;
-//
-//	}
-
-	/**
-	 * FALTA COMPROBAR!!!
+	 * FUNCIONA falta comprobar una cosica
 	 * 
 	 * @param tipo1
 	 * @param tipo2
@@ -361,6 +311,7 @@ public class GestorDeDatos {
 		String t2Str = NULL_STR;
 		if (tipo2 != null)
 			t2Str = tipo2.toString();
+		
 		// Se inicializa la especie como nula
 		Especie esp = null;
 
@@ -373,11 +324,12 @@ public class GestorDeDatos {
 			//Buscar los codigos de los tipos
 			
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT COD_ESP FROM ESPTIPO,TIPO WHERE TIPO.NOMBRE=" + t1Str + " AND ESPTIPO.COD_TIPO = TIPO.CODIGO");
+			ResultSet rs = stmt.executeQuery("SELECT COD_ESP FROM ESPTIPO,TIPO WHERE TIPO.NOMBRE='" + t1Str + "' AND ESPTIPO.COD_TIPO = TIPO.CODIGO");
 			ArrayList<Integer> codEsp1 = new ArrayList<>();
 			while(rs.next()) {
 				codEsp1.add(rs.getInt("COD_ESP"));
 			}
+			
 			rs.close();
 			stmt.close();
 			
@@ -385,11 +337,13 @@ public class GestorDeDatos {
 			
 			if (tipo2!=null) {
 				Statement stmt2 = conn.createStatement();
-				ResultSet rs2 = stmt2.executeQuery("SELECT COD_ESP FROM ESPTIPO,TIPO WHERE TIPO.NOMBRE=" + t2Str + " AND ESPTIPO.COD_TIPO = TIPO.CODIGO");
+				ResultSet rs2 = stmt2.executeQuery("SELECT COD_ESP FROM ESPTIPO,TIPO WHERE TIPO.NOMBRE='" + t2Str + "' AND ESPTIPO.COD_TIPO = TIPO.CODIGO");
+				
 				ArrayList<Integer> codEsp2 = new ArrayList<>();
-				while(rs.next()) {
+				while(rs2.next()) {
 					codEsp2.add(rs2.getInt("COD_ESP"));
 				}
+				
 				rs2.close();
 				stmt2.close();
 				
@@ -403,7 +357,14 @@ public class GestorDeDatos {
 				}
 			}
 			else {
-				codigosElegibles.addAll(codEsp1);
+				//comprobar cuales son de tipo unico
+				for (int cod: codEsp1) {
+					Statement s = conn.createStatement();
+					ResultSet rst = s.executeQuery("SELECT * FROM TIPO,ESPTIPO,ESPECIE WHERE TIPO.CODIGO=ESPTIPO.COD_TIPO AND ESPTIPO.COD_ESP=ESPECIE.CODIGO");
+					
+					rst.close();
+					s.close();
+				}
 			}
 			
 			//Elegir un codigo random
@@ -441,45 +402,87 @@ public class GestorDeDatos {
 
 	}
 
-	/**
-	 * Metodo que buscara la habilidad en la base de datos
-	 * 
-	 * @param tipo
-	 * @return
-	 */
-	public static Habilidad buscarHabilidadEnBD(Tipo tipo) { // FIXME implementarlo con BD
-		// Se transforma el treeset en una arraylist y se mezcla para mejorar la
-		// eficiencia y ya que no siempre se tardara lo mismo en caso de que se necesite
-		// una habilidad muy al final del fichero, ademas da la opcion de que si hay dos
-		// habilidades con el mismo tipo no siempre salga la primera que tenga ese
-		// tipo
-		ArrayList<String> listaHabs = new ArrayList<String>(readListaHabilidades());
-		Collections.shuffle(listaHabs);
+//	/**
+//	 * Metodo que buscara la habilidad en la base de datos
+//	 * 
+//	 * @param tipo
+//	 * @return
+//	 */
+//	public static Habilidad buscarHabilidadEnBD(Tipo tipo) { // FIXME implementarlo con BD
+//		// Se transforma el treeset en una arraylist y se mezcla para mejorar la
+//		// eficiencia y ya que no siempre se tardara lo mismo en caso de que se necesite
+//		// una habilidad muy al final del fichero, ademas da la opcion de que si hay dos
+//		// habilidades con el mismo tipo no siempre salga la primera que tenga ese
+//		// tipo
+//		ArrayList<String> listaHabs = new ArrayList<String>(readListaHabilidades());
+//		Collections.shuffle(listaHabs);
+//		Habilidad h = null;
+//		if (tipo != null) {
+//			String tipoStr = tipo.toString();
+//			for (String l : listaHabs) {
+//
+//				int a = l.indexOf(STR_SEPARATOR);
+//				String nombre = l.substring(0, a);
+//
+//				int b = l.indexOf(STR_SEPARATOR, a + 1);
+//				String tipoRead = l.substring(a + 1, b);
+//
+//				int c = l.indexOf(STR_SEPARATOR, b + 1);
+//				String pot = l.substring(b + 1, c);
+//
+//				int d = l.indexOf(STR_SEPARATOR, c + 1);
+//				String prec = l.substring(c + 1, d);
+//
+//				String desc = l.substring(d + 1);
+//
+//				if (tipoStr.equals(tipoRead)) {
+//					h = new Habilidad(nombre, desc, tipo, Integer.parseInt(pot), Double.parseDouble(prec));
+//				}
+//
+//			}
+//		}
+//		return h;
+//	}
+	public static Habilidad buscarHabilidadEnBD(Tipo tipo) {
 		Habilidad h = null;
-		if (tipo != null) {
-			String tipoStr = tipo.toString();
-			for (String l : listaHabs) {
+		Connection conn = null;
 
-				int a = l.indexOf(STR_SEPARATOR);
-				String nombre = l.substring(0, a);
+		try {
 
-				int b = l.indexOf(STR_SEPARATOR, a + 1);
-				String tipoRead = l.substring(a + 1, b);
+			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
 
-				int c = l.indexOf(STR_SEPARATOR, b + 1);
-				String pot = l.substring(b + 1, c);
+			Statement stmt = conn.createStatement();
 
-				int d = l.indexOf(STR_SEPARATOR, c + 1);
-				String prec = l.substring(c + 1, d);
-
-				String desc = l.substring(d + 1);
-
-				if (tipoStr.equals(tipoRead)) {
-					h = new Habilidad(nombre, desc, tipo, Integer.parseInt(pot), Double.parseDouble(prec));
-				}
-
+			ResultSet rs = stmt.executeQuery("SELECT * FROM HABILIDAD,TIPO WHERE HABILIDAD.COD_TIPO=TIPO.CODIGO AND TIPO.NOMBRE='"+tipo.toString()+"'");
+			
+			ArrayList<Habilidad> habs = new ArrayList<>();
+			
+			while(rs.next()) {
+				Tipo t = Tipo.getTipoPorNombre(rs.getString("TIPO.NOMBRE"));
+				habs.add(new Habilidad(rs.getString("HABILIDAD.NOMBRE"), rs.getString("DESCRIPCION"), t, rs.getInt("POTENCIA"), rs.getDouble("PRECISION")));
 			}
+			
+			rs.close();
+			stmt.close();
+			
+			if (habs.isEmpty()) {
+				return null;
+			}
+			else {
+				Random r = new Random();
+				int posEleg = r.nextInt(habs.size());
+				return habs.get(posEleg);
+			}
+			
+		} catch (SQLException e) {
 		}
+
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
 		return h;
 	}
 
@@ -816,116 +819,6 @@ public class GestorDeDatos {
 
 	}
 
-	/**
-	 * COMENTADO PARA COMPROBAR
-	 */
-	/*
-	 * public static Habilidad getInfoHabilidad(String nombre) { Connection conn =
-	 * null; Habilidad hab = null;
-	 * 
-	 * try {
-	 * 
-	 * conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
-	 * 
-	 * Statement stmt = conn.createStatement();
-	 * 
-	 * ResultSet rs = stmt.executeQuery("SELECT * FROM HABILIDAD WHERE NOMBRE = '" +
-	 * hab.getNombre() + "'"); int cod = -1; int pot = 0; double pre = 0;
-	 * 
-	 * while (rs.next()) { pot = rs.getInt("POTENCIA"); pre =
-	 * rs.getDouble("PRECISION"); cod = rs.getInt("CODIGO"); } rs.close();
-	 * stmt.close();
-	 * 
-	 * Statement stmt2 = conn.createStatement(); ResultSet rs2 =
-	 * stmt2.executeQuery("SELECT * FROM ESPTIPO WHERE COD_HAB=" + cod);
-	 * 
-	 * // Busqueda de codigos de tipo int codTipo = -1;
-	 * 
-	 * while (rs2.next()) { if (codTipo == -1) { codTipo = rs2.getInt("COD_TIPO"); }
-	 * else { int codigito = rs2.getInt("COD_TIPO");
-	 * 
-	 * } } rs2.close(); stmt2.close();
-	 * 
-	 * // Busqueda de tipo 1 Statement stmt3 = conn.createStatement(); ResultSet
-	 * rsTipo1 = stmt3.executeQuery("SELECT * FROM TIPO WHERE CODIGO=" + codTipo);
-	 * String tipo1Str = rsTipo1.getString("NOMBRE"); rsTipo1.close();
-	 * stmt3.close();
-	 * 
-	 * 
-	 * 
-	 * Tipo tipo1 = Tipo.getTipoPorNombre(tipo1Str);
-	 * 
-	 * 
-	 * Tipo tipos = tipo1;
-	 * 
-	 * hab = new Habilidad(nombre, tipos, pot, pre);
-	 * 
-	 * } catch (SQLException e) { e.printStackTrace(); } try { conn.close(); } catch
-	 * (SQLException e) { e.printStackTrace(); }
-	 * 
-	 * return hab; }
-	 */
-
-	/**
-	 * COMENTADO PARA REVISAR
-	 */
-	/*
-	 * public static void insertHabilidadBD(Habilidad hab) {
-	 * 
-	 * Connection conn = null;
-	 * 
-	 * try {
-	 * 
-	 * conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
-	 * conn.setAutoCommit(false); // Insertar especie Statement stmt =
-	 * conn.createStatement();
-	 * 
-	 * stmt.
-	 * executeUpdate("INSERT INTO HABILIDAD(NOMBRE,POTENCIA,PRECISION) VALUES('" +
-	 * hab.getNombre() + "','" + hab.getPotencia() + "','" + hab.getPrecision() +
-	 * "')");
-	 * 
-	 * stmt.close();
-	 * 
-	 * // Busqueda de cod de especie Statement stmt2 = conn.createStatement();
-	 * 
-	 * ResultSet rs2 =
-	 * stmt.executeQuery("SELECT CODIGO FROM HABILIDAD WHERE NOMBRE = '" +
-	 * hab.getNombre() + "'");
-	 * 
-	 * int codigoHab = rs2.getInt("CODIGO");
-	 * 
-	 * rs2.close(); stmt2.close();
-	 * 
-	 * // Busqueda de cods de especie
-	 * 
-	 * int codTipo = -1;
-	 * 
-	 * 
-	 * //Tipo1 Statement stmt3 = conn.createStatement();
-	 * 
-	 * ResultSet rs3 = stmt3
-	 * .executeQuery("SELECT CODIGO FROM TIPO WHERE NOMBRE = '" +
-	 * hab.getTipo().toString() + "'");
-	 * 
-	 * codTipo = rs3.getInt("CODIGO");
-	 * 
-	 * rs3.close(); stmt3.close();
-	 * 
-	 * //INSERTS en ESPTIPO Statement stmt5 = conn.createStatement();
-	 * 
-	 * stmt5.executeUpdate("INSERT INTO HABTIPO(COD_HAB,COD_TIPO) VALUES("+codigoHab
-	 * +","+codTipo+")"); stmt5.close(); conn.commit();
-	 * 
-	 * } catch (SQLException e) { try {
-	 * 
-	 * conn.rollback(); // HECHA PA TRAS } catch (SQLException excep) { } } finally
-	 * { try { conn.setAutoCommit(true); } catch (SQLException e) {
-	 * e.printStackTrace(); } }
-	 * 
-	 * try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
-	 * 
-	 * }
-	 */
+	
 
 }
