@@ -80,226 +80,9 @@ public class GestorDeDatos {
 		}
 	}
 
-	/**
-	 * Funcion que se encargara de leer la lista
-	 * 
-	 * @param f
-	 * @return
-	 */
-	public static TreeSet<String> readLista(File f) {
-		logger.log(Level.INFO, "inicio de lectura de fichero: " + f.getName());
-		TreeSet<String> lista = new TreeSet<>();
-		try {
-			Scanner sc = new Scanner(f);
-			while (sc.hasNextLine()) {
-				String l = sc.nextLine();
-				lista.add(l);
-			}
-			sc.close();
-			logger.log(Level.FINE, "lectura de fichero: " + f.getName() + " exitosa");
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, "Error en lectura de fichero: " + f.getName());
-			e.printStackTrace();
-		}
-
-		return lista;
-	}
 
 	/**
-	 * Funcion que se encargara de escribir en la lista
-	 * 
-	 * @param lista
-	 * @param f
-	 */
-	public static void writeLista(TreeSet<String> lista, File f) {
-		logger.log(Level.INFO, "inicio de escritura de fichero: " + f.getName());
-		try {
-			PrintWriter fs = new PrintWriter(new FileWriter(f));
-			for (String s : lista)
-				fs.println(s);
-			fs.close();
-			logger.log(Level.FINE, "escritura de fichero: " + f.getName() + " exitosa");
-		} catch (IOException e) {
-			logger.log(Level.SEVERE, "Error en escritura de fichero: " + f.getName());
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Leera la lista de leyendas y te dara las leyendas
-	 * 
-	 * @return
-	 */
-	public static TreeSet<String> readListaLeyendas() {
-		logger.log(Level.INFO, "inicio de lectura de fichero: " + FIC_LEYS.getName());
-		TreeSet<String> lista = new TreeSet<>();
-
-		Connection conn = null;
-
-		try {
-
-			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
-
-			Statement stmt = conn.createStatement();
-			String sql = "SELECT * FROM ESPECIE";
-			ResultSet rs = stmt.executeQuery(sql);
-
-			while (rs.next()) {
-				String nombre = rs.getString("NOMBRE");
-				String desc = rs.getString("DESCRIPCION");
-				int cod = rs.getInt("CODIGO");
-
-				String sqlTipo = "SELECT * FROM ESPTIPO WHERE COD_ESP=" + cod + ";";
-
-				Statement stmt2 = conn.createStatement();
-				ResultSet rsTipo = stmt2.executeQuery(sqlTipo);
-
-				int codTipo1 = -1;
-				int codTipo2 = -1;
-				while (rsTipo.next()) {
-					if (codTipo1 == -1) {
-						codTipo1 = rsTipo.getInt("COD_TIPO");
-					} else {
-						int codigito = rsTipo.getInt("COD_TIPO");
-						if (codigito != codTipo1) {
-							codTipo2 = codigito;
-						}
-					}
-				}
-
-				rsTipo.close();
-				stmt2.close();
-
-				Statement stmt3 = conn.createStatement();
-				ResultSet rsTipo1 = stmt3.executeQuery("SELECT * FROM TIPO WHERE CODIGO=" + codTipo1);
-				String tipo1 = rsTipo1.getString("NOMBRE");
-				rsTipo1.close();
-				stmt3.close();
-
-				String tipo2 = NULL_STR;
-				if (codTipo2 != -1) {
-					Statement stmt4 = conn.createStatement();
-					ResultSet rsTipo2 = stmt4.executeQuery("SELECT * FROM TIPO WHERE CODIGO=" + codTipo2);
-					tipo2 = rsTipo2.getString("NOMBRE");
-					rsTipo2.close();
-					stmt4.close();
-				}
-
-				lista.add(nombre + STR_SEPARATOR + tipo1 + STR_SEPARATOR + tipo2 + STR_SEPARATOR + desc);
-
-			}
-			rs.close();
-
-			stmt.close();
-		} catch (SQLException e) {
-		}
-
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		System.out.println(lista);
-
-		return lista;
-	}
-
-	/**
-	 * Leera la lista de habilidades y te dara las habilidades
-	 * 
-	 * @return
-	 */
-	public static TreeSet<String> readListaHabilidades() {
-		logger.log(Level.INFO, "inicio de lectura de fichero: " + FIC_HABS.getName());
-		TreeSet<String> listaHabs = new TreeSet<>();
-
-		Connection conn = null;
-
-		try {
-
-			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
-
-			Statement stmt = conn.createStatement();
-			String sql = "SELECT * FROM HABILIDAD";
-			ResultSet rs = stmt.executeQuery(sql);
-
-			while (rs.next()) {
-				String nombre = rs.getString("NOMBRE");
-				int potencia = rs.getInt("POTENCIA");
-				double precision = rs.getDouble("PRECISION");
-				String descripcion = rs.getString("DESCRIPCION");
-				int cod = rs.getInt("CODIGO");
-
-				String sqlTipo = "SELECT * FROM HABTIPO WHERE COD_HAB=" + cod + ";";
-
-				Statement stmt2 = conn.createStatement();
-				ResultSet rsTipo = stmt2.executeQuery(sqlTipo);
-
-				int codTipo1 = -1;
-
-				while (rsTipo.next()) {
-					if (codTipo1 == -1) {
-						codTipo1 = rsTipo.getInt("COD_TIPO");
-					} else {
-						codTipo1 = rsTipo.getInt("COD_TIPO");
-
-					}
-				}
-
-				rsTipo.close();
-				stmt2.close();
-
-				Statement stmt3 = conn.createStatement();
-				ResultSet rsTipo1 = stmt3.executeQuery("SELECT * FROM TIPO WHERE CODIGO=" + codTipo1);
-				String tipo1 = rsTipo1.getString("NOMBRE");
-				rsTipo1.close();
-				stmt3.close();
-
-				listaHabs.add(nombre + STR_SEPARATOR + tipo1 + STR_SEPARATOR + potencia + STR_SEPARATOR + precision
-						+ STR_SEPARATOR + descripcion);
-
-			}
-			rs.close();
-
-			stmt.close();
-		} catch (SQLException e) {
-		}
-
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		System.out.println(listaHabs);
-
-		return listaHabs;
-	}
-
-	/**
-	 * Escribiras en la lista de leyendas
-	 * 
-	 * @param listaLeyendas
-	 */
-	public static void writeListaLeyendas(TreeSet<String> listaLeyendas) {
-		writeLista(listaLeyendas, FIC_LEYS);
-	}
-
-	/**
-	 * Escribiras en la lista de habilidades
-	 * 
-	 * @param listaHabs
-	 */
-	public static void writeListaHabilidades(TreeSet<String> listaHabs) {
-		writeLista(listaHabs, FIC_HABS);
-	}
-
-	/**
-	 * FUNCIONA falta comprobar una cosica
-	 * 
+	 * Busca en la base de datos y devuelve  una especie que sea de los tipos indicados como parametros
 	 * @param tipo1
 	 * @param tipo2
 	 * @return
@@ -406,47 +189,11 @@ public class GestorDeDatos {
 
 	}
 
-//	/**
-//	 * Metodo que buscara la habilidad en la base de datos
-//	 * 
-//	 * @param tipo
-//	 * @return
-//	 */
-//	public static Habilidad buscarHabilidadEnBD(Tipo tipo) { // FIXME implementarlo con BD
-//		// Se transforma el treeset en una arraylist y se mezcla para mejorar la
-//		// eficiencia y ya que no siempre se tardara lo mismo en caso de que se necesite
-//		// una habilidad muy al final del fichero, ademas da la opcion de que si hay dos
-//		// habilidades con el mismo tipo no siempre salga la primera que tenga ese
-//		// tipo
-//		ArrayList<String> listaHabs = new ArrayList<String>(readListaHabilidades());
-//		Collections.shuffle(listaHabs);
-//		Habilidad h = null;
-//		if (tipo != null) {
-//			String tipoStr = tipo.toString();
-//			for (String l : listaHabs) {
-//
-//				int a = l.indexOf(STR_SEPARATOR);
-//				String nombre = l.substring(0, a);
-//
-//				int b = l.indexOf(STR_SEPARATOR, a + 1);
-//				String tipoRead = l.substring(a + 1, b);
-//
-//				int c = l.indexOf(STR_SEPARATOR, b + 1);
-//				String pot = l.substring(b + 1, c);
-//
-//				int d = l.indexOf(STR_SEPARATOR, c + 1);
-//				String prec = l.substring(c + 1, d);
-//
-//				String desc = l.substring(d + 1);
-//
-//				if (tipoStr.equals(tipoRead)) {
-//					h = new Habilidad(nombre, desc, tipo, Integer.parseInt(pot), Double.parseDouble(prec));
-//				}
-//
-//			}
-//		}
-//		return h;
-//	}
+	/**
+	 * Busca en la base de datos y devuelve un tipo que sea de los tipos indicado como parametros
+	 * @param tipo
+	 * @return
+	 */
 	public static Habilidad buscarHabilidadEnBD(Tipo tipo) {
 		Habilidad h = null;
 		Connection conn = null;
@@ -457,12 +204,14 @@ public class GestorDeDatos {
 
 			Statement stmt = conn.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT TIPO.NOMBRE AS TIPONOM, HABILIDAD.NOMBRE AS HABNOM, DECRIPCION, POTENCIA, PRECISION FROM HABILIDAD,TIPO WHERE HABILIDAD.COD_TIPO=TIPO.CODIGO AND TIPO.NOMBRE='"+tipo.toString()+"'");
+			ResultSet rs = stmt.executeQuery("SELECT TIPO.NOMBRE AS TIPONOM, HABILIDAD.NOMBRE AS HABNOM, DESCRIPCION, POTENCIA, PRECISION FROM HABILIDAD,TIPO WHERE HABILIDAD.COD_TIPO=TIPO.CODIGO AND TIPONOM='"+tipo.toString()+"'");
 			
 			ArrayList<Habilidad> habs = new ArrayList<>();
 			
 			while(rs.next()) {
+
 				Tipo t = Tipo.getTipoPorNombre(rs.getString("TIPONOM"));
+				
 				habs.add(new Habilidad(rs.getString("HABNOM"), rs.getString("DESCRIPCION"), t, rs.getInt("POTENCIA"), rs.getDouble("PRECISION")));
 			}
 			
@@ -489,8 +238,11 @@ public class GestorDeDatos {
 	
 		return h;
 	}
-
-	public static ArrayList<String> getNombresEspecies() { // FUNCIONA GUAY :)
+	/**
+	 * Busca en la base de datos todos los nombres de las especies
+	 * @return lista de nombres de las especies ordenada por orden alfabetico
+	 */
+	public static ArrayList<String> getNombresEspecies() {
 		Connection conn = null;
 		ArrayList<String> lista = new ArrayList<>();
 
@@ -517,7 +269,11 @@ public class GestorDeDatos {
 
 		return lista;
 	}
-
+	/**
+	 * Busca en la base de datos y devuelve la especie que coincida con el nombre
+	 * @param nombre de la especie
+	 * @return especie, si no se encuentra: null
+	 */
 	public static Especie getInfoEspecie(String nombre) { // FUNCIONA :)
 		Connection conn = null;
 		Especie esp = null;
@@ -575,8 +331,11 @@ public class GestorDeDatos {
 
 		return esp;
 	}
-
-	public static void insertEspecieBD(Especie esp) { // FUNCIOOOOOOOONAAAAAAAA :D
+	/**
+	 * Introduce en la base de datos la especie pasada como parametro
+	 * @param especie a introducir
+	 */
+	public static void insertEspecieBD(Especie esp) {
 
 		Connection conn = null;
 
@@ -668,7 +427,10 @@ public class GestorDeDatos {
 		}
 
 	}
-
+	/**
+	 * Busca en la base de datos todos los nombres de las habilidades
+	 * @return lista de nombres de las habilidades ordenada por orden alfabetico
+	 */
 	public static ArrayList<String> getNombresHabilidades() {
 		Connection conn = null;
 		ArrayList<String> listaHabs = new ArrayList<>();
@@ -697,7 +459,11 @@ public class GestorDeDatos {
 		return listaHabs;
 
 	}
-
+	/**
+	 * Busca en la base de datos y devuelve la habilidad que coincida con el nombre
+	 * @param nombre de la habilidad
+	 * @return habilidad, si no se encuentra: null
+	 */
 	public static Habilidad getInfoHabilidad(String nombre) {
 		Connection conn = null;
 		Habilidad hab = null;
@@ -743,7 +509,10 @@ public class GestorDeDatos {
 		return hab;
 
 	}
-
+	/**
+	 * Introduce en la base de datos la habilidad pasada como parametro
+	 * @param habilidad a introducir
+	 */
 	public static void insertHabilidadBD(Habilidad hab) {
 
 		Connection conn = null;
@@ -753,43 +522,24 @@ public class GestorDeDatos {
 			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
 			conn.setAutoCommit(false);
 			// Insertar habilidad
+			Statement stmt1 = conn.createStatement();
+			
+			
+			ResultSet rs1 = stmt1.executeQuery("SELECT CODIGO FROM TIPO WHERE NOMBRE='"+hab.getTipo().toString()+"'");
+			
+			int codTipo = rs1.getInt("CODIGO");
+			
+			rs1.close();
+			stmt1.close();
+			
+			
 			Statement stmt = conn.createStatement();
 
-			stmt.executeUpdate("INSERT INTO HABILIDAD(NOMBRE,POTENCIA,PRECISION,DESCRIPCION) VALUES('" + hab.getNombre()
-					+ "','" + hab.getPotencia() + "','" + hab.getPrecision() + "','" + hab.getDescripcion() + "')");
+			stmt.executeUpdate("INSERT INTO HABILIDAD(NOMBRE,POTENCIA,PRECISION,DESCRIPCION,COD_TIPO) VALUES('" + hab.getNombre()
+					+ "','" + hab.getPotencia() + "','" + hab.getPrecision() + "','" + hab.getDescripcion() + "',"+codTipo+")");
 
 			stmt.close();
 
-			// Busqueda de cod de habilidad
-			Statement stmt2 = conn.createStatement();
-
-			ResultSet rs2 = stmt.executeQuery("SELECT CODIGO FROM HABILIDAD WHERE NOMBRE = '" + hab.getNombre() + "'");
-
-			int codigoHab = rs2.getInt("CODIGO");
-
-			rs2.close();
-			stmt2.close();
-
-			// Busqueda de cods de especie
-
-			int codTipo1 = -1;
-
-			// Tipo1
-			Statement stmt3 = conn.createStatement();
-
-			ResultSet rs3 = stmt3
-					.executeQuery("SELECT CODIGO FROM TIPO WHERE NOMBRE = '" + hab.getTipo().toString() + "'");
-
-			codTipo1 = rs3.getInt("CODIGO");
-
-			rs3.close();
-			stmt3.close();
-
-			// INSERTS en ESPTIPO
-			Statement stmt5 = conn.createStatement();
-
-			stmt5.executeUpdate("INSERT INTO ESPTIPO(COD_ESP,COD_TIPO) VALUES(" + codigoHab + "," + codTipo1 + ")");
-			stmt5.close();
 
 			conn.commit();
 
