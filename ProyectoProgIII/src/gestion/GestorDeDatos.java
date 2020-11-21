@@ -298,7 +298,7 @@ public class GestorDeDatos {
 	}
 
 	/**
-	 * FUNCIONA
+	 * FUNCIONA falta comprobar una cosica
 	 * 
 	 * @param tipo1
 	 * @param tipo2
@@ -357,7 +357,12 @@ public class GestorDeDatos {
 				}
 			}
 			else {
-				codigosElegibles.addAll(codEsp1);
+				//comprobar cuales son de tipo unico
+				for (int cod: codEsp1) {
+					Statement s = conn.createStatement();
+					ResultSet rst = s.executeQuery("SELECT * FROM TIPO,ESPTIPO,ESPECIE WHERE TIPO.CODIGO=ESPTIPO.COD_TIPO AND ESPTIPO.COD_ESP=ESPECIE.CODIGO");
+					s.close();
+				}
 			}
 			
 			//Elegir un codigo random
@@ -395,45 +400,87 @@ public class GestorDeDatos {
 
 	}
 
-	/**
-	 * Metodo que buscara la habilidad en la base de datos
-	 * 
-	 * @param tipo
-	 * @return
-	 */
-	public static Habilidad buscarHabilidadEnBD(Tipo tipo) { // FIXME implementarlo con BD
-		// Se transforma el treeset en una arraylist y se mezcla para mejorar la
-		// eficiencia y ya que no siempre se tardara lo mismo en caso de que se necesite
-		// una habilidad muy al final del fichero, ademas da la opcion de que si hay dos
-		// habilidades con el mismo tipo no siempre salga la primera que tenga ese
-		// tipo
-		ArrayList<String> listaHabs = new ArrayList<String>(readListaHabilidades());
-		Collections.shuffle(listaHabs);
+//	/**
+//	 * Metodo que buscara la habilidad en la base de datos
+//	 * 
+//	 * @param tipo
+//	 * @return
+//	 */
+//	public static Habilidad buscarHabilidadEnBD(Tipo tipo) { // FIXME implementarlo con BD
+//		// Se transforma el treeset en una arraylist y se mezcla para mejorar la
+//		// eficiencia y ya que no siempre se tardara lo mismo en caso de que se necesite
+//		// una habilidad muy al final del fichero, ademas da la opcion de que si hay dos
+//		// habilidades con el mismo tipo no siempre salga la primera que tenga ese
+//		// tipo
+//		ArrayList<String> listaHabs = new ArrayList<String>(readListaHabilidades());
+//		Collections.shuffle(listaHabs);
+//		Habilidad h = null;
+//		if (tipo != null) {
+//			String tipoStr = tipo.toString();
+//			for (String l : listaHabs) {
+//
+//				int a = l.indexOf(STR_SEPARATOR);
+//				String nombre = l.substring(0, a);
+//
+//				int b = l.indexOf(STR_SEPARATOR, a + 1);
+//				String tipoRead = l.substring(a + 1, b);
+//
+//				int c = l.indexOf(STR_SEPARATOR, b + 1);
+//				String pot = l.substring(b + 1, c);
+//
+//				int d = l.indexOf(STR_SEPARATOR, c + 1);
+//				String prec = l.substring(c + 1, d);
+//
+//				String desc = l.substring(d + 1);
+//
+//				if (tipoStr.equals(tipoRead)) {
+//					h = new Habilidad(nombre, desc, tipo, Integer.parseInt(pot), Double.parseDouble(prec));
+//				}
+//
+//			}
+//		}
+//		return h;
+//	}
+	public static Habilidad buscarHabilidadEnBD(Tipo tipo) {
 		Habilidad h = null;
-		if (tipo != null) {
-			String tipoStr = tipo.toString();
-			for (String l : listaHabs) {
+		Connection conn = null;
 
-				int a = l.indexOf(STR_SEPARATOR);
-				String nombre = l.substring(0, a);
+		try {
 
-				int b = l.indexOf(STR_SEPARATOR, a + 1);
-				String tipoRead = l.substring(a + 1, b);
+			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
 
-				int c = l.indexOf(STR_SEPARATOR, b + 1);
-				String pot = l.substring(b + 1, c);
+			Statement stmt = conn.createStatement();
 
-				int d = l.indexOf(STR_SEPARATOR, c + 1);
-				String prec = l.substring(c + 1, d);
-
-				String desc = l.substring(d + 1);
-
-				if (tipoStr.equals(tipoRead)) {
-					h = new Habilidad(nombre, desc, tipo, Integer.parseInt(pot), Double.parseDouble(prec));
-				}
-
+			ResultSet rs = stmt.executeQuery("SELECT * FROM HABILIDAD,TIPO WHERE HABILIDAD.COD_TIPO=TIPO.CODIGO AND TIPO.NOMBRE='"+tipo.toString()+"'");
+			
+			ArrayList<Habilidad> habs = new ArrayList<>();
+			
+			while(rs.next()) {
+				Tipo t = Tipo.getTipoPorNombre(rs.getString("TIPO.NOMBRE"));
+				habs.add(new Habilidad(rs.getString("HABILIDAD.NOMBRE"), rs.getString("DESCRIPCION"), t, rs.getInt("POTENCIA"), rs.getDouble("PRECISION")));
 			}
+			
+			rs.close();
+			stmt.close();
+			
+			if (habs.isEmpty()) {
+				return null;
+			}
+			else {
+				Random r = new Random();
+				int posEleg = r.nextInt(habs.size());
+				return habs.get(posEleg);
+			}
+			
+		} catch (SQLException e) {
 		}
+
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
 		return h;
 	}
 
