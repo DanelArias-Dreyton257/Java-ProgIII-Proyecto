@@ -360,8 +360,12 @@ public class GestorDeDatos {
 				//comprobar cuales son de tipo unico
 				for (int cod: codEsp1) {
 					Statement s = conn.createStatement();
-					ResultSet rst = s.executeQuery("SELECT * FROM TIPO,ESPTIPO,ESPECIE WHERE TIPO.CODIGO=ESPTIPO.COD_TIPO AND ESPTIPO.COD_ESP=ESPECIE.CODIGO");
-					
+					ResultSet rst = s.executeQuery("SELECT COUNT() FROM TIPO,ESPTIPO,ESPECIE WHERE TIPO.CODIGO=ESPTIPO.COD_TIPO AND ESPTIPO.COD_ESP=ESPECIE.CODIGO AND ESPECIE.CODIGO="+cod+" AND TIPO.NOMBRE='"+t1Str+"'");
+					if (rst.next()) {
+						if (rst.getInt("COUNT()")<2) {
+							codigosElegibles.add(cod);
+						}
+					}
 					rst.close();
 					s.close();
 				}
