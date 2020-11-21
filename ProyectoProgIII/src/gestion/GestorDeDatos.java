@@ -298,57 +298,7 @@ public class GestorDeDatos {
 	}
 
 	/**
-	 * --METODO PROVISIONAL--Dejarlo para que compile pero falta hacer los
-	 * constructores de verdad
-	 * 
-	 * @param tipo1
-	 * @param tipo2
-	 * @return
-	 */
-//	public static Especie buscarEspecieEnBD(Tipo tipo1, Tipo tipo2) {
-//		// Se transforma el treeset en una arraylist y se mezcla para mejorar la
-//		// eficiencia y ya que no siempre se tardara lo mismo en caso de que se necesite
-//		// una especie muy al final del fichero, ademas da la opcionde que si hay dos
-//		// especies con los mismos tipos no siempre salga la primera que tenga esos
-//		// tipos
-//		ArrayList<String> lista = new ArrayList<>(readListaLeyendas());
-//		Collections.shuffle(lista);
-//
-//		String t1 = tipo1.toString();
-//		// si el segundo tipo es nulo
-//		String t2 = NULL_STR;
-//		if (tipo2 != null)
-//			t2 = tipo2.toString();
-//		// Se inicializa la especie como nula
-//		Especie esp = null;
-//		for (String l : lista) {
-//
-//			int a = l.indexOf(STR_SEPARATOR);
-//			String nombre = l.substring(0, a);
-//
-//			int b = l.indexOf(STR_SEPARATOR, a + 1);
-//			String readt1 = l.substring(a + 1, b);
-//
-//			int c = l.indexOf(STR_SEPARATOR, b + 1);
-//			String readt2 = l.substring(b + 1, c);
-//
-//			String desc = l.substring(c + 1);
-//
-//			if (t1.equals(readt1) && t2.equals(readt2)) {
-//				if (t2.equals(NULL_STR)) {
-//					tipo2 = null;
-//				}
-//				Tipo[] tipos = { tipo1, tipo2 };
-//				esp = new Especie(nombre, desc, tipos);
-//				break;
-//			}
-//		}
-//		return esp;
-//
-//	}
-
-	/**
-	 * FALTA COMPROBAR!!!
+	 * FUNCIONA
 	 * 
 	 * @param tipo1
 	 * @param tipo2
