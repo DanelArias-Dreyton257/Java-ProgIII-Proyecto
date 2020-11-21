@@ -457,13 +457,13 @@ public class GestorDeDatos {
 
 			Statement stmt = conn.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM HABILIDAD,TIPO WHERE HABILIDAD.COD_TIPO=TIPO.CODIGO AND TIPO.NOMBRE='"+tipo.toString()+"'");
+			ResultSet rs = stmt.executeQuery("SELECT TIPO.NOMBRE AS TIPONOM, HABILIDAD.NOMBRE AS HABNOM, DECRIPCION, POTENCIA, PRECISION FROM HABILIDAD,TIPO WHERE HABILIDAD.COD_TIPO=TIPO.CODIGO AND TIPO.NOMBRE='"+tipo.toString()+"'");
 			
 			ArrayList<Habilidad> habs = new ArrayList<>();
 			
 			while(rs.next()) {
-				Tipo t = Tipo.getTipoPorNombre(rs.getString("TIPO.NOMBRE"));
-				habs.add(new Habilidad(rs.getString("HABILIDAD.NOMBRE"), rs.getString("DESCRIPCION"), t, rs.getInt("POTENCIA"), rs.getDouble("PRECISION")));
+				Tipo t = Tipo.getTipoPorNombre(rs.getString("TIPONOM"));
+				habs.add(new Habilidad(rs.getString("HABNOM"), rs.getString("DESCRIPCION"), t, rs.getInt("POTENCIA"), rs.getDouble("PRECISION")));
 			}
 			
 			rs.close();
