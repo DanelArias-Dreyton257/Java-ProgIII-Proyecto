@@ -211,8 +211,72 @@ public class GestorDeDatos {
 	 * @return
 	 */
 	public static TreeSet<String> readListaHabilidades() {
-		return readLista(FIC_HABS);
+		logger.log(Level.INFO, "inicio de lectura de fichero: " + FIC_HABS.getName());
+		TreeSet<String> listaHabs = new TreeSet<>();
+
+		Connection conn = null;
+
+		try {
+
+			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
+
+			Statement stmt = conn.createStatement();
+			String sql = "SELECT * FROM HABILIDAD";
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				String nombre = rs.getString("NOMBRE");
+				int potencia = rs.getInt("POTENCIA");
+				double precision = rs.getDouble("PRECISION");
+				String descripcion = rs.getString("DESCRIPCION");
+				int cod = rs.getInt("CODIGO");
+
+				String sqlTipo = "SELECT * FROM HABTIPO WHERE COD_HAB=" + cod + ";";
+
+				Statement stmt2 = conn.createStatement();
+				ResultSet rsTipo = stmt2.executeQuery(sqlTipo);
+
+				int codTipo1 = -1;
+				
+				while (rsTipo.next()) {
+					if (codTipo1 == -1) {
+						codTipo1 = rsTipo.getInt("COD_TIPO");
+					} else {
+						codTipo1 = rsTipo.getInt("COD_TIPO");
+						
+					}
+				}
+
+				rsTipo.close();
+				stmt2.close();
+
+				Statement stmt3 = conn.createStatement();
+				ResultSet rsTipo1 = stmt3.executeQuery("SELECT * FROM TIPO WHERE CODIGO=" + codTipo1);
+				String tipo1 = rsTipo1.getString("NOMBRE");
+				rsTipo1.close();
+				stmt3.close();
+
+				listaHabs.add(nombre + STR_SEPARATOR + tipo1 + STR_SEPARATOR + potencia + STR_SEPARATOR + precision + STR_SEPARATOR + descripcion);
+
+			}
+			rs.close();
+
+			stmt.close();
+		} catch (SQLException e) {
+		}
+
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.out.println(listaHabs);
+
+		return listaHabs;
 	}
+	
 
 	/**
 	 * Escribiras en la lista de leyendas
@@ -564,15 +628,173 @@ public class GestorDeDatos {
 	}
 
 	public static ArrayList<String> getNombresHabilidades() {
-		// TODO
-		return null;
+		Connection conn = null;
+		ArrayList<String> listaHabs = new ArrayList<>();
+
+		try {
+
+			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT NOMBRE FROM HABILIDAD ORDER BY NOMBRE");
+			while (rs.next()) {
+				listaHabs.add(rs.getString("NOMBRE"));
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+		}
+
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return listaHabs;
+	
 	}
 
 	public static Habilidad getInfoHabilidad(String nombre) {
-		return null;
+		Connection conn = null;
+		Habilidad hab = null;
+
+		try {
+
+			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM HABILIDAD WHERE NOMBRE = '" + nombre + "'");
+			int cod = -1;
+			int pot =0;
+			double prec=0;
+			String desc = "";
+
+			while (rs.next()) {
+				desc = rs.getString("DESCRIPCION");
+				cod = rs.getInt("CODIGO");
+				pot = rs.getInt("POTENCIA");
+				prec = rs.getDouble("PRECISION");
+			}
+			rs.close();
+			stmt.close();
+
+			Statement stmt3 = conn.createStatement();
+			ResultSet rs3 = stmt3.executeQuery(
+					"SELECT COUNT() FROM HABTIPO,TIPO WHERE COD_HAB=" + cod + " AND HABTIPO.COD_TIPO = TIPO.CODIGO");
+			int numTipos = rs3.getInt("COUNT()");
+
+			rs3.close();
+			stmt3.close();
+
+			Statement stmt2 = conn.createStatement();
+			ResultSet rs2 = stmt2.executeQuery(
+					"SELECT * FROM HABTIPO,TIPO WHERE COD_HAB=" + cod + " AND HABTIPO.COD_TIPO = TIPO.CODIGO");
+
+		
+			Tipo tipos = null;
+				if (rs2.next()) {
+					
+					 tipos = Tipo.getTipoPorNombre(rs2.getString("NOMBRE"));
+				
+
+			}
+
+			rs2.close();
+			stmt2.close();
+
+			
+			hab = new Habilidad(nombre, desc, tipos, pot, prec);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return hab;
+	
 	}
 
 	public static void insertHabilidadBD(Habilidad hab) {
+
+		Connection conn = null;
+
+		try {
+
+			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
+			conn.setAutoCommit(false);
+			// Insertar habilidad
+			Statement stmt = conn.createStatement();
+
+			stmt.executeUpdate("INSERT INTO HABILIDAD(NOMBRE,POTENCIA,PRECISION,DESCRIPCION) VALUES('" + hab.getNombre() + "','"
+					+ hab.getPotencia() + "','"+ hab.getPrecision() + "','"+ hab.getDescripcion() + "')");
+
+			stmt.close();
+
+			// Busqueda de cod de habilidad
+			Statement stmt2 = conn.createStatement();
+
+			ResultSet rs2 = stmt.executeQuery("SELECT CODIGO FROM HABILIDAD WHERE NOMBRE = '" + hab.getNombre() + "'");
+
+			int codigoHab = rs2.getInt("CODIGO");
+
+			rs2.close();
+			stmt2.close();
+
+			// Busqueda de cods de especie
+
+			int codTipo1 = -1;
+			
+
+			// Tipo1
+			Statement stmt3 = conn.createStatement();
+
+			ResultSet rs3 = stmt3
+					.executeQuery("SELECT CODIGO FROM TIPO WHERE NOMBRE = '" + hab.getTipo().toString() + "'");
+
+			codTipo1 = rs3.getInt("CODIGO");
+
+			rs3.close();
+			stmt3.close();
+
+			
+
+			// INSERTS en ESPTIPO
+			Statement stmt5 = conn.createStatement();
+
+			stmt5.executeUpdate("INSERT INTO ESPTIPO(COD_ESP,COD_TIPO) VALUES(" + codigoHab + "," + codTipo1 + ")");
+			stmt5.close();
+
+
+			conn.commit();
+
+		} catch (SQLException e) {
+			try {
+
+				conn.rollback(); // HECHA PA TRAS
+			} catch (SQLException excep) {
+			}
+		} finally {
+			try {
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	
 	}
 
 	/**
