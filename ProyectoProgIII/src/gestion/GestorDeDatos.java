@@ -704,36 +704,28 @@ public class GestorDeDatos {
 
 			Statement stmt = conn.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM HABILIDAD WHERE NOMBRE = '" + nombre + "'");
-			int cod = -1;
+			ResultSet rs = stmt.executeQuery("SELECT DESCRIPCION,POTENCIA,PRECISION,TIPO.NOMBRE AS TIPONOM FROM HABILIDAD,TIPO WHERE HABILIDAD.COD_TIPO = TIPO.CODIGO AND HABILIDAD.NOMBRE = '" + nombre + "'" );
+			
+		
 			int pot = 0;
 			double prec = 0;
 			String desc = "";
-
+			String tipoS = "";
 			while (rs.next()) {
 				desc = rs.getString("DESCRIPCION");
-				cod = rs.getInt("CODIGO");
+			
 				pot = rs.getInt("POTENCIA");
 				prec = rs.getDouble("PRECISION");
+				tipoS = rs.getString("TIPONOM");
 			}
+			
+
 			rs.close();
 			stmt.close();
 
-			Statement stmt2 = conn.createStatement();
-			ResultSet rs2 = stmt2.executeQuery(
-					"SELECT * FROM HABTIPO,TIPO WHERE COD_HAB=" + cod + " AND HABTIPO.COD_TIPO = TIPO.CODIGO");
+			Tipo tipoN = Tipo.getTipoPorNombre(tipoS);
 
-			Tipo tipos = null;
-			if (rs2.next()) {
-
-				tipos = Tipo.getTipoPorNombre(rs2.getString("NOMBRE"));
-
-			}
-
-			rs2.close();
-			stmt2.close();
-
-			hab = new Habilidad(nombre, desc, tipos, pot, prec);
+			hab = new Habilidad(nombre, desc, tipoN, pot, prec);
 
 		} catch (SQLException e) {
 			e.printStackTrace();

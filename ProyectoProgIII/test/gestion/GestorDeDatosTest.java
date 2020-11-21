@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import personaje.Especie;
+import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;
 
 public class GestorDeDatosTest {
@@ -90,7 +91,17 @@ public class GestorDeDatosTest {
 		assertEquals(esp2, GestorDeDatos.getInfoEspecie(esp2.getNombre()));
 
 	}
-	
+	@Test
+	public void getInfoHabilidadTest() {
+		//Tipo ts = Tipo.MENTE ;
+		//Habilidad hab = new Habilidad("Migranya","	Produce un dolor de cabeza muy fuerte al rival. A veces se soluciona con una aspirina o un ibuprofeno."	,ts,	80,	0.7);
+		Tipo ts1 = Tipo.CUERPO;
+		Habilidad hab1 = new Habilidad("Punyetazo","El usuario pega un punyetazo al rival...No es un movimiento del otro mundo pero puede ser excesivamente util en una pelea ordinaria."	,ts1,	50,	1.0	
+);
+		//assertEquals(hab, GestorDeDatos.getInfoHabilidad(hab.getNombre()));
+		assertEquals(hab1, GestorDeDatos.getInfoHabilidad(hab1.getNombre()));
+
+	}
 //	@Test
 //	public void insertEspecieBDTest() { //YA LO COMPROBE! NO hacerlo otra vez para no andar jodiendo la BD
 //		GestorDeDatos.insertEspecieBD(espPrueba);
