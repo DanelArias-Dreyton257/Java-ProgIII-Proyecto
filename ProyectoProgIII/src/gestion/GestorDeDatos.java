@@ -4,7 +4,11 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -16,6 +20,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import objetos.Jugador;
 import personaje.Especie;
 import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;
@@ -39,13 +44,15 @@ public class GestorDeDatos {
 			logger.log(Level.SEVERE, "Error en creacion fichero log");
 		}
 	}
-	
+
 	public static final String STR_SEPARATOR = "\t";
 	public static final String NULL_STR = "NULL";
 
 	private static final File TTF_PERPETUA_BOLD = new File("src/fonts/Perpetua-Bold.ttf");
 	private static final File TTF_PERPETUA_BOLD_ITALIC = new File("src/fonts/Perpetua-Bold-Italic.ttf");
 	private static final File TTF_PERPETUA_TITLING_MT_BOLD = new File("src/fonts/Perpetua-Titling-MT-Bold.ttf");
+
+	private static final File JUGADOR_FICH = new File("src/saves/Jugador.dat");
 
 	public static final String NOMBRE_PERPETUA_BOLD = "Perpetua Negrita";
 	public static final String NOMBRE_PERPETUA_BOLD_ITALIC = "Perpetua Negrita Cursiva";
@@ -77,9 +84,10 @@ public class GestorDeDatos {
 		}
 	}
 
-
 	/**
-	 * Busca en la base de datos y devuelve  una especie que sea de los tipos indicados como parametros
+	 * Busca en la base de datos y devuelve una especie que sea de los tipos
+	 * indicados como parametros
+	 * 
 	 * @param tipo1
 	 * @param tipo2
 	 * @return
@@ -91,7 +99,7 @@ public class GestorDeDatos {
 		String t2Str = NULL_STR;
 		if (tipo2 != null)
 			t2Str = tipo2.toString();
-		
+
 		// Se inicializa la especie como nula
 		Especie esp = null;
 
@@ -100,49 +108,52 @@ public class GestorDeDatos {
 		try {
 
 			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
-			
-			//Buscar los codigos de los tipos
-			
+
+			// Buscar los codigos de los tipos
+
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT COD_ESP FROM ESPTIPO,TIPO WHERE TIPO.NOMBRE='" + t1Str + "' AND ESPTIPO.COD_TIPO = TIPO.CODIGO");
+			ResultSet rs = stmt.executeQuery("SELECT COD_ESP FROM ESPTIPO,TIPO WHERE TIPO.NOMBRE='" + t1Str
+					+ "' AND ESPTIPO.COD_TIPO = TIPO.CODIGO");
 			ArrayList<Integer> codEsp1 = new ArrayList<>();
-			while(rs.next()) {
+			while (rs.next()) {
 				codEsp1.add(rs.getInt("COD_ESP"));
 			}
-			
+
 			rs.close();
 			stmt.close();
-			
+
 			ArrayList<Integer> codigosElegibles = new ArrayList<>();
-			
-			if (tipo2!=null) {
+
+			if (tipo2 != null) {
 				Statement stmt2 = conn.createStatement();
-				ResultSet rs2 = stmt2.executeQuery("SELECT COD_ESP FROM ESPTIPO,TIPO WHERE TIPO.NOMBRE='" + t2Str + "' AND ESPTIPO.COD_TIPO = TIPO.CODIGO");
-				
+				ResultSet rs2 = stmt2.executeQuery("SELECT COD_ESP FROM ESPTIPO,TIPO WHERE TIPO.NOMBRE='" + t2Str
+						+ "' AND ESPTIPO.COD_TIPO = TIPO.CODIGO");
+
 				ArrayList<Integer> codEsp2 = new ArrayList<>();
-				while(rs2.next()) {
+				while (rs2.next()) {
 					codEsp2.add(rs2.getInt("COD_ESP"));
 				}
-				
+
 				rs2.close();
 				stmt2.close();
-				
-				//Solo coger los que coincidan
-				for (int n:codEsp1) {
-					for (int m:codEsp2) {
+
+				// Solo coger los que coincidan
+				for (int n : codEsp1) {
+					for (int m : codEsp2) {
 						if (n == m) {
 							codigosElegibles.add(n);
 						}
 					}
 				}
-			}
-			else {
-				//comprobar cuales son de tipo unico
-				for (int cod: codEsp1) {
+			} else {
+				// comprobar cuales son de tipo unico
+				for (int cod : codEsp1) {
 					Statement s = conn.createStatement();
-					ResultSet rst = s.executeQuery("SELECT COUNT() FROM TIPO,ESPTIPO,ESPECIE WHERE TIPO.CODIGO=ESPTIPO.COD_TIPO AND ESPTIPO.COD_ESP=ESPECIE.CODIGO AND ESPECIE.CODIGO="+cod+" AND TIPO.NOMBRE='"+t1Str+"'");
+					ResultSet rst = s.executeQuery(
+							"SELECT COUNT() FROM TIPO,ESPTIPO,ESPECIE WHERE TIPO.CODIGO=ESPTIPO.COD_TIPO AND ESPTIPO.COD_ESP=ESPECIE.CODIGO AND ESPECIE.CODIGO="
+									+ cod + " AND TIPO.NOMBRE='" + t1Str + "'");
 					if (rst.next()) {
-						if (rst.getInt("COUNT()")<2) {
+						if (rst.getInt("COUNT()") < 2) {
 							codigosElegibles.add(cod);
 						}
 					}
@@ -150,29 +161,28 @@ public class GestorDeDatos {
 					s.close();
 				}
 			}
-			
-			//Elegir un codigo random
-			if (codigosElegibles.isEmpty()) return null;
+
+			// Elegir un codigo random
+			if (codigosElegibles.isEmpty())
+				return null;
 			else {
 				Random r = new Random();
 				int posEleg = r.nextInt(codigosElegibles.size());
 				int codEleg = codigosElegibles.get(posEleg);
-				
+
 				Statement stmt3 = conn.createStatement();
-				ResultSet rs3 = stmt3.executeQuery("SELECT * FROM ESPECIE WHERE CODIGO="+codEleg);
-				
+				ResultSet rs3 = stmt3.executeQuery("SELECT * FROM ESPECIE WHERE CODIGO=" + codEleg);
+
 				String nombre = rs3.getString("NOMBRE");
 				String desc = rs3.getString("DESCRIPCION");
-				Tipo[] tipos = {tipo1,tipo2};
-				
+				Tipo[] tipos = { tipo1, tipo2 };
+
 				rs3.close();
 				stmt3.close();
-				
+
 				esp = new Especie(nombre, desc, tipos);
 			}
-			
-			
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -187,7 +197,9 @@ public class GestorDeDatos {
 	}
 
 	/**
-	 * Busca en la base de datos y devuelve un tipo que sea de los tipos indicado como parametros
+	 * Busca en la base de datos y devuelve un tipo que sea de los tipos indicado
+	 * como parametros
+	 * 
 	 * @param tipo
 	 * @return
 	 */
@@ -201,29 +213,31 @@ public class GestorDeDatos {
 
 			Statement stmt = conn.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT TIPO.NOMBRE AS TIPONOM, HABILIDAD.NOMBRE AS HABNOM, DESCRIPCION, POTENCIA, PRECISION FROM HABILIDAD,TIPO WHERE HABILIDAD.COD_TIPO=TIPO.CODIGO AND TIPONOM='"+tipo.toString()+"'");
-			
+			ResultSet rs = stmt.executeQuery(
+					"SELECT TIPO.NOMBRE AS TIPONOM, HABILIDAD.NOMBRE AS HABNOM, DESCRIPCION, POTENCIA, PRECISION FROM HABILIDAD,TIPO WHERE HABILIDAD.COD_TIPO=TIPO.CODIGO AND TIPONOM='"
+							+ tipo.toString() + "'");
+
 			ArrayList<Habilidad> habs = new ArrayList<>();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 
 				Tipo t = Tipo.getTipoPorNombre(rs.getString("TIPONOM"));
-				
-				habs.add(new Habilidad(rs.getString("HABNOM"), rs.getString("DESCRIPCION"), t, rs.getInt("POTENCIA"), rs.getDouble("PRECISION")));
+
+				habs.add(new Habilidad(rs.getString("HABNOM"), rs.getString("DESCRIPCION"), t, rs.getInt("POTENCIA"),
+						rs.getDouble("PRECISION")));
 			}
-			
+
 			rs.close();
 			stmt.close();
-			
+
 			if (habs.isEmpty()) {
 				return null;
-			}
-			else {
+			} else {
 				Random r = new Random();
 				int posEleg = r.nextInt(habs.size());
 				return habs.get(posEleg);
 			}
-			
+
 		} catch (SQLException e) {
 		}
 
@@ -232,11 +246,13 @@ public class GestorDeDatos {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	
+
 		return h;
 	}
+
 	/**
 	 * Busca en la base de datos todos los nombres de las especies
+	 * 
 	 * @return lista de nombres de las especies ordenada por orden alfabetico
 	 */
 	public static ArrayList<String> getNombresEspecies() {
@@ -266,8 +282,10 @@ public class GestorDeDatos {
 
 		return lista;
 	}
+
 	/**
 	 * Busca en la base de datos y devuelve la especie que coincida con el nombre
+	 * 
 	 * @param nombre de la especie
 	 * @return especie, si no se encuentra: null
 	 */
@@ -328,8 +346,10 @@ public class GestorDeDatos {
 
 		return esp;
 	}
+
 	/**
 	 * Introduce en la base de datos la especie pasada como parametro
+	 * 
 	 * @param especie a introducir
 	 */
 	public static void insertEspecieBD(Especie esp) {
@@ -424,8 +444,10 @@ public class GestorDeDatos {
 		}
 
 	}
+
 	/**
 	 * Busca en la base de datos todos los nombres de las habilidades
+	 * 
 	 * @return lista de nombres de las habilidades ordenada por orden alfabetico
 	 */
 	public static ArrayList<String> getNombresHabilidades() {
@@ -456,8 +478,10 @@ public class GestorDeDatos {
 		return listaHabs;
 
 	}
+
 	/**
 	 * Busca en la base de datos y devuelve la habilidad que coincida con el nombre
+	 * 
 	 * @param nombre de la habilidad
 	 * @return habilidad, si no se encuentra: null
 	 */
@@ -471,21 +495,21 @@ public class GestorDeDatos {
 
 			Statement stmt = conn.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT DESCRIPCION,POTENCIA,PRECISION,TIPO.NOMBRE AS TIPONOM FROM HABILIDAD,TIPO WHERE HABILIDAD.COD_TIPO = TIPO.CODIGO AND HABILIDAD.NOMBRE = '" + nombre + "'" );
-			
-		
+			ResultSet rs = stmt.executeQuery(
+					"SELECT DESCRIPCION,POTENCIA,PRECISION,TIPO.NOMBRE AS TIPONOM FROM HABILIDAD,TIPO WHERE HABILIDAD.COD_TIPO = TIPO.CODIGO AND HABILIDAD.NOMBRE = '"
+							+ nombre + "'");
+
 			int pot = 0;
 			double prec = 0;
 			String desc = "";
 			String tipoS = "";
 			while (rs.next()) {
 				desc = rs.getString("DESCRIPCION");
-			
+
 				pot = rs.getInt("POTENCIA");
 				prec = rs.getDouble("PRECISION");
 				tipoS = rs.getString("TIPONOM");
 			}
-			
 
 			rs.close();
 			stmt.close();
@@ -506,8 +530,10 @@ public class GestorDeDatos {
 		return hab;
 
 	}
+
 	/**
 	 * Introduce en la base de datos la habilidad pasada como parametro
+	 * 
 	 * @param habilidad a introducir
 	 */
 	public static void insertHabilidadBD(Habilidad hab) {
@@ -520,23 +546,22 @@ public class GestorDeDatos {
 			conn.setAutoCommit(false);
 			// Insertar habilidad
 			Statement stmt1 = conn.createStatement();
-			
-			
-			ResultSet rs1 = stmt1.executeQuery("SELECT CODIGO FROM TIPO WHERE NOMBRE='"+hab.getTipo().toString()+"'");
-			
+
+			ResultSet rs1 = stmt1
+					.executeQuery("SELECT CODIGO FROM TIPO WHERE NOMBRE='" + hab.getTipo().toString() + "'");
+
 			int codTipo = rs1.getInt("CODIGO");
-			
+
 			rs1.close();
 			stmt1.close();
-			
-			
+
 			Statement stmt = conn.createStatement();
 
-			stmt.executeUpdate("INSERT INTO HABILIDAD(NOMBRE,POTENCIA,PRECISION,DESCRIPCION,COD_TIPO) VALUES('" + hab.getNombre()
-					+ "','" + hab.getPotencia() + "','" + hab.getPrecision() + "','" + hab.getDescripcion() + "',"+codTipo+")");
+			stmt.executeUpdate("INSERT INTO HABILIDAD(NOMBRE,POTENCIA,PRECISION,DESCRIPCION,COD_TIPO) VALUES('"
+					+ hab.getNombre() + "','" + hab.getPotencia() + "','" + hab.getPrecision() + "','"
+					+ hab.getDescripcion() + "'," + codTipo + ")");
 
 			stmt.close();
-
 
 			conn.commit();
 
@@ -562,6 +587,28 @@ public class GestorDeDatos {
 
 	}
 
-	
+	public static void guardarJugadorFichero(Jugador jug) {
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(JUGADOR_FICH));
+			oos.writeObject(jug);
+			oos.close();
+			logger.log(Level.INFO, "Fichero de jugador guardado");
+		} catch (IOException e) {
+			e.printStackTrace();
+			logger.log(Level.SEVERE, "Fallo al cargar");
+		}
+	}
+
+	public static Jugador cargarJugadorFichero() {
+		Jugador leido = null;
+		try {
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(JUGADOR_FICH));
+			leido = (Jugador) ois.readObject();
+			ois.close();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return leido;
+	}
 
 }

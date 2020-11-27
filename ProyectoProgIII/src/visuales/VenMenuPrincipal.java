@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -45,7 +47,7 @@ public class VenMenuPrincipal extends JFrame {
 	private static final String TITULO = "MYTHS of the LEGENDARY WAR";
 	private static final Dimension MIN_DIM = new Dimension(400, 400);
 	private static final Dimension PREF_DIM = new Dimension(600, 600);
-	private static final Font FUENTE_BOTONES = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC,Font.ITALIC,15);
+	private static final Font FUENTE_BOTONES = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
 
 	private JPanel pnCentral = new JPanel(new GridLayout(2, 1));
 	private JPanel pnCenArriba = new JPanel();
@@ -55,9 +57,9 @@ public class VenMenuPrincipal extends JFrame {
 	private JPanel pnSur = new JPanel();
 	private JPanel pnLogo = new JPanel(new GridLayout(2, 1));
 	private JPanel pnLogoArriba = new JPanel(new BorderLayout());
-	private JPanel pnLogoArribaDer = new JPanel(new GridLayout(2,1));
+	private JPanel pnLogoArribaDer = new JPanel(new GridLayout(2, 1));
 
-	private JLabel lbLogo[] = {new JLabel("MYTHS"),new JLabel("of"),new JLabel("the"),new JLabel("Legendary War")};
+	private JLabel lbLogo[] = { new JLabel("MYTHS"), new JLabel("of"), new JLabel("the"), new JLabel("Legendary War") };
 
 	private JButton btEquipo = new JButton("EQUIPO");
 	private JButton btValhalla = new JButton("VALHALLA");
@@ -99,12 +101,12 @@ public class VenMenuPrincipal extends JFrame {
 
 		pnCenAbajo.add(pnCenAb1);
 		pnCenAbajo.add(pnCenAb2);
-		
-		//Anyadir logo
+
+		// Anyadir logo
 		pnCenArriba.add(pnLogo);
 		pnLogo.add(pnLogoArriba);
 		pnLogoArriba.add(lbLogo[0]);
-		pnLogoArriba.add(pnLogoArribaDer,BorderLayout.EAST);
+		pnLogoArriba.add(pnLogoArribaDer, BorderLayout.EAST);
 		pnLogoArribaDer.add(lbLogo[1]);
 		pnLogoArribaDer.add(lbLogo[2]);
 		pnLogo.add(lbLogo[3]);
@@ -112,7 +114,7 @@ public class VenMenuPrincipal extends JFrame {
 		lbLogo[1].setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 25));
 		lbLogo[2].setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 25));
 		lbLogo[3].setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.BOLD, 40));
-		
+
 		// Anyadir los botones a los paneles
 		pnCenAb1.add(btEquipo);
 		btEquipo.setFont(FUENTE_BOTONES);
@@ -187,6 +189,20 @@ public class VenMenuPrincipal extends JFrame {
 				dispose();
 				// TODO hacer ventana de confirmacion?
 			}
+		});
+
+		addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				new Thread() {
+					@Override
+					public void run() {
+						GestorDeDatos.guardarJugadorFichero(usuario);
+					}
+				}.start();
+			}
+
 		});
 
 		comprobarNuevoUsuario();

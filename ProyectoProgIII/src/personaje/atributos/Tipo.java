@@ -1,11 +1,13 @@
 package personaje.atributos;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author jon ander y danel
  *
  */
-public enum Tipo {
+public enum Tipo implements Serializable{
 	FUEGO, AGUA, PLANTA, CIELO, TIERRA, ELECTRICIDAD, HIELO, LUZ, OSCURIDAD, TIEMPO, ESPACIO, MENTE, CUERPO, MUERTE;
 
 	private static final Eficacia[][] MULTIPLICADORES_AAD = {

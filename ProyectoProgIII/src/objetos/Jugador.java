@@ -1,5 +1,6 @@
 package objetos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import personaje.Leyenda;
@@ -9,7 +10,9 @@ import personaje.Leyenda;
  * @author danel y jon ander
  *
  */
-public class Jugador {
+public class Jugador implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private static final int NUM_PER = 6;
 	private String nombre;
 	private Leyenda[] equipo = new Leyenda[NUM_PER]; // donde se guardan los personajes del equipo

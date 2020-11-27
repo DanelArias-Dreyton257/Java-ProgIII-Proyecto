@@ -1,5 +1,7 @@
 package personaje.atributos;
 
+import java.io.Serializable;
+
 import interfaces.ToolTipAble;
 
 /**
@@ -7,8 +9,11 @@ import interfaces.ToolTipAble;
  * @author jon ander y danel
  *
  */
-public class Habilidad implements ToolTipAble {
+public class Habilidad implements ToolTipAble,Serializable {
 
+	
+	private static final long serialVersionUID = 1L;
+	
 	protected String nombre;
 	protected String descripcion = "";
 	protected Tipo tipo;

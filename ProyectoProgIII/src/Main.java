@@ -1,5 +1,6 @@
 import javax.swing.JOptionPane;
 
+import gestion.GestorDeDatos;
 import objetos.Jugador;
 import visuales.VenMenuPrincipal;
 
@@ -15,24 +16,61 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		int opc = JOptionPane.showConfirmDialog(null, "Crear usuario random? *solo Desarrollo*", "Usuario Nuevo",
+		int opcRandom = JOptionPane.showConfirmDialog(null, "Crear usuario random? *solo Desarrollo*", "Usuario Nuevo",
 				JOptionPane.INFORMATION_MESSAGE);
-		
-		Jugador usuario = null;
-		if (opc == JOptionPane.YES_OPTION) {
-			usuario = new Jugador("Simple alumno");
-			usuario.anyadirLeyendasRandom(15);
-			VenMenuPrincipal m = new VenMenuPrincipal(usuario);
-			m.setVisible(true);
+
+		if (opcRandom == JOptionPane.YES_OPTION) {
+
+			iniciar();
+
+		} else if (opcRandom == JOptionPane.NO_OPTION) {
+
+			Jugador cargado = GestorDeDatos.cargarJugadorFichero();
+
+			if (cargado != null) {
+				int opcCargar = JOptionPane.showConfirmDialog(null,
+						"Usuario: " + cargado.getNombre() + " con " + cargado.getNumLeyendas()
+								+ " leyendas, encontrado\n¿Quieres cargarlo?",
+						"Usuario encontrado", JOptionPane.INFORMATION_MESSAGE);
+
+				if (opcCargar == JOptionPane.NO_OPTION) {
+					nuevoJugador();
+				} else if (opcCargar == JOptionPane.YES_OPTION) {
+					iniciar(cargado);
+				} else if (opcCargar == JOptionPane.CANCEL_OPTION || opcCargar == JOptionPane.CLOSED_OPTION) {
+					System.exit(0); //CIERRA LA MAQUINA VIRTUAL DE JAVA
+				}
+			}
+
+			else {
+				JOptionPane.showMessageDialog(null, "No se ha encontrado ningun usuario guardado", "No encontrado",
+						JOptionPane.INFORMATION_MESSAGE);
+				nuevoJugador();
+			}
+
+		} else if (opcRandom == JOptionPane.CANCEL_OPTION || opcRandom == JOptionPane.CLOSED_OPTION) {
+			System.exit(0); //CIERRA LA MAQUINA VIRTUAL DE JAVA
 		}
-		else if (opc == JOptionPane.NO_OPTION) {
-			String s = JOptionPane.showInputDialog(null,"Introduce tu nombre de jugador","Usuario Nuevo",JOptionPane.INFORMATION_MESSAGE);
-			usuario = new Jugador(s);
-			VenMenuPrincipal m = new VenMenuPrincipal(usuario);
-			m.setVisible(true);
-		}
-		else if (opc == JOptionPane.CANCEL_OPTION || opc == JOptionPane.CLOSED_OPTION) {
-			
-		}
+	}
+
+	private static void iniciar(Jugador j) {
+		VenMenuPrincipal m = new VenMenuPrincipal(j);
+		m.setVisible(true);
+	}
+
+	private static void iniciar(String nombre) {
+		iniciar(new Jugador(nombre));
+	}
+
+	private static void iniciar() {
+		Jugador usuario = new Jugador("Simple alumno");
+		usuario.anyadirLeyendasRandom(15);
+		iniciar(usuario);
+	}
+
+	private static void nuevoJugador() {
+		String s = JOptionPane.showInputDialog(null, "Introduce tu nombre de jugador", "Usuario Nuevo",
+				JOptionPane.INFORMATION_MESSAGE);
+		iniciar(s);
 	}
 }

@@ -1,5 +1,6 @@
 package personaje;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -14,7 +15,8 @@ import personaje.atributos.Tipo;
  * @author danel y jon ander
  *
  */
-public class Leyenda extends Especie implements ToolTipAble {
+public class Leyenda extends Especie implements ToolTipAble,Serializable {
+	private static final long serialVersionUID = 1L;
 	// Estado estado;
 	Habilidad[] habilidades = new Habilidad[4];
 	int ataque;

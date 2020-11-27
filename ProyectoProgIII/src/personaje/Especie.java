@@ -1,5 +1,6 @@
 package personaje;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import personaje.atributos.Tipo;
@@ -9,7 +10,10 @@ import personaje.atributos.Tipo;
  * @author danel y jon ander
  *
  */
-public class Especie {
+public class Especie implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
 	String nombre;
 	String descripcion;
 	Tipo[] tipos = new Tipo[2];
