@@ -276,7 +276,7 @@ public class VenCombate extends JFrame {
 							if (ind >= 0) {
 								// equipo = [0],[1],[2] [3],[4],[5]
 								// l = [3],[4],[5] ind = [0],[1],[2]
-								Leyenda aCambiar = combate.getJ1().getLeyendaEquipo(ind + 3);
+								Leyenda aCambiar = combate.getJ2().getLeyendaEquipo(ind + 3);
 								if (aCambiar != null && !aCambiar.estaMuerto()) {
 									combate.getJ2().intercambiarEnEquipo(l - 3, ind + 3);
 									actualizaNombresLeys();
@@ -311,7 +311,23 @@ public class VenCombate extends JFrame {
 			siguienteLeyenda();
 		} else {
 			enTurno = false;
-			btSigTurno.setVisible(true);
+			int g = combate.checkGanadorBatalla();
+			if (g==0) {
+				JOptionPane.showMessageDialog(VenCombate.this, combate.getJ1().getNombre()+" gano la partida!" , "FIN DE LA PARTIDA", JOptionPane.INFORMATION_MESSAGE);
+				dispose();
+				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJ1());
+				v.setUsuario(combate.getJ1());
+				v.setVisible(true);
+			}
+			else if (g==1) {
+				JOptionPane.showMessageDialog(VenCombate.this, combate.getJ2().getNombre()+" gano la partida!" , "FIN DE LA PARTIDA", JOptionPane.INFORMATION_MESSAGE);
+				dispose();
+				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJ1());
+				v.setUsuario(combate.getJ1());
+				v.setVisible(true);
+			}
+			else {
+			btSigTurno.setVisible(true);}
 		}
 	}
 
