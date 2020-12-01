@@ -313,7 +313,9 @@ public class VenCombate extends JFrame {
 			enTurno = false;
 			int g = combate.checkGanadorBatalla();
 			if (g==0) {
-				JOptionPane.showMessageDialog(VenCombate.this, combate.getJ1().getNombre()+" gano la partida!" , "FIN DE LA PARTIDA", JOptionPane.INFORMATION_MESSAGE);
+				int dobsGanados= combate.getJ2().getDoblones();
+				JOptionPane.showMessageDialog(VenCombate.this, combate.getJ1().getNombre()+" gano la partida!\nSe lleva "+dobsGanados+" doblones" , "FIN DE LA PARTIDA", JOptionPane.INFORMATION_MESSAGE);
+				combate.getJ1().incDoblones(dobsGanados);;
 				dispose();
 				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJ1());
 				v.setUsuario(combate.getJ1());
