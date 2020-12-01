@@ -122,7 +122,7 @@ public class CreacionHabVen extends JFrame {
 
 				if (txNombre.getText().length() >= 1) {
 					try {
-						Habilidad h = new Habilidad(txNombre.getText(), (Tipo) mdTipos.getSelectedItem(), Integer.parseInt(txPot.getText()), Double.parseDouble(txPrec.getText()) / 100);
+						Habilidad h = new Habilidad(txNombre.getText(), taDescr.getText(), (Tipo) mdTipos.getSelectedItem(), Integer.parseInt(txPot.getText()), Double.parseDouble(txPrec.getText()) / 100);
 						GestorDeDatos.insertHabilidadBD(h);
 					}
 					catch(IllegalArgumentException e1){
