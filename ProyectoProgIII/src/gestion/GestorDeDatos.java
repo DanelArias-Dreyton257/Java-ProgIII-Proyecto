@@ -20,7 +20,6 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import objetos.Jugador;
 import personaje.Especie;
 import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;
@@ -52,7 +51,7 @@ public class GestorDeDatos {
 	private static final File TTF_PERPETUA_BOLD_ITALIC = new File("src/fonts/Perpetua-Bold-Italic.ttf");
 	private static final File TTF_PERPETUA_TITLING_MT_BOLD = new File("src/fonts/Perpetua-Titling-MT-Bold.ttf");
 
-	private static final File JUGADOR_FICH = new File("src/saves/Jugador.dat");
+	private static final File JUGADORES_FICH = new File("src/saves/Jugadores.dat");
 
 	public static final String NOMBRE_PERPETUA_BOLD = "Perpetua Negrita";
 	public static final String NOMBRE_PERPETUA_BOLD_ITALIC = "Perpetua Negrita Cursiva";
@@ -587,23 +586,23 @@ public class GestorDeDatos {
 
 	}
 
-	public static void guardarJugadorFichero(Jugador jug) {
+	public static void guardarJugadoresFichero(GestorJugadores jug) {
 		try {
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(JUGADOR_FICH));
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(JUGADORES_FICH));
 			oos.writeObject(jug);
 			oos.close();
-			logger.log(Level.INFO, "Fichero de jugador guardado");
+			logger.log(Level.INFO, "Fichero de jugadores guardado");
 		} catch (IOException e) {
 			e.printStackTrace();
 			logger.log(Level.SEVERE, "Fallo al cargar");
 		}
 	}
 
-	public static Jugador cargarJugadorFichero() {
-		Jugador leido = null;
+	public static GestorJugadores cargarJugadoresFichero() {
+		GestorJugadores leido = null;
 		try {
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(JUGADOR_FICH));
-			leido = (Jugador) ois.readObject();
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(JUGADORES_FICH));
+			leido = (GestorJugadores) ois.readObject();
 			ois.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
