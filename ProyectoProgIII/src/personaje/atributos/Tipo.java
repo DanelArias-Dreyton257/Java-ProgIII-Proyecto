@@ -1,5 +1,6 @@
 package personaje.atributos;
 
+import java.awt.Color;
 import java.io.Serializable;
 
 /**
@@ -7,8 +8,10 @@ import java.io.Serializable;
  * @author jon ander y danel
  *
  */
-public enum Tipo implements Serializable{
+public enum Tipo implements Serializable {
 	FUEGO, AGUA, PLANTA, CIELO, TIERRA, ELECTRICIDAD, HIELO, LUZ, OSCURIDAD, TIEMPO, ESPACIO, MENTE, CUERPO, MUERTE;
+
+	private static final Color[] COLORES = {Color.RED, Color.BLUE,new Color(0,255,50), new Color(180, 220, 255), new Color(60,40,10), Color.YELLOW, Color.CYAN,Color.WHITE,Color.BLACK,Color.GRAY,new Color(150,0,255),Color.MAGENTA, new Color(200,150,100),Color.DARK_GRAY};
 
 	private static final Eficacia[][] MULTIPLICADORES_AAD = {
 			{ Eficacia.NULO, Eficacia.NO_EFICAZ, Eficacia.MUY_EFICAZ, Eficacia.NO_EFICAZ, Eficacia.NEUTRO,
@@ -83,13 +86,17 @@ public enum Tipo implements Serializable{
 	 */
 	public static Tipo getTipoPorNombre(String nombre) {
 		Tipo dev = null;
-		for (Tipo t: values()) {
+		for (Tipo t : values()) {
 			if (t.toString().equals(nombre)) {
 				dev = t;
 				break;
 			}
 		}
 		return dev;
+	}
+	
+	public Color getColor() {
+		return COLORES[this.ordinal()];
 	}
 
 }
