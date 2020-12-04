@@ -246,14 +246,14 @@ public class Combate {
 	public int checkGanadorBatalla() {
 		boolean eq1Muerto = true;
 		for (Leyenda l : j1.getEquipo()) {
-			if (!l.estaMuerto()) {
+			if (l!=null && !l.estaMuerto()) {
 				eq1Muerto = false;
 				break;
 			}
 		}
 		boolean eq2Muerto = true;
 		for (Leyenda l : j2.getEquipo()) {
-			if (!l.estaMuerto()) {
+			if (l!=null && !l.estaMuerto()) {
 				eq2Muerto = false;
 				break;
 			}
