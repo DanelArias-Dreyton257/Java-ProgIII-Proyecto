@@ -63,4 +63,26 @@ public class GestorJugadores implements Serializable {
 			return getJugadorPorNombre(nombre, pos + 1);
 		}
 	}
+	
+	public void replaceJugador(Jugador j) {
+		replaceJugador(j, 0);
+	}
+	
+	private void replaceJugador(Jugador j,int pos) {
+		if (pos >= jugadores.size() || pos < 0) {
+			return;
+		}else if (jugadores.get(pos).getNombre().equals(j.getNombre())) {
+			jugadores.remove(pos);
+			jugadores.add(pos, j);
+			return;
+		}
+		else {
+			replaceJugador(j, pos+1);
+			return;
+		}
+		
+	}
+	
+	
+	
 }
