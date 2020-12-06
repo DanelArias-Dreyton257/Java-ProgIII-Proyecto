@@ -29,8 +29,8 @@ public class VenGestorJugadores extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private static final String TITULO = "MLW: Gestor de Jugadores";
-	private static final Dimension MIN_DIM = new Dimension(200, 300);
-	private static final Dimension PREF_DIM = new Dimension(300, 400);
+	private static final Dimension MIN_DIM = new Dimension(150, 250);
+	private static final Dimension PREF_DIM = new Dimension(300, 350);
 
 	private DefaultListModel<String> mdLista = new DefaultListModel<>();
 	private JList<String> lsJugadores = new JList<>();
@@ -139,7 +139,7 @@ public class VenGestorJugadores extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			
 			@Override
-			public void windowClosing(WindowEvent e) {
+			public void windowClosed(WindowEvent e) {
 				new Thread() {
 					@Override
 					public void run() {
@@ -170,6 +170,7 @@ public class VenGestorJugadores extends JFrame {
 				mdLista.addElement(s);
 			}
 		}
+		revalidate();
 	}
 
 }
