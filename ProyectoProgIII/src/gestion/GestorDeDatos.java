@@ -196,8 +196,8 @@ public class GestorDeDatos {
 	}
 
 	/**
-	 * Busca en la base de datos y devuelve un tipo que sea de los tipos indicado
-	 * como parametros
+	 * Busca en la base de datos y devuelve una habilidad que sea del tipo indicado
+	 * como parametro
 	 * 
 	 * @param tipo
 	 * @return
