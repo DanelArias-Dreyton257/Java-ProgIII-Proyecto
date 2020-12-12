@@ -518,7 +518,9 @@ public class Leyenda extends Especie implements ToolTipAble,Serializable {
 		p.add(lbImg,BorderLayout.CENTER);
 		JLabel lb = new JLabel(this.getNombre());
 		lb.setFont(fuente);
-		p.add(lb, BorderLayout.SOUTH);
+		JPanel pn = new JPanel();
+		pn.add(lb);
+		p.add(pn, BorderLayout.SOUTH);
 		p.setToolTipText(this.getToolTipInfo());
 		return p;
 	}
