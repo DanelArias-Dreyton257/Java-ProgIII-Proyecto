@@ -15,8 +15,8 @@ import personaje.atributos.Tipo;
  *
  */
 public class Combate {
-	private Jugador j1;
-	private Jugador j2;
+	private Jugador jug;
+	private Contrincante cont;
 
 	/**
 	 * Constructor que recibe dos jugadores
@@ -24,9 +24,9 @@ public class Combate {
 	 * @param j1
 	 * @param j2
 	 */
-	public Combate(Jugador j1, Jugador j2) {
-		setJ1(j1);
-		setJ2(j2);
+	public Combate(Jugador j1, Contrincante j2) {
+		setJugador(j1);
+		setContrincante(j2);
 	}
 
 	/**
@@ -52,21 +52,21 @@ public class Combate {
 	 */
 	private void combateDePrueba() {
 		Jugador j1 = new Jugador("Un simple alumno");
-		Jugador j2 = new Jugador("Andoni El Destructor de Mundos");
+		Contrincante j2 = new Contrincante();
 		j1.anyadirLeyendasRandom(10);
 		j2.anyadirLeyendasRandom(10);
-		setJ1(j1);
-		setJ2(j2);
+		setJugador(j1);
+		setContrincante(j2);
 	}
 
 	/**
 	 * Esta clase crea unos personajes y unos jugadores
 	 */
 	private void combateDePrueba(Jugador usuario) {
-		Jugador j2 = new Jugador("Andoni EL destructor");
+		Contrincante j2 = new Contrincante();
 		j2.anyadirLeyendasRandom(10);
-		setJ1(usuario);
-		setJ2(j2);
+		setJugador(usuario);
+		setContrincante(j2);
 	}
 
 	/**
@@ -74,8 +74,8 @@ public class Combate {
 	 * 
 	 * @return
 	 */
-	public Jugador getJ1() {
-		return j1;
+	public Jugador getJugador() {
+		return jug;
 	}
 
 	/**
@@ -83,8 +83,8 @@ public class Combate {
 	 * 
 	 * @param j1
 	 */
-	public void setJ1(Jugador j1) {
-		this.j1 = j1;
+	public void setJugador(Jugador j1) {
+		this.jug = j1;
 	}
 
 	/**
@@ -92,8 +92,8 @@ public class Combate {
 	 * 
 	 * @return
 	 */
-	public Jugador getJ2() {
-		return j2;
+	public Contrincante getContrincante() {
+		return cont;
 	}
 
 	/**
@@ -101,8 +101,8 @@ public class Combate {
 	 * 
 	 * @param j2
 	 */
-	public void setJ2(Jugador j2) {
-		this.j2 = j2;
+	public void setContrincante(Contrincante j2) {
+		this.cont = j2;
 	}
 
 	/**
@@ -132,8 +132,8 @@ public class Combate {
 
 		TreeSet<Leyenda> lista = new TreeSet<Leyenda>(c);
 		for (int i = 0; i < 3; i++) {
-			Leyenda eq1 = j1.getLeyendaEquipo(i);
-			Leyenda eq2 = j2.getLeyendaEquipo(i);
+			Leyenda eq1 = jug.getLeyendaEquipo(i);
+			Leyenda eq2 = cont.getLeyendaEquipo(i);
 
 			if (eq1 != null && !eq1.estaMuerto())
 				lista.add(eq1);
@@ -161,11 +161,11 @@ public class Combate {
 		Leyenda defensor;
 
 		if (j1Aj2) {
-			atacante = j1.getLeyendaEquipo(iLey1);
-			defensor = j2.getLeyendaEquipo(iLey2);
+			atacante = jug.getLeyendaEquipo(iLey1);
+			defensor = cont.getLeyendaEquipo(iLey2);
 		} else {
-			defensor = j1.getLeyendaEquipo(iLey1);
-			atacante = j2.getLeyendaEquipo(iLey2);
+			defensor = jug.getLeyendaEquipo(iLey1);
+			atacante = cont.getLeyendaEquipo(iLey2);
 		}
 		if (atacante == null || atacante.estaMuerto()) {
 			return atacante.getNombre() + " esta muerto, no puede atacar";
@@ -216,8 +216,8 @@ public class Combate {
 	 */
 	public int indiceEnBatalla(Leyenda leyendaEnCurso) {
 
-		Leyenda[] eq1 = this.j1.getEquipo(); // {l1, l2, l3, l4, l5, l6}
-		Leyenda[] eq2 = this.j2.getEquipo(); // {l7, l8, l9, l10,l11,l12}
+		Leyenda[] eq1 = this.jug.getEquipo(); // {l1, l2, l3, l4, l5, l6}
+		Leyenda[] eq2 = this.cont.getEquipo(); // {l7, l8, l9, l10,l11,l12}
 
 		int indice = -1;
 
@@ -245,14 +245,14 @@ public class Combate {
 	 */
 	public int checkGanadorBatalla() {
 		boolean eq1Muerto = true;
-		for (Leyenda l : j1.getEquipo()) {
+		for (Leyenda l : jug.getEquipo()) {
 			if (l!=null && !l.estaMuerto()) {
 				eq1Muerto = false;
 				break;
 			}
 		}
 		boolean eq2Muerto = true;
-		for (Leyenda l : j2.getEquipo()) {
+		for (Leyenda l : cont.getEquipo()) {
 			if (l!=null && !l.estaMuerto()) {
 				eq2Muerto = false;
 				break;

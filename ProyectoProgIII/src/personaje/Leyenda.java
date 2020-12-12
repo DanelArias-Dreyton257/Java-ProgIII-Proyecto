@@ -389,7 +389,7 @@ public class Leyenda extends Especie implements ToolTipAble,Serializable {
 	 * 
 	 * @return
 	 */
-	public static Leyenda getLeyendaRandom() {
+	public static Leyenda getLeyendaRandom() { //FIXME
 		Especie esp = null;
 		Tipo[] tipos = new Tipo[2];
 		tipos[1] = null;

@@ -160,18 +160,18 @@ public class VenCombate extends JFrame {
 		}
 
 		// Cambiar textos
-		lbJugador1.setText(combate.getJ1().getNombre());
-		lbJugador2.setText(combate.getJ2().getNombre());
+		lbJugador1.setText(combate.getJugador().getNombre());
+		lbJugador2.setText(combate.getContrincante().getNombre());
 
-		combate.getJ1().curarLeyendas();
-		combate.getJ2().curarLeyendas();
+		combate.getJugador().curarLeyendas();
+		combate.getContrincante().curarLeyendas();
 		actualizaNombresLeys();
 		// Listeners
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJ1());
-				v.setUsuario(combate.getJ1());
+				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJugador());
+				v.setUsuario(combate.getJugador());
 				v.setVisible(true);
 			}
 		});
@@ -253,9 +253,9 @@ public class VenCombate extends JFrame {
 							if (ind >= 0) {
 								// equipo = [0],[1],[2] [3],[4],[5]
 								// l = [0],[1],[2] ind = [0],[1],[2]
-								Leyenda aCambiar = combate.getJ1().getLeyendaEquipo(ind + 3);
+								Leyenda aCambiar = combate.getJugador().getLeyendaEquipo(ind + 3);
 								if (aCambiar != null && !aCambiar.estaMuerto()) {
-									combate.getJ1().intercambiarEnEquipo(l, ind + 3);
+									combate.getJugador().intercambiarEnEquipo(l, ind + 3);
 									actualizaNombresLeys();
 								} else {
 									JOptionPane.showMessageDialog(VenCombate.this,
@@ -276,9 +276,9 @@ public class VenCombate extends JFrame {
 							if (ind >= 0) {
 								// equipo = [0],[1],[2] [3],[4],[5]
 								// l = [3],[4],[5] ind = [0],[1],[2]
-								Leyenda aCambiar = combate.getJ2().getLeyendaEquipo(ind + 3);
+								Leyenda aCambiar = combate.getContrincante().getLeyendaEquipo(ind + 3);
 								if (aCambiar != null && !aCambiar.estaMuerto()) {
-									combate.getJ2().intercambiarEnEquipo(l - 3, ind + 3);
+									combate.getContrincante().intercambiarEnEquipo(l - 3, ind + 3);
 									actualizaNombresLeys();
 								} else {
 									JOptionPane.showMessageDialog(VenCombate.this,
@@ -313,19 +313,19 @@ public class VenCombate extends JFrame {
 			enTurno = false;
 			int g = combate.checkGanadorBatalla();
 			if (g==0) {
-				int dobsGanados= combate.getJ2().getDoblones();
-				JOptionPane.showMessageDialog(VenCombate.this, combate.getJ1().getNombre()+" gano la partida!\nSe lleva "+dobsGanados+" doblones" , "FIN DE LA PARTIDA", JOptionPane.INFORMATION_MESSAGE);
-				combate.getJ1().incDoblones(dobsGanados);;
+				int dobsGanados= combate.getContrincante().getDoblones();
+				JOptionPane.showMessageDialog(VenCombate.this, combate.getJugador().getNombre()+" gano la partida!\nSe lleva "+dobsGanados+" doblones" , "FIN DE LA PARTIDA", JOptionPane.INFORMATION_MESSAGE);
+				combate.getJugador().incDoblones(dobsGanados);;
 				dispose();
-				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJ1());
-				v.setUsuario(combate.getJ1());
+				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJugador());
+				v.setUsuario(combate.getJugador());
 				v.setVisible(true);
 			}
 			else if (g==1) {
-				JOptionPane.showMessageDialog(VenCombate.this, combate.getJ2().getNombre()+" gano la partida!" , "FIN DE LA PARTIDA", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(VenCombate.this, combate.getContrincante().getNombre()+" gano la partida!" , "FIN DE LA PARTIDA", JOptionPane.INFORMATION_MESSAGE);
 				dispose();
-				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJ1());
-				v.setUsuario(combate.getJ1());
+				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJugador());
+				v.setUsuario(combate.getJugador());
 				v.setVisible(true);
 			}
 			else {
@@ -373,17 +373,17 @@ public class VenCombate extends JFrame {
 	 */
 	private void actualizaNombresLeys() {
 
-		combate.getJ1().reorganizaEquipo();
-		combate.getJ2().reorganizaEquipo();
+		combate.getJugador().reorganizaEquipo();
+		combate.getContrincante().reorganizaEquipo();
 
 		for (int i = 0; i < btLeyEnBatalla.length; i++) {
 			int j = i - 3;
 			Leyenda correspondiente = null;
 
 			if (i >= 3)
-				correspondiente = combate.getJ2().getLeyendaEquipo(j);
+				correspondiente = combate.getContrincante().getLeyendaEquipo(j);
 			else
-				correspondiente = combate.getJ1().getLeyendaEquipo(i);
+				correspondiente = combate.getJugador().getLeyendaEquipo(i);
 
 			if (correspondiente != null) {
 				btLeyEnBatalla[i].setText(correspondiente.getNombreCombate());
@@ -398,11 +398,11 @@ public class VenCombate extends JFrame {
 		mdJ2Banquillo.clear();
 
 		for (int x = 3; x < 6; x++) {
-			Leyenda banquillo1 = combate.getJ1().getLeyendaEquipo(x);
+			Leyenda banquillo1 = combate.getJugador().getLeyendaEquipo(x);
 			if (banquillo1 != null)
 				mdJ1Banquillo.addElement(banquillo1.getNombreCombate());
 
-			Leyenda banquillo2 = combate.getJ2().getLeyendaEquipo(x);
+			Leyenda banquillo2 = combate.getContrincante().getLeyendaEquipo(x);
 			if (banquillo2 != null)
 				mdJ2Banquillo.addElement(banquillo2.getNombreCombate());
 		}

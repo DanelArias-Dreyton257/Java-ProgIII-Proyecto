@@ -32,7 +32,7 @@ public class VenValhalla extends JFrame {
 	private static final String TITULO = "MLW: Valhalla";
 	private static final Dimension MIN_DIM = new Dimension(400, 400);
 	private static final Dimension PREF_DIM = new Dimension(600, 600);
-	private static final int COSTE_CONTRATO = 500;
+	public static final int COSTE_CONTRATO = 500;
 
 	private Jugador usuario;
 

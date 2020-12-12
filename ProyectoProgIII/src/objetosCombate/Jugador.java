@@ -15,10 +15,10 @@ public class Jugador implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	public static final int NUM_PER = 6;
-	private String nombre;
-	private Leyenda[] equipo = new Leyenda[NUM_PER]; // donde se guardan los personajes del equipo
-	private ArrayList<Leyenda> eternidad = new ArrayList<>(); // donde se guardan todos los personajes no usados en el
-	private int doblones = 0;
+	protected String nombre;
+	protected Leyenda[] equipo = new Leyenda[NUM_PER]; // donde se guardan los personajes del equipo
+	protected ArrayList<Leyenda> eternidad = new ArrayList<>(); // donde se guardan todos los personajes no usados en el
+	protected int doblones = 0;
 
 	/**
 	 * Crea un jugador con el equipo y la eternidad vacia

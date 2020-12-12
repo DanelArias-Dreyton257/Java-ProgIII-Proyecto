@@ -610,4 +610,8 @@ public class GestorDeDatos {
 		return leido;
 	}
 
+	public static String selectRandContrincante() { //TODO
+		return "Andoni El Destructor de Mundos";
+	}
+
 }
