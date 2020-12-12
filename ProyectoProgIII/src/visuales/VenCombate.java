@@ -23,7 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import gestion.GestorDeDatos;
-import objetos.Combate;
+import objetosCombate.Combate;
 import personaje.Leyenda;
 import personaje.atributos.Habilidad;
 

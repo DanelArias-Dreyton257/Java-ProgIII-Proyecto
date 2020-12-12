@@ -1,5 +1,6 @@
 package visuales;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -8,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,7 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import gestion.GestorDeDatos;
-import objetos.Jugador;
+import objetosCombate.Jugador;
 import personaje.Leyenda;
 
 /**
@@ -38,7 +40,7 @@ public class VenValhalla extends JFrame {
 
 	private JButton btTirada = new JButton("Contratar una Leyenda: " + COSTE_CONTRATO + " doblones");
 
-	private JPanel pnPrincipal = new JPanel();
+	private JPanel pnNorte = new JPanel();
 
 	// Fuentes
 	private static final Font FUENTE_MENSAJE = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 20);
@@ -64,10 +66,10 @@ public class VenValhalla extends JFrame {
 		setTitle(TITULO);
 
 		// Colocacion de paneles
-		getContentPane().add(pnPrincipal);
-		pnPrincipal.add(lbDoblones);
+		getContentPane().add(pnNorte, BorderLayout.NORTH);
+		pnNorte.add(lbDoblones);
 		lbDoblones.setFont(FUENTE_MENSAJE);
-		pnPrincipal.add(btTirada);
+		pnNorte.add(btTirada);
 		btTirada.setFont(FUENTE_BOTON);
 
 		// Listeners

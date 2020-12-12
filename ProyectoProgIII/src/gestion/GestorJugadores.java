@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import objetos.Jugador;
+import objetosCombate.Jugador;
 
 public class GestorJugadores implements Serializable {
 

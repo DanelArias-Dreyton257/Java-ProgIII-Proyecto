@@ -22,7 +22,7 @@ import javax.swing.event.ListSelectionListener;
 
 import gestion.GestorDeDatos;
 import gestion.GestorJugadores;
-import objetos.Jugador;
+import objetosCombate.Jugador;
 
 public class VenGestorJugadores extends JFrame {
 

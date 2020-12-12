@@ -1,4 +1,4 @@
-package objetos;
+package objetosCombate;
 
 import java.io.Serializable;
 import java.util.ArrayList;

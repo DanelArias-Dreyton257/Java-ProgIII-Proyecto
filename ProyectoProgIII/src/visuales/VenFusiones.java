@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import gestion.GestorDeDatos;
-import objetos.Jugador;
+import objetosCombate.Jugador;
 import personaje.Leyenda;
 
 public class VenFusiones extends JFrame {

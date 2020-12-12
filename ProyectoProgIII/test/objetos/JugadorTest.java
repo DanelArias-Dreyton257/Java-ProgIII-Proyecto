@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import objetosCombate.Jugador;
 import personaje.Leyenda;
 import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;

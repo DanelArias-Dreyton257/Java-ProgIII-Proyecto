@@ -1,4 +1,4 @@
-package objetos;
+package objetosCombate;
 
 import java.util.Comparator;
 import java.util.Random;

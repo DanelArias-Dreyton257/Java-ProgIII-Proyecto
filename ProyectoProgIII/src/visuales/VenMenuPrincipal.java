@@ -22,8 +22,8 @@ import javax.swing.JPanel;
 
 import gestion.GestorDeDatos;
 import gestion.GestorJugadores;
-import objetos.Combate;
-import objetos.Jugador;
+import objetosCombate.Combate;
+import objetosCombate.Jugador;
 
 /**
  * 

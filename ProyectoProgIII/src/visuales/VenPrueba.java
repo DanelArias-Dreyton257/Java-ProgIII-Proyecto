@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import gestion.GestorDeDatos;
-import objetos.Jugador;
+import objetosCombate.Jugador;
 import personaje.Leyenda;
 
 /**
