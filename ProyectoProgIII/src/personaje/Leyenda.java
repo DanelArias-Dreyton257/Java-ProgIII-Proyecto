@@ -77,25 +77,25 @@ public class Leyenda extends Especie implements ToolTipAble,Serializable {
 
 	}
 
-	/**
-	 * Constructor que te recibe todos los datos de la leyenda menos las habilidades
-	 * 
-	 * @param nombre
-	 * @param descripcion
-	 * @param tipos
-	 * @param ataque
-	 * @param defensa
-	 * @param velocidad
-	 * @param vida
-	 */
-	public Leyenda(String nombre, String descripcion, Tipo[] tipos, int ataque, int defensa, int velocidad, int vida) {
-		super(nombre, descripcion, tipos);
-		setAtaque(ataque);
-		setDefensa(defensa);
-		setVelocidad(velocidad);
-		setVida(vida);
-		setVidaMax(vida);
-	}
+//	/**
+//	 * Constructor que te recibe todos los datos de la leyenda menos las habilidades
+//	 * 
+//	 * @param nombre
+//	 * @param descripcion
+//	 * @param tipos
+//	 * @param ataque
+//	 * @param defensa
+//	 * @param velocidad
+//	 * @param vida
+//	 */
+//	public Leyenda(String nombre, String descripcion, Tipo[] tipos, int ataque, int defensa, int velocidad, int vida) {
+//		super(nombre, descripcion, tipos);
+//		setAtaque(ataque);
+//		setDefensa(defensa);
+//		setVelocidad(velocidad);
+//		setVida(vida);
+//		setVidaMax(vida);
+//	}
 
 	/**
 	 * devuelve la vidaMax del personaje
@@ -520,45 +520,6 @@ public class Leyenda extends Especie implements ToolTipAble,Serializable {
 		lb.setFont(fuente);
 		p.add(lb, BorderLayout.SOUTH);
 		p.setToolTipText(this.getToolTipInfo());
-		return p;
-	}
-	
-	public static Component getBotonVentanaNULO(Font fuente, int scale) {
-		JPanel p = new JPanel(new BorderLayout());
-
-		p.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mousePressed( MouseEvent e) {
-				p.setBorder(BorderFactory.createLoweredBevelBorder());
-				System.out.println("Accion de boton");
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				p.setBorder(BorderFactory.createRaisedBevelBorder());
-			}
-
-		});
-		p.setBorder(BorderFactory.createRaisedBevelBorder());
-		BufferedImage bimg = null;
-		try {
-			bimg = ImageIO.read(new File("src/visuales/img/user-icon.png")); // TODO
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		// Redimensiona la imagen para que concuerd con las dimensiones especificadas
-		Image dimg = bimg.getScaledInstance(scale, scale, Image.SCALE_SMOOTH);
-
-		ImageIcon imgIcon = new ImageIcon(dimg);
-		
-		JLabel lbImg = new JLabel(imgIcon);
-		
-		p.add(lbImg,BorderLayout.CENTER);
-		JLabel lb = new JLabel("NULL");
-		lb.setFont(fuente);
-		p.add(lb, BorderLayout.SOUTH);
 		return p;
 	}
 

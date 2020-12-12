@@ -23,6 +23,7 @@ import javax.swing.JScrollPane;
 
 import gestion.GestorDeDatos;
 import objetosCombate.Jugador;
+import personaje.Especie;
 import personaje.Leyenda;
 
 /**
@@ -171,7 +172,7 @@ public class VenGestorEquipos extends JFrame {
 			if (esp != null) {
 				boton = esp.getBotonVentana(FUENTE_LEYENDA, 150);
 			} else {
-				boton = Leyenda.getBotonVentanaNULO(FUENTE_LEYENDA, 150);
+				boton = Especie.getBotonVentanaNULO(FUENTE_LEYENDA, 150);
 			}
 			pnEquipo.add(boton);
 			btEquipo[i] = boton;

@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 
 import gestion.GestorDeDatos;
 import objetosCombate.Jugador;
+import personaje.Especie;
 import personaje.Leyenda;
 
 public class VenFusiones extends JFrame {
@@ -63,8 +64,8 @@ public class VenFusiones extends JFrame {
 	private static final Font FUENTE_TOCHA = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 20);
 	private static final Font FUENTE_SUMA = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, 1, 40);
 	
-	private Component btLey1 = Leyenda.getBotonVentanaNULO(FUENTE_BOTON, 150);
-	private Component btLey2 = Leyenda.getBotonVentanaNULO(FUENTE_BOTON, 150);
+	private Component btLey1 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
+	private Component btLey2 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
 	
 	/**
 	 * Constructo de ventana fusiones
@@ -135,8 +136,8 @@ public class VenFusiones extends JFrame {
 					ind2 = -1;
 					ley1 = null;
 					ley2 = null;
-					btLey1=Leyenda.getBotonVentanaNULO(FUENTE_BOTON, 150);
-					btLey2=Leyenda.getBotonVentanaNULO(FUENTE_BOTON, 150);
+					btLey1=Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
+					btLey2=Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
 					actualizaBotones();
 					VenFusiones.this.revalidate();
 				} else {
