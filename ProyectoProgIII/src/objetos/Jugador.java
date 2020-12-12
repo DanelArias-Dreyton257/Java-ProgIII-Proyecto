@@ -14,7 +14,7 @@ import personaje.Leyenda;
 public class Jugador implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	private static final int NUM_PER = 6;
+	public static final int NUM_PER = 6;
 	private String nombre;
 	private Leyenda[] equipo = new Leyenda[NUM_PER]; // donde se guardan los personajes del equipo
 	private ArrayList<Leyenda> eternidad = new ArrayList<>(); // donde se guardan todos los personajes no usados en el

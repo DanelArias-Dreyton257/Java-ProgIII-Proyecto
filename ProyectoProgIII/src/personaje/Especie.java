@@ -1,8 +1,10 @@
 package personaje;
 
+import java.awt.Font;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import gestion.GestorDeDatos;
 import personaje.atributos.Tipo;
 
 /**
@@ -10,10 +12,11 @@ import personaje.atributos.Tipo;
  * @author danel y jon ander
  *
  */
-public class Especie implements Serializable{
-	
+public class Especie implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+	private static final Font FUENTE_LEYENDA = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 15);
+
 	String nombre;
 	String descripcion;
 	Tipo[] tipos = new Tipo[2];
@@ -119,7 +122,5 @@ public class Especie implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
 
 }

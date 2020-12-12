@@ -1,12 +1,15 @@
 package visuales;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -35,8 +38,6 @@ public class VenFusiones extends JFrame {
 	private Jugador usuario;
 
 	private JButton btFusion = new JButton("FUSION");
-	private JButton btLey1 = new JButton("Seleccione personaje 1");
-	private JButton btLey2 = new JButton("Seleccione personaje 2");
 
 	private JLabel lbSuma = new JLabel(" + ");
 
@@ -58,8 +59,12 @@ public class VenFusiones extends JFrame {
 
 	// Fuentes
 	private static final Font FUENTE_LEYENDA = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 15);
+	private static final Font FUENTE_BOTON = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 25);
 	private static final Font FUENTE_TOCHA = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 20);
 	private static final Font FUENTE_SUMA = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, 1, 40);
+	
+	private Component btLey1 = Leyenda.getBotonVentanaNULO(FUENTE_BOTON, 150);
+	private Component btLey2 = Leyenda.getBotonVentanaNULO(FUENTE_BOTON, 150);
 	
 	/**
 	 * Constructo de ventana fusiones
@@ -86,11 +91,11 @@ public class VenFusiones extends JFrame {
 		pnAbajo.add(pnBotones, BorderLayout.EAST);
 		pnSuma.setLayout(new BoxLayout(pnSuma, BoxLayout.X_AXIS));
 		pnSuma.add(btLey1);
-		btLey1.setFont(FUENTE_LEYENDA);
+		
 		pnSuma.add(lbSuma);
 		lbSuma.setFont(FUENTE_SUMA);
 		pnSuma.add(btLey2);
-		btLey2.setFont(FUENTE_LEYENDA);
+		
 		pnBotones.setLayout(new BoxLayout(pnBotones, BoxLayout.X_AXIS));
 		pnBotones.add(btFusion);
 		btFusion.setFont(FUENTE_TOCHA);
@@ -101,6 +106,7 @@ public class VenFusiones extends JFrame {
 		lsListaLey.setFont(FUENTE_LEYENDA);
 		lsListaLey.setModel(mdLista);
 		actualizaLista();
+		actualizaBotones();
 
 		// Listeners
 		addWindowListener(new WindowAdapter() {
@@ -129,8 +135,10 @@ public class VenFusiones extends JFrame {
 					ind2 = -1;
 					ley1 = null;
 					ley2 = null;
-					btLey1.setText("Seleccione personaje 1");
-					btLey2.setText("Seleccione personaje 2");
+					btLey1=Leyenda.getBotonVentanaNULO(FUENTE_BOTON, 150);
+					btLey2=Leyenda.getBotonVentanaNULO(FUENTE_BOTON, 150);
+					actualizaBotones();
+					VenFusiones.this.revalidate();
 				} else {
 					JOptionPane.showMessageDialog(VenFusiones.this, "Selecciona 2 personajes", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -140,23 +148,31 @@ public class VenFusiones extends JFrame {
 
 		});
 
-		btLey1.addActionListener(new ActionListener() {
+		
+
+	}
+	private void actualizaBotones() {
+		
+		btLey1.addMouseListener(new MouseAdapter() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void mousePressed(MouseEvent e) {
 				int i = lsListaLey.getSelectedIndex();
 				if (ind2 != i) {
 					ind1 = i;
 					if (i < usuario.getNumLeyendasEnEquipo()) {
 						// Esta en el equipo
 						ley1 = usuario.getLeyendaEquipo(i);
-						btLey1.setText(ley1.getNombre());
+						btLey1 = ley1.getBotonVentana(FUENTE_BOTON, 150);
+						actualizaBotones();
 					} else {
 						// Esta en la eternidad
 						i -= usuario.getNumLeyendasEnEquipo();
 						ley1 = usuario.getLeyendaEternidad(i);
-						btLey1.setText(ley1.getNombre());
+						btLey1 = ley1.getBotonVentana(FUENTE_BOTON, 150);
+						actualizaBotones();
 					}
+					VenFusiones.this.revalidate();
 
 				} else {
 					JOptionPane.showMessageDialog(VenFusiones.this, "Personaje ya seleccionado", "Error",
@@ -164,32 +180,40 @@ public class VenFusiones extends JFrame {
 				}
 			}
 		});
-		btLey2.addActionListener(new ActionListener() {
+
+		btLey2.addMouseListener(new MouseAdapter() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void mousePressed(MouseEvent e) {
 				int i = lsListaLey.getSelectedIndex();
 				if (ind1 != i) {
 					ind2 = i;
 					if (i < usuario.getNumLeyendasEnEquipo()) {
 						// Esta en el equipo
 						ley2 = usuario.getLeyendaEquipo(i);
-						btLey2.setText(ley2.getNombre());
+						btLey2 = ley2.getBotonVentana(FUENTE_BOTON, 150);
+						actualizaBotones();
 					} else {
 						// Esta en la eternidad
 						i -= usuario.getNumLeyendasEnEquipo();
 						ley2 = usuario.getLeyendaEternidad(i);
-						btLey2.setText(ley2.getNombre());
+						btLey2 = ley2.getBotonVentana(FUENTE_BOTON, 150);
+						actualizaBotones();
 					}
+					VenFusiones.this.revalidate();
 
 				} else {
 					JOptionPane.showMessageDialog(VenFusiones.this, "Personaje ya seleccionado", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
 			}
-
 		});
-
+		pnSuma.removeAll();
+		pnSuma.add(btLey1);
+		pnSuma.add(lbSuma);
+		lbSuma.setFont(FUENTE_SUMA);
+		pnSuma.add(btLey2);
+		
 	}
 
 	/**

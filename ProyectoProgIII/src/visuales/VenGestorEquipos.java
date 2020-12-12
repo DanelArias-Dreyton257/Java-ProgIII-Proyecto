@@ -1,12 +1,15 @@
 package visuales;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -38,8 +41,10 @@ public class VenGestorEquipos extends JFrame {
 	private Jugador usuario;
 
 	private JButton btVenFusion = new JButton("Ventana de fusion");
-	private JButton[] btEquipo = { new JButton("Equipo 1"), new JButton("Equipo 2"), new JButton("Equipo 3"),
-			new JButton("Equipo 4"), new JButton("Equipo 5"), new JButton("Equipo 6") };
+	// private JButton[] btEquipo = { new JButton("Equipo 1"), new JButton("Equipo
+	// 2"), new JButton("Equipo 3"),
+	// new JButton("Equipo 4"), new JButton("Equipo 5"), new JButton("Equipo 6") };
+	private Component btEquipo[] = new Component[6];
 
 	private JLabel lbEquipo = new JLabel("Equipo");
 	private JLabel lbEternidad = new JLabel("Eternidad");
@@ -54,7 +59,7 @@ public class VenGestorEquipos extends JFrame {
 	private JList<String> lsEternidad = new JList<>();
 
 	private int indBotonSeleccionado = -1;
-	
+
 	// Fuentes
 	private static final Font FUENTE_LEYENDA = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 20);
 	private static final Font FUENTE_TOCHA = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 25);
@@ -88,17 +93,12 @@ public class VenGestorEquipos extends JFrame {
 
 		pnIzqAbajo.add(btVenFusion);
 		btVenFusion.setFont(FUENTE_BOTON);
-		
+
 		pnDer.add(lbEternidad, BorderLayout.NORTH);
 		lbEternidad.setFont(FUENTE_TOCHA);
 		lsEternidad.setModel(mdEternidad);
 		pnDer.add(new JScrollPane(lsEternidad), BorderLayout.CENTER);
 		lsEternidad.setFont(FUENTE_LEYENDA);
-		
-		for (JButton bt : btEquipo) {
-			pnEquipo.add(bt);
-			bt.setFont(FUENTE_LEYENDA);
-		}
 
 		// Listeners
 		addWindowListener(new WindowAdapter() {
@@ -122,36 +122,38 @@ public class VenGestorEquipos extends JFrame {
 			}
 		});
 
-		for (int i = 0; i < btEquipo.length; i++) {
-			int h = i;
-			btEquipo[i].addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					int j = lsEternidad.getSelectedIndex();
-					if (j >= 0) {
-						usuario.intercambiarEquipoEternidad(h, j);
-						if (indBotonSeleccionado != -1) {
-							for (JButton bt : btEquipo) {
-								bt.setEnabled(true);
-							}
-						}
-						indBotonSeleccionado = -1;
-					} else {
-						if (indBotonSeleccionado != -1) {
-							usuario.intercambiarEnEquipo(h, indBotonSeleccionado);
-							btEquipo[indBotonSeleccionado].setEnabled(true);
-							indBotonSeleccionado = -1;
-						} else {
-							btEquipo[h].setEnabled(false);
-							indBotonSeleccionado = h;
-						}
-					}
-					actualizaEquipo();
-					actualizaLista();
-
-				}
-			});
-		}
+//		for (int i = 0; i < btEquipo.length; i++) {
+//			int h = i;
+//			btEquipo[i].addMouseListener(new MouseAdapter() {
+//				@Override
+//				public void mousePressed(MouseEvent e) {
+//					if (btEquipo[h].isEnabled()) {
+//						int j = lsEternidad.getSelectedIndex();
+//						if (j >= 0) {
+//							usuario.intercambiarEquipoEternidad(h, j);
+//							if (indBotonSeleccionado != -1) {
+//								for (Component bt : btEquipo) {
+//									bt.setEnabled(true);
+//								}
+//							}
+//							indBotonSeleccionado = -1;
+//						} else {
+//							if (indBotonSeleccionado != -1) {
+//								usuario.intercambiarEnEquipo(h, indBotonSeleccionado);
+//								btEquipo[indBotonSeleccionado].setEnabled(true);
+//								indBotonSeleccionado = -1;
+//							} else {
+//								btEquipo[h].setEnabled(false);
+//								indBotonSeleccionado = h;
+//							}
+//						}
+//						actualizaEquipo();
+//						actualizaLista();
+//
+//					}
+//				}
+//			});
+//		}
 
 		actualizaEquipo();
 		actualizaLista();
@@ -162,16 +164,40 @@ public class VenGestorEquipos extends JFrame {
 	 * Actualiza los botones que representan las leyendas del equipo
 	 */
 	private void actualizaEquipo() {
-		for (int i = 0; i < usuario.getEquipo().length; i++) {
-			Leyenda l = usuario.getLeyendaEquipo(i);
-			if (l != null) {
-				btEquipo[i].setText(l.getNombre());
-				btEquipo[i].setToolTipText(l.getToolTipInfo());
+		pnEquipo.removeAll();
+		for (int i = 0; i < Jugador.NUM_PER; i++) {
+			Leyenda esp = usuario.getEquipo()[i];
+			Component boton = null;
+			if (esp != null) {
+				boton = esp.getBotonVentana(FUENTE_LEYENDA, 150);
 			} else {
-				btEquipo[i].setText(GestorDeDatos.NULL_STR);
-				btEquipo[i].setToolTipText("");
+				boton = Leyenda.getBotonVentanaNULO(FUENTE_LEYENDA, 150);
 			}
+			pnEquipo.add(boton);
+			btEquipo[i] = boton;
+			int h = i;
+			boton.addMouseListener(new MouseAdapter() {
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					int j = lsEternidad.getSelectedIndex();
+					if (j >= 0) {
+						usuario.intercambiarEquipoEternidad(h, j);
+						actualizaEquipo();
+						actualizaLista();
+					}
+					else if (indBotonSeleccionado != 1) {
+						//intercambiar en equipo
+					}
+					else {
+						//TODO
+					}
+					revalidate();
+				}
+			});
+
 		}
+
 	}
 
 	/**
