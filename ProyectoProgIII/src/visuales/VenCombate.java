@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.TreeSet;
@@ -24,6 +26,7 @@ import javax.swing.JPanel;
 
 import gestion.GestorDeDatos;
 import objetosCombate.Combate;
+import personaje.Especie;
 import personaje.Leyenda;
 import personaje.atributos.Habilidad;
 
@@ -57,9 +60,13 @@ public class VenCombate extends JFrame {
 
 	private JLabel lbJugador1 = new JLabel("Jugador 1");
 	private JLabel lbJugador2 = new JLabel("Jugador 2");
-
-	private JButton[] btLeyEnBatalla = { new JButton("Leyenda"), new JButton("Leyenda"), new JButton("Leyenda"),
-			new JButton("Leyenda"), new JButton("Leyenda"), new JButton("Leyenda") };
+	private Component btLey1 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
+	private Component btLey2 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
+	private Component btLey3 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
+	private Component btLey4 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
+	private Component btLey5 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
+	private Component btLey6 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
+	private Component[] btLeyEnBatalla = { btLey1, btLey2, btLey3, btLey4, btLey5, btLey6 };
 
 	private JLabel lbTurno = new JLabel("Turno 0");
 
@@ -83,6 +90,7 @@ public class VenCombate extends JFrame {
 	private static final Font FUENTE_HABILIDAD = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
 	private static final Font FUENTE_JUGADOR = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 15);
 	private static final Font FUENTE_MENSAJE = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.BOLD, 15);
+	private static final Font FUENTE_BOTON = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 25);
 
 	/**
 	 * Contructor de la ventana de combate
@@ -131,20 +139,22 @@ public class VenCombate extends JFrame {
 		lsJ2Banquillo.setFont(FUENTE_LEYENDA);
 
 		// Anyadir leyendas
-		pnGrid2.add(panelBoxLayoutX(btLeyEnBatalla[0]));
-		pnGrid2.add(panelBoxLayoutX(new JLabel("")));
-		pnGrid2.add(panelBoxLayoutX(new JLabel("")));
-		pnGrid2.add(panelBoxLayoutX(btLeyEnBatalla[1]));
-		pnGrid2.add(panelBoxLayoutX(btLeyEnBatalla[2]));
-		pnGrid2.add(panelBoxLayoutX(new JLabel("")));
-
-		pnGrid4.add(panelBoxLayoutX(new JLabel("")));
-		pnGrid4.add(panelBoxLayoutX(btLeyEnBatalla[3]));
-		pnGrid4.add(panelBoxLayoutX(btLeyEnBatalla[4]));
-		pnGrid4.add(panelBoxLayoutX(new JLabel("")));
-		pnGrid4.add(panelBoxLayoutX(new JLabel("")));
-		pnGrid4.add(panelBoxLayoutX(btLeyEnBatalla[5]));
-
+		actualizaNombresLeys();
+		// POSIBLEMENTE QUITAR, YA QUE ESTA HACIENDOLO ABAJO
+		/*
+		 * pnGrid4.removeAll(); pnGrid2.removeAll();
+		 * pnGrid2.add(panelBoxLayoutX(btLeyEnBatalla[0]));
+		 * pnGrid2.add(panelBoxLayoutX(new JLabel(""))); pnGrid2.add(panelBoxLayoutX(new
+		 * JLabel(""))); pnGrid2.add(panelBoxLayoutX(btLeyEnBatalla[1]));
+		 * pnGrid2.add(panelBoxLayoutX(btLeyEnBatalla[2]));
+		 * pnGrid2.add(panelBoxLayoutX(new JLabel("")));
+		 * 
+		 * pnGrid4.add(panelBoxLayoutX(new JLabel("")));
+		 * pnGrid4.add(panelBoxLayoutX(btLeyEnBatalla[3]));
+		 * pnGrid4.add(panelBoxLayoutX(btLeyEnBatalla[4]));
+		 * pnGrid4.add(panelBoxLayoutX(new JLabel(""))); pnGrid4.add(panelBoxLayoutX(new
+		 * JLabel(""))); pnGrid4.add(panelBoxLayoutX(btLeyEnBatalla[5]));
+		 */
 		pn3.add(pn3Norte, BorderLayout.NORTH);
 		pn3Norte.add(lbTurno);
 		lbTurno.setFont(FUENTE_MENSAJE);
@@ -165,7 +175,7 @@ public class VenCombate extends JFrame {
 
 		combate.getJugador().curarLeyendas();
 		combate.getContrincante().curarLeyendas();
-		actualizaNombresLeys();
+		// actualizaNombresLeys();
 		// Listeners
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -208,18 +218,24 @@ public class VenCombate extends JFrame {
 				}
 			});
 		}
-		// Listeners para cada boton de los personajes
-		for (int k = 0; k < btLeyEnBatalla.length; k++) {
-			JButton boton = btLeyEnBatalla[k];
 
-			boton.setFont(FUENTE_LEYENDA);// Fuente del boton, incluido aqui por comodidad del for loop
+	}
+
+	/**
+	 * Funcion que agrega a los botones sus respectivos listeners
+	 */
+	private void ListenersBotones() {
+		for (int k = 0; k < btLeyEnBatalla.length; k++) {
+
+			Component boton1 = btLeyEnBatalla[k];
 
 			int l = k;
 
-			boton.addActionListener(new ActionListener() {
+			boton1.addMouseListener(new MouseAdapter() {
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
+
+				public void mousePressed(MouseEvent e) {
 
 					if (indiceHabElegida >= 0 && enTurno) {
 
@@ -229,6 +245,7 @@ public class VenCombate extends JFrame {
 							if (l - 3 < 0)
 								return;
 							ataqueStr = combate.leyendaAtacaLeyenda(true, indiceLeyEnCurso, l - 3, indiceHabElegida);
+
 						}
 						// Ataca el j2 al j1
 						else {
@@ -241,11 +258,10 @@ public class VenCombate extends JFrame {
 
 						// Actualizar nombres
 						actualizaNombresLeys();
-						JButton lbleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];
-						lbleyEnCurso.setForeground(Color.BLACK);
-
+						Component lbleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];
+						lbleyEnCurso.setBackground(null);
+						// actualizaNombresLeys();
 						checkFinalTurno();
-
 					} else if (!enTurno) {
 						// Jugador 1
 						if (l < 3) {
@@ -253,10 +269,13 @@ public class VenCombate extends JFrame {
 							if (ind >= 0) {
 								// equipo = [0],[1],[2] [3],[4],[5]
 								// l = [0],[1],[2] ind = [0],[1],[2]
+
 								Leyenda aCambiar = combate.getJugador().getLeyendaEquipo(ind + 3);
 								if (aCambiar != null && !aCambiar.estaMuerto()) {
 									combate.getJugador().intercambiarEnEquipo(l, ind + 3);
+
 									actualizaNombresLeys();
+
 								} else {
 									JOptionPane.showMessageDialog(VenCombate.this,
 											"No puedes dejar un hueco vacio en tu frente o sacar a un muerto al campo de batalla DESALMADO",
@@ -269,6 +288,7 @@ public class VenCombate extends JFrame {
 										"Si quieres cambiar, selecciona primero una leyenda del banquillo",
 										"Error en intercambio", JOptionPane.INFORMATION_MESSAGE);
 							}
+
 						}
 						// Jugador 2
 						else {
@@ -297,9 +317,9 @@ public class VenCombate extends JFrame {
 					}
 
 				}
+
 			});
 		}
-
 	}
 
 	/**
@@ -312,24 +332,28 @@ public class VenCombate extends JFrame {
 		} else {
 			enTurno = false;
 			int g = combate.checkGanadorBatalla();
-			if (g==0) {
-				int dobsGanados= combate.getContrincante().getDoblones();
-				JOptionPane.showMessageDialog(VenCombate.this, combate.getJugador().getNombre()+" gano la partida!\nSe lleva "+dobsGanados+" doblones" , "FIN DE LA PARTIDA", JOptionPane.INFORMATION_MESSAGE);
-				combate.getJugador().incDoblones(dobsGanados);;
+			if (g == 0) {
+				int dobsGanados = combate.getContrincante().getDoblones();
+				JOptionPane.showMessageDialog(VenCombate.this,
+						combate.getJugador().getNombre() + " gano la partida!\nSe lleva " + dobsGanados + " doblones",
+						"FIN DE LA PARTIDA", JOptionPane.INFORMATION_MESSAGE);
+				combate.getJugador().incDoblones(dobsGanados);
+				;
 				dispose();
 				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJugador());
 				v.setUsuario(combate.getJugador());
 				v.setVisible(true);
-			}
-			else if (g==1) {
-				JOptionPane.showMessageDialog(VenCombate.this, combate.getContrincante().getNombre()+" gano la partida!" , "FIN DE LA PARTIDA", JOptionPane.INFORMATION_MESSAGE);
+			} else if (g == 1) {
+				JOptionPane.showMessageDialog(VenCombate.this,
+						combate.getContrincante().getNombre() + " gano la partida!", "FIN DE LA PARTIDA",
+						JOptionPane.INFORMATION_MESSAGE);
 				dispose();
 				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJugador());
 				v.setUsuario(combate.getJugador());
 				v.setVisible(true);
+			} else {
+				btSigTurno.setVisible(true);
 			}
-			else {
-			btSigTurno.setVisible(true);}
 		}
 	}
 
@@ -346,9 +370,9 @@ public class VenCombate extends JFrame {
 		indiceHabElegida = -1;
 
 		// Cambia el color de quien ataca
-		JButton lbleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];
-		lbleyEnCurso.setForeground(Color.RED);
-
+		Component btleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];
+		
+		//lbleyEnCurso.setBackground((Color.RED));
 		// Hacer aparecer panel con movs
 		Habilidad[] hs = leyendaEnCurso.getHabilidades();
 		for (int i = 0; i < hs.length; i++) {
@@ -380,17 +404,25 @@ public class VenCombate extends JFrame {
 			int j = i - 3;
 			Leyenda correspondiente = null;
 
-			if (i >= 3)
+			if (i >= 3) {
 				correspondiente = combate.getContrincante().getLeyendaEquipo(j);
-			else
-				correspondiente = combate.getJugador().getLeyendaEquipo(i);
-
-			if (correspondiente != null) {
-				btLeyEnBatalla[i].setText(correspondiente.getNombreCombate());
-				btLeyEnBatalla[i].setToolTipText(correspondiente.getToolTipInfo());
+				//System.out.println(combate.getContrincante().getLeyendaEquipo(j).getNombre());
 			} else {
-				btLeyEnBatalla[i].setText(GestorDeDatos.NULL_STR);
-				btLeyEnBatalla[i].setToolTipText("");
+				correspondiente = combate.getJugador().getLeyendaEquipo(i);
+				//System.out.println(combate.getJugador().getLeyendaEquipo(i).getNombre());
+			}
+			if (correspondiente != null) {
+
+				btLeyEnBatalla[i] = correspondiente.getBotonVentana(FUENTE_BOTON, 100);
+				//System.out.println(btLeyEnBatalla[i]);
+				// btLeyEnBatalla[i].setText(correspondiente.getNombreCombate());
+				// btLeyEnBatalla[i].setToolTipText(correspondiente.getToolTipInfo());
+			}
+
+			else {
+				// btLeyEnBatalla[i].setText(GestorDeDatos.NULL_STR);
+				// btLeyEnBatalla[i].setToolTipText("");
+				btLeyEnBatalla[i] = Especie.getBotonVentanaNULO(FUENTE_BOTON, 100);
 			}
 		}
 
@@ -406,6 +438,26 @@ public class VenCombate extends JFrame {
 			if (banquillo2 != null)
 				mdJ2Banquillo.addElement(banquillo2.getNombreCombate());
 		}
+		//combate.getJugador().reorganizaEquipo();
+		//combate.getContrincante().reorganizaEquipo();
+		pnGrid4.removeAll();
+		pnGrid2.removeAll();
+
+		pnGrid2.add(panelBoxLayoutX(btLeyEnBatalla[0]));
+		pnGrid2.add(panelBoxLayoutX(new JLabel("")));
+		pnGrid2.add(panelBoxLayoutX(new JLabel("")));
+		pnGrid2.add(panelBoxLayoutX(btLeyEnBatalla[1]));
+		pnGrid2.add(panelBoxLayoutX(btLeyEnBatalla[2]));
+		pnGrid2.add(panelBoxLayoutX(new JLabel("")));
+
+		pnGrid4.add(panelBoxLayoutX(new JLabel("")));
+		pnGrid4.add(panelBoxLayoutX(btLeyEnBatalla[3]));
+		pnGrid4.add(panelBoxLayoutX(btLeyEnBatalla[4]));
+		pnGrid4.add(panelBoxLayoutX(new JLabel("")));
+		pnGrid4.add(panelBoxLayoutX(new JLabel("")));
+		pnGrid4.add(panelBoxLayoutX(btLeyEnBatalla[5]));
+		ListenersBotones();
+		VenCombate.this.revalidate();
 	}
 
 	/**
