@@ -24,6 +24,7 @@ import gestion.GestorDeDatos;
 import objetosCombate.Jugador;
 import personaje.Especie;
 import personaje.Leyenda;
+import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;
 
 /**
@@ -37,34 +38,51 @@ public class VenValhalla extends JFrame {
 
 	private static final String TITULO = "MLW: Valhalla";
 	private static final Dimension MIN_DIM = new Dimension(400, 400);
-	private static final Dimension PREF_DIM = new Dimension(600, 600);
+	private static final Dimension PREF_DIM = new Dimension(600, 650);
 	public static final int COSTE_CONTRATO = 500;
 
 	private Jugador usuario;
 
 	private JLabel lbDoblones = new JLabel();
 
-	private JButton btTirada = new JButton("Contratar una Leyenda: " + COSTE_CONTRATO + " doblones");
+	private JButton btTirada = new JButton("Contratar una Leyenda aleatoria: " + COSTE_CONTRATO + " doblones");
 	private JLabel lbTipo1 = new JLabel("Tipo1:");
 	private JLabel lbTipo2 = new JLabel("Tipo2:");
 	private JLabel lbTipo1R = new JLabel(GestorDeDatos.NULL_STR);
 	private JLabel lbTipo2R = new JLabel(GestorDeDatos.NULL_STR);
 
-	private JButton btDerecha = new JButton(">");
-	private JButton btIzquierda = new JButton("<");
-	
-	private JTextArea taDescr = new JTextArea(8, 50);
-	private JScrollPane spDescr = new JScrollPane(taDescr);
-	
+	private JLabel lbNomHab = new JLabel("Habilidad");
+	private JLabel lbTipoHab = new JLabel("Tipo:");
+	private JLabel lbTipoRHab = new JLabel(GestorDeDatos.NULL_STR);
+
+	private JButton btDerEsp = new JButton(">");
+	private JButton btIzqEsp = new JButton("<");
+	private JButton btDerHab = new JButton(">");
+	private JButton btIzqHab = new JButton("<");
+
+	private JTextArea taDescrEsp = new JTextArea(8, 50);
+	private JScrollPane spDescrEsp = new JScrollPane(taDescrEsp);
+
+	private JTextArea taDescrHab = new JTextArea(4, 50);
+	private JScrollPane spDescrHab = new JScrollPane(taDescrHab);
+
 	private JPanel pnNorte = new JPanel();
-	private JPanel pnCentral = new JPanel(new BorderLayout());
+	private JPanel pnCentral = new JPanel();
 	private JPanel pnSelEspecie = new JPanel(new BorderLayout());
-	private JPanel pnDatos = new JPanel(new BorderLayout());
-	private JPanel pnDatosCen = new JPanel();
-	private JPanel pnDatosNorte = new JPanel();
+	private JPanel pnEsp = new JPanel(new BorderLayout());
+	private JPanel pnDatosEsp = new JPanel(new BorderLayout());
+	private JPanel pnDatosEspCen = new JPanel();
+	private JPanel pnDatosEspNorte = new JPanel();
+	private JPanel pnHab = new JPanel(new BorderLayout());
+	private JPanel pnSelHab = new JPanel(new BorderLayout());
+	private JPanel pnDatosHab = new JPanel(new BorderLayout());
+	private JPanel pnSelCentro = new JPanel();
 
 	private ArrayList<String> nombresEsp;
-	private int posArray = 0;
+	private int posArrEsp = 0;
+
+	private ArrayList<String> nombresHab;
+	private int posArrHab = 0;
 
 	// Fuentes
 	private static final Font FUENTE_MENSAJE = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 20);
@@ -94,6 +112,7 @@ public class VenValhalla extends JFrame {
 		setTitle(TITULO);
 
 		nombresEsp = GestorDeDatos.getNombresEspecies();
+		nombresHab = GestorDeDatos.getNombresHabilidades();
 
 		// Colocacion de paneles
 		getContentPane().add(pnNorte, BorderLayout.NORTH);
@@ -103,28 +122,56 @@ public class VenValhalla extends JFrame {
 		pnNorte.add(btTirada);
 		btTirada.setFont(FUENTE_BOTON);
 
-		pnCentral.add(pnSelEspecie, BorderLayout.NORTH);
+		pnCentral.add(pnEsp);
 
-		btIzquierda.setFont(FUENTE_FLECHAS);
-		btDerecha.setFont(FUENTE_FLECHAS);
+		pnEsp.add(pnSelEspecie, BorderLayout.NORTH);
 
-		pnCentral.add(pnDatos, BorderLayout.CENTER);
-		pnDatos.add(pnDatosNorte, BorderLayout.NORTH);
-		pnDatos.add(pnDatosCen, BorderLayout.CENTER);
-		pnDatosCen.add(spDescr);
-		taDescr.setFont(FUENTE_DESCR);
-		taDescr.setEditable(false);
-		taDescr.setLineWrap(true);
-		taDescr.setWrapStyleWord(true);
+		btIzqEsp.setFont(FUENTE_FLECHAS);
+		btDerEsp.setFont(FUENTE_FLECHAS);
 
-		pnDatosNorte.add(lbTipo1);
-		pnDatosNorte.add(lbTipo1R);
-		pnDatosNorte.add(lbTipo2);
-		pnDatosNorte.add(lbTipo2R);
+		pnEsp.add(pnDatosEsp, BorderLayout.CENTER);
+
+		pnDatosEsp.add(pnDatosEspNorte, BorderLayout.NORTH);
+		pnDatosEsp.add(pnDatosEspCen, BorderLayout.CENTER);
+		pnDatosEspCen.add(spDescrEsp);
+		taDescrEsp.setFont(FUENTE_DESCR);
+		taDescrEsp.setEditable(false);
+		taDescrEsp.setLineWrap(true);
+		taDescrEsp.setWrapStyleWord(true);
+
+		pnDatosEspNorte.add(lbTipo1);
+		pnDatosEspNorte.add(lbTipo1R);
+		pnDatosEspNorte.add(lbTipo2);
+		pnDatosEspNorte.add(lbTipo2R);
 		lbTipo1.setFont(FUENTE_BOTON);
 		lbTipo1R.setFont(FUENTE_BOTON);
 		lbTipo2.setFont(FUENTE_BOTON);
 		lbTipo2R.setFont(FUENTE_BOTON);
+
+		pnCentral.add(pnHab);
+
+		pnHab.add(pnSelHab, BorderLayout.NORTH);
+		pnSelHab.add(btIzqHab, BorderLayout.WEST);
+		pnSelHab.add(btDerHab, BorderLayout.EAST);
+		pnSelHab.add(pnSelCentro, BorderLayout.CENTER);
+
+		btIzqHab.setFont(FUENTE_FLECHAS);
+		btDerHab.setFont(FUENTE_FLECHAS);
+
+		pnSelCentro.add(lbNomHab);
+		lbNomHab.setFont(FUENTE_MENSAJE);
+		pnSelCentro.add(lbTipoHab);
+		lbTipoHab.setFont(FUENTE_BOTON);
+		pnSelCentro.add(lbTipoRHab);
+		lbTipoRHab.setFont(FUENTE_BOTON);
+
+		pnHab.add(pnDatosHab, BorderLayout.CENTER);
+
+		pnDatosHab.add(spDescrHab);
+		taDescrHab.setFont(FUENTE_DESCR);
+		taDescrHab.setEditable(false);
+		taDescrHab.setLineWrap(true);
+		taDescrHab.setWrapStyleWord(true);
 
 		// Listeners
 		addWindowListener(new WindowAdapter() {
@@ -136,24 +183,46 @@ public class VenValhalla extends JFrame {
 			}
 		});
 
-		btDerecha.addActionListener(new ActionListener() {
+		btDerEsp.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				posArray++;
-				if (posArray >= nombresEsp.size()) {
-					posArray = 0;
+				posArrEsp++;
+				if (posArrEsp >= nombresEsp.size()) {
+					posArrEsp = 0;
 				}
 				actualizaDatos();
 			}
 		});
-		btIzquierda.addActionListener(new ActionListener() {
+		btIzqEsp.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				posArray--;
-				if (posArray < 0) {
-					posArray = nombresEsp.size() - 1;
+				posArrEsp--;
+				if (posArrEsp < 0) {
+					posArrEsp = nombresEsp.size() - 1;
+				}
+				actualizaDatos();
+			}
+		});
+		btDerHab.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				posArrHab++;
+				if (posArrHab >= nombresHab.size()) {
+					posArrHab = 0;
+				}
+				actualizaDatos();
+			}
+		});
+		btIzqHab.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				posArrHab--;
+				if (posArrHab < 0) {
+					posArrHab = nombresHab.size() - 1;
 				}
 				actualizaDatos();
 			}
@@ -186,18 +255,18 @@ public class VenValhalla extends JFrame {
 	 */
 	private void actualizaDatos() {
 		lbDoblones.setText("Tus doblones: " + usuario.getDoblones());
-		Especie act = GestorDeDatos.getInfoEspecie(nombresEsp.get(posArray));
+		Especie act = GestorDeDatos.getInfoEspecie(nombresEsp.get(posArrEsp));
 		btEspecie = act.getBotonVentana(FUENTE_MENSAJE, 150);
 
 		pnSelEspecie.removeAll();
 
-		pnSelEspecie.add(btIzquierda, BorderLayout.WEST);
-		pnSelEspecie.add(btDerecha, BorderLayout.EAST);
+		pnSelEspecie.add(btIzqEsp, BorderLayout.WEST);
+		pnSelEspecie.add(btDerEsp, BorderLayout.EAST);
 		JPanel p = new JPanel();
 		p.add(btEspecie);
 		pnSelEspecie.add(p, BorderLayout.CENTER);
 
-		taDescr.setText(act.getDescripcion());
+		taDescrEsp.setText(act.getDescripcion());
 
 		Tipo[] tp = act.getTipos();
 		Tipo t1 = tp[0];
@@ -216,9 +285,21 @@ public class VenValhalla extends JFrame {
 			lbTipo2R.setText(GestorDeDatos.NULL_STR);
 			lbTipo2R.setForeground(Color.BLACK);
 		}
-		
+
+		Habilidad hab = GestorDeDatos.getInfoHabilidad(nombresHab.get(posArrHab));
+		lbNomHab.setText(hab.getNombre());
+		Tipo th = hab.getTipo();
+		if (th != null) {
+			lbTipoRHab.setText(th.toString());
+			lbTipoRHab.setForeground(th.getColor());
+		} else {
+			lbTipoRHab.setText(GestorDeDatos.NULL_STR);
+			lbTipoRHab.setForeground(Color.BLACK);
+		}
+		taDescrHab.setText(hab.getDescripcion());
+
 		revalidate();
-		
+
 	}
 
 	/**
