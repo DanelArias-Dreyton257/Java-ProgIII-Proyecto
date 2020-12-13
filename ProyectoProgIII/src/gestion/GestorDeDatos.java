@@ -60,6 +60,7 @@ public class GestorDeDatos {
 	private static final String PATH_BD = "BaseDatos.db";
 
 	// ---------------------------------------------------------------------------------------------------------------------
+	// insertamos los tipos de letra
 	static {
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		try {
@@ -73,7 +74,7 @@ public class GestorDeDatos {
 		}
 	}
 	// -------------------------------------------------------------------------------------------------------------------------
-
+	// agregamos el sqlite
 	static {
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -91,7 +92,7 @@ public class GestorDeDatos {
 	 * @param tipo2
 	 * @return
 	 */
-	public static Especie buscarEspecieEnBD(Tipo tipo1, Tipo tipo2) { //FIXME COMPROBAR, ENCONTRADAS INCONSISTENCIAS
+	public static Especie buscarEspecieEnBD(Tipo tipo1, Tipo tipo2) {
 
 		String t1Str = tipo1.toString();
 		// si el segundo tipo es nulo
@@ -585,7 +586,10 @@ public class GestorDeDatos {
 		}
 
 	}
-
+/**
+ * Funcion que guarda un jugador en el fichero
+ * @param jug
+ */
 	public static void guardarJugadoresFichero(GestorJugadores jug) {
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(JUGADORES_FICH));
@@ -598,6 +602,10 @@ public class GestorDeDatos {
 		}
 	}
 
+	/**
+	 * Clase que debuelve un jugador del fichero
+	 * @return
+	 */
 	public static GestorJugadores cargarJugadoresFichero() {
 		GestorJugadores leido = null;
 		try {
@@ -610,6 +618,10 @@ public class GestorDeDatos {
 		return leido;
 	}
 
+	/**
+	 * Funcion que te devuelve un contricante aleatorio
+	 * @return
+	 */
 	public static String selectRandContrincante() { //TODO
 		return "Andoni El Destructor de Mundos";
 	}

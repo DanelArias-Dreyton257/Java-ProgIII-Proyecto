@@ -15,6 +15,11 @@ public class GestorJugadores implements Serializable {
 	public GestorJugadores() {
 	}
 
+	/**
+	 * se usa para añadir un jugador con su contraseña
+	 * @param j
+	 * @param contrasena
+	 */
 	public void anyadirJugador(Jugador j, String contrasena) {
 		while (credenciales.containsKey(j.getNombre())) {
 			j.setNombre(j.getNombre() + " 1");
@@ -23,7 +28,10 @@ public class GestorJugadores implements Serializable {
 		jugadores.add(j);
 
 	}
-
+/**
+ * devuelve todos los nombres de los jugadores
+ * @return
+ */
 	public String[] getNombresJugadores() {
 		try {
 			String[] strs = new String[jugadores.size()];
@@ -54,6 +62,12 @@ public class GestorJugadores implements Serializable {
 		return getJugadorPorNombre(nombre, 0);
 	}
 
+	/**
+	 * esta funcion debuelve el jugador por nombre
+	 * @param nombre
+	 * @param pos
+	 * @return
+	 */
 	private Jugador getJugadorPorNombre(String nombre, int pos) {
 		if (pos >= jugadores.size() || pos < 0) {
 			return null;
@@ -63,11 +77,19 @@ public class GestorJugadores implements Serializable {
 			return getJugadorPorNombre(nombre, pos + 1);
 		}
 	}
-	
+/**
+ * esta funcion permite cambiar de jugador llamando a otra funcion	
+ * @param j
+ */
 	public void replaceJugador(Jugador j) {
 		replaceJugador(j, 0);
 	}
-	
+
+	/**
+	 * Esta funcion permite cambiar de jugador 
+	 * @param j
+	 * @param pos
+	 */
 	private void replaceJugador(Jugador j,int pos) {
 		if (pos >= jugadores.size() || pos < 0) {
 			return;

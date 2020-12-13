@@ -94,7 +94,10 @@ public enum Tipo implements Serializable {
 		}
 		return dev;
 	}
-	
+/**
+ * devuelve el color del tipo
+ * @return
+ */
 	public Color getColor() {
 		return COLORES[this.ordinal()];
 	}

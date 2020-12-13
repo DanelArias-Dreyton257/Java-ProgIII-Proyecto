@@ -77,25 +77,25 @@ public class Leyenda extends Especie implements ToolTipAble,Serializable {
 
 	}
 
-//	/**
-//	 * Constructor que te recibe todos los datos de la leyenda menos las habilidades
-//	 * 
-//	 * @param nombre
-//	 * @param descripcion
-//	 * @param tipos
-//	 * @param ataque
-//	 * @param defensa
-//	 * @param velocidad
-//	 * @param vida
-//	 */
-//	public Leyenda(String nombre, String descripcion, Tipo[] tipos, int ataque, int defensa, int velocidad, int vida) {
-//		super(nombre, descripcion, tipos);
-//		setAtaque(ataque);
-//		setDefensa(defensa);
-//		setVelocidad(velocidad);
-//		setVida(vida);
-//		setVidaMax(vida);
-//	}
+	/**
+	 * Constructor que te recibe todos los datos de la leyenda menos las habilidades
+	 * 
+	 * @param nombre
+	 * @param descripcion
+	 * @param tipos
+	 * @param ataque
+	 * @param defensa
+	 * @param velocidad
+	 * @param vida
+	 */
+	public Leyenda(String nombre, String descripcion, Tipo[] tipos, int ataque, int defensa, int velocidad, int vida) {
+		super(nombre, descripcion, tipos);
+		setAtaque(ataque);
+		setDefensa(defensa);
+		setVelocidad(velocidad);
+		setVida(vida);
+		setVidaMax(vida);
+	}
 
 	/**
 	 * devuelve la vidaMax del personaje
@@ -483,7 +483,12 @@ public class Leyenda extends Especie implements ToolTipAble,Serializable {
 		curar(999);
 	}
 	
-
+/**
+ * obtienes la imagen del personaje con su nombre ya implementado
+ * @param fuente
+ * @param scale
+ * @return
+ */
 	public Component getBotonVentana(Font fuente, int scale) {
 		JPanel p = new JPanel(new BorderLayout());
 
@@ -518,10 +523,52 @@ public class Leyenda extends Especie implements ToolTipAble,Serializable {
 		p.add(lbImg,BorderLayout.CENTER);
 		JLabel lb = new JLabel(this.getNombre());
 		lb.setFont(fuente);
-		JPanel pn = new JPanel();
-		pn.add(lb);
-		p.add(pn, BorderLayout.SOUTH);
+		p.add(lb, BorderLayout.SOUTH);
 		p.setToolTipText(this.getToolTipInfo());
+		return p;
+	}
+/**
+ * obtienes la imagen del personaje con su nombre en nulo
+ * @param fuente
+ * @param scale
+ * @return
+ */
+	public static Component getBotonVentanaNULO(Font fuente, int scale) {
+		JPanel p = new JPanel(new BorderLayout());
+
+		p.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed( MouseEvent e) {
+				p.setBorder(BorderFactory.createLoweredBevelBorder());
+				System.out.println("Accion de boton");
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				p.setBorder(BorderFactory.createRaisedBevelBorder());
+			}
+
+		});
+		p.setBorder(BorderFactory.createRaisedBevelBorder());
+		BufferedImage bimg = null;
+		try {
+			bimg = ImageIO.read(new File("src/visuales/img/user-icon.png")); // TODO
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// Redimensiona la imagen para que concuerd con las dimensiones especificadas
+		Image dimg = bimg.getScaledInstance(scale, scale, Image.SCALE_SMOOTH);
+
+		ImageIcon imgIcon = new ImageIcon(dimg);
+		
+		JLabel lbImg = new JLabel(imgIcon);
+		
+		p.add(lbImg,BorderLayout.CENTER);
+		JLabel lb = new JLabel("NULL");
+		lb.setFont(fuente);
+		p.add(lb, BorderLayout.SOUTH);
 		return p;
 	}
 
