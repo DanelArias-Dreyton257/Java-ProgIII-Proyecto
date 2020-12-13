@@ -16,5 +16,6 @@ public class Main {
 		
 		VenGestorJugadores v = new VenGestorJugadores();
 		v.setVisible(true);
+		//
 	}
 }
