@@ -26,7 +26,7 @@ public class BotonEsp extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Especie esp = null;
-	private JLabel lbNombre = new JLabel("GestorDeDatos.NULL_STR");
+	private JLabel lbNombre = new JLabel(GestorDeDatos.NULL_STR);
 	private JLabel lbImg = new JLabel();;
 	private String imagen = "src/visuales/img/user-icon.png";
 	private int scale = 100;
@@ -76,6 +76,7 @@ public class BotonEsp extends JPanel {
 		if (esp != null) {
 			lbNombre.setText(esp.getNombre());
 		}
+		this.add(lbImg,BorderLayout.CENTER);
 		lbNombre.setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 12));
 		JPanel pn = new JPanel();
 		pn.add(lbNombre);
