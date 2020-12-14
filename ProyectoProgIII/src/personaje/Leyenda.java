@@ -1,31 +1,16 @@
 package personaje;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 import gestion.GestorDeDatos;
 import interfaces.ToolTipAble;
 import personaje.atributos.Habilidad;
 import personaje.atributos.Tipo;
+import visuales.objetos.BotonEsp;
 
 /**
  * 
@@ -494,56 +479,8 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	 * @param scale
 	 * @return
 	 */
-	public Component getBotonVentana(Font fuente, int scale) {
-		JComponent c =(JComponent) super.getBotonVentana(fuente, scale);
-		c.setToolTipText(getToolTipInfo());
-		return c;
-	}
-
-	/**
-	 * obtienes la imagen del personaje con su nombre en nulo
-	 * 
-	 * @param fuente
-	 * @param scale
-	 * @returng
-	 */
-	public static Component getBotonVentanaNULO(Font fuente, int scale) {
-		JPanel p = new JPanel(new BorderLayout());
-
-		p.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				p.setBorder(BorderFactory.createLoweredBevelBorder());
-				System.out.println("Accion de boton");
-
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				p.setBorder(BorderFactory.createRaisedBevelBorder());
-			}
-
-		});
-		p.setBorder(BorderFactory.createRaisedBevelBorder());
-		BufferedImage bimg = null;
-		try {
-			bimg = ImageIO.read(new File("src/visuales/img/user-icon.png")); // TODO
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		// Redimensiona la imagen para que concuerd con las dimensiones especificadas
-		Image dimg = bimg.getScaledInstance(scale, scale, Image.SCALE_SMOOTH);
-
-		ImageIcon imgIcon = new ImageIcon(dimg);
-
-		JLabel lbImg = new JLabel(imgIcon);
-
-		p.add(lbImg, BorderLayout.CENTER);
-		JLabel lb = new JLabel("NULL");
-		lb.setFont(fuente);
-		p.add(lb, BorderLayout.SOUTH);
-		return p;
+	public BotonEsp getBotonVentana(Font fuente, int scale) {
+		return new BotonEsp(this, scale, fuente);
 	}
 
 }

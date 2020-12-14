@@ -2,8 +2,8 @@ package visuales.objetos;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 
 import gestion.GestorDeDatos;
 import personaje.Especie;
+import personaje.Leyenda;
 
 public class BotonEsp extends JPanel {
 
@@ -73,9 +74,7 @@ public class BotonEsp extends JPanel {
 		ImageIcon imgIcon = new ImageIcon(dimg);
 
 		lbImg = new JLabel(imgIcon);
-		if (esp != null) {
-			lbNombre.setText(esp.getNombre());
-		}
+		
 		this.add(lbImg,BorderLayout.CENTER);
 		lbNombre.setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 12));
 		JPanel pn = new JPanel();
@@ -145,6 +144,24 @@ public class BotonEsp extends JPanel {
 	public void setFuente(Font fuente) {
 		lbNombre.setFont(fuente);
 		revalidate();
+	}
+	@Override
+	protected void paintComponent(Graphics g) {
+		actualizaDatos();
+		super.paintComponent(g);
+	}
+	
+	private void actualizaDatos() {
+		if (esp != null) {
+			lbNombre.setText(esp.getNombre());
+			if (esp instanceof Leyenda) {
+				Leyenda l = (Leyenda) esp;
+				if (l.estaMuerto()) {
+					BotonEsp.this.setToolTipText(l.getToolTipInfo());
+					BotonEsp.this.setBackground(Color.DARK_GRAY);
+				}
+			}
+		}
 	}
 
 	public static void main(String[] args) {
