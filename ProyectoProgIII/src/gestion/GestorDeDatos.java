@@ -92,7 +92,7 @@ public class GestorDeDatos {
 	 * @param tipo2
 	 * @return
 	 */
-	public static Especie buscarEspecieEnBD(Tipo tipo1, Tipo tipo2) {
+	public static Especie buscarEspecieEnBD(Tipo tipo1, Tipo tipo2) { //FIXME
 
 		String t1Str = tipo1.toString();
 		// si el segundo tipo es nulo

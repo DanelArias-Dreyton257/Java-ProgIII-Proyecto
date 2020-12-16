@@ -61,13 +61,11 @@ public class VenCombate extends JFrame {
 
 	private JLabel lbJugador1 = new JLabel("Jugador 1");
 	private JLabel lbJugador2 = new JLabel("Jugador 2");
-	private BotonEsp btLey1 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
-	private BotonEsp btLey2 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
-	private BotonEsp btLey3 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
-	private BotonEsp btLey4 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
-	private BotonEsp btLey5 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
-	private BotonEsp btLey6 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
-	private BotonEsp[] btLeyEnBatalla = { btLey1, btLey2, btLey3, btLey4, btLey5, btLey6 };
+
+	private BotonEsp[] btLeyEnBatalla = { Especie.getBotonVentanaNULO(FUENTE_BOTON, 150),
+			Especie.getBotonVentanaNULO(FUENTE_BOTON, 150), Especie.getBotonVentanaNULO(FUENTE_BOTON, 150),
+			Especie.getBotonVentanaNULO(FUENTE_BOTON, 150), Especie.getBotonVentanaNULO(FUENTE_BOTON, 150),
+			Especie.getBotonVentanaNULO(FUENTE_BOTON, 150) };
 
 	private JLabel lbTurno = new JLabel("Turno 0");
 
@@ -91,7 +89,7 @@ public class VenCombate extends JFrame {
 	private static final Font FUENTE_HABILIDAD = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
 	private static final Font FUENTE_JUGADOR = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 15);
 	private static final Font FUENTE_MENSAJE = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.BOLD, 15);
-	private static final Font FUENTE_BOTON = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 25);
+	private static final Font FUENTE_BOTON = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 15);
 
 	/**
 	 * Contructor de la ventana de combate
@@ -259,9 +257,9 @@ public class VenCombate extends JFrame {
 
 						// Actualizar nombres
 						actualizaNombresLeys();
-						Component lbleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];
-						lbleyEnCurso.setBackground(null);
-						// actualizaNombresLeys();
+						//BotonEsp lbleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];
+						//lbleyEnCurso.setColorLb(Color.GRAY);
+						//actualizaNombresLeys();
 						checkFinalTurno();
 					} else if (!enTurno) {
 						// Jugador 1
@@ -366,22 +364,31 @@ public class VenCombate extends JFrame {
 	private void siguienteLeyenda() {
 
 		leyendaEnCurso = leyendasEnCombate.pollFirst();
+		while (leyendaEnCurso.estaMuerto()) {
+			leyendaEnCurso = leyendasEnCombate.pollFirst();
+			if (leyendaEnCurso==null) {
+				checkFinalTurno();
+				return;
+			}
+		}
 
 		indiceLeyEnCurso = combate.indiceEnBatalla(leyendaEnCurso);
 		indiceHabElegida = -1;
 
 		// Cambia el color de quien ataca
 		BotonEsp btleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];
-		btleyEnCurso.setColorlb(Color.RED);
-		
+		btleyEnCurso.setColorLb(Color.RED);
+
 		// Hacer aparecer panel con movs
 		Habilidad[] hs = leyendaEnCurso.getHabilidades();
 		for (int i = 0; i < hs.length; i++) {
 			if (hs[i] != null) {
 				btHabilidades[i].setText(hs[i].getNombre());
+				btHabilidades[i].setForeground(hs[i].getTipo().getColor());
 				btHabilidades[i].setToolTipText(hs[i].getToolTipInfo());
 			} else {
 				btHabilidades[i].setText(GestorDeDatos.NULL_STR);
+				btHabilidades[i].setForeground(Color.BLACK);
 				btHabilidades[i].setToolTipText("");
 			}
 
@@ -407,15 +414,15 @@ public class VenCombate extends JFrame {
 
 			if (i >= 3) {
 				correspondiente = combate.getContrincante().getLeyendaEquipo(j);
-				//System.out.println(combate.getContrincante().getLeyendaEquipo(j).getNombre());
+				// System.out.println(combate.getContrincante().getLeyendaEquipo(j).getNombre());
 			} else {
 				correspondiente = combate.getJugador().getLeyendaEquipo(i);
-				//System.out.println(combate.getJugador().getLeyendaEquipo(i).getNombre());
+				// System.out.println(combate.getJugador().getLeyendaEquipo(i).getNombre());
 			}
 			if (correspondiente != null) {
 
 				btLeyEnBatalla[i] = correspondiente.getBotonVentana(FUENTE_BOTON, 100);
-				//System.out.println(btLeyEnBatalla[i]);
+				// System.out.println(btLeyEnBatalla[i]);
 				// btLeyEnBatalla[i].setText(correspondiente.getNombreCombate());
 				// btLeyEnBatalla[i].setToolTipText(correspondiente.getToolTipInfo());
 			}
@@ -439,8 +446,8 @@ public class VenCombate extends JFrame {
 			if (banquillo2 != null)
 				mdJ2Banquillo.addElement(banquillo2.getNombreCombate());
 		}
-		//combate.getJugador().reorganizaEquipo();
-		//combate.getContrincante().reorganizaEquipo();
+		// combate.getJugador().reorganizaEquipo();
+		// combate.getContrincante().reorganizaEquipo();
 		pnGrid4.removeAll();
 		pnGrid2.removeAll();
 
