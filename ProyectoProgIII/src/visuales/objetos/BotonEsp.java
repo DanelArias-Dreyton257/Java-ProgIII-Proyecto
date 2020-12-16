@@ -95,19 +95,19 @@ public class BotonEsp extends JPanel {
 		lbNombre.setText(nombre);
 	}
 
-	public Color getColorlb() {
+	public Color getColorLb() {
 		return lbNombre.getForeground();
 	}
 
-	public void setColorlb(Color colorlb) {
+	public void setColorLb(Color colorlb) {
 		lbNombre.setForeground(colorlb);
 	}
 
-	public Color getColorfondo() {
+	public Color getColorFondo() {
 		return this.getBackground();
 	}
 
-	public void setColorfondo(Color colorfondo) {
+	public void setColorFondo(Color colorfondo) {
 		this.setBackground(colorfondo);
 	}
 
@@ -156,9 +156,13 @@ public class BotonEsp extends JPanel {
 			lbNombre.setText(esp.getNombre());
 			if (esp instanceof Leyenda) {
 				Leyenda l = (Leyenda) esp;
+				BotonEsp.this.setToolTipText(l.getToolTipInfo());
+				lbNombre.setText(l.getNombreCombate()); //Apanyo
 				if (l.estaMuerto()) {
-					BotonEsp.this.setToolTipText(l.getToolTipInfo());
-					BotonEsp.this.setBackground(Color.DARK_GRAY);
+					BotonEsp.this.setColorFondo(Color.DARK_GRAY);
+				}
+				else {
+					BotonEsp.this.setColorFondo(Color.LIGHT_GRAY);
 				}
 			}
 		}
