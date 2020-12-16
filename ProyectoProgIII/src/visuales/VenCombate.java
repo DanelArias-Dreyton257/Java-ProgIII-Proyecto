@@ -29,6 +29,7 @@ import objetosCombate.Combate;
 import personaje.Especie;
 import personaje.Leyenda;
 import personaje.atributos.Habilidad;
+import visuales.objetos.BotonEsp;
 
 public class VenCombate extends JFrame {
 
@@ -60,13 +61,13 @@ public class VenCombate extends JFrame {
 
 	private JLabel lbJugador1 = new JLabel("Jugador 1");
 	private JLabel lbJugador2 = new JLabel("Jugador 2");
-	private Component btLey1 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
-	private Component btLey2 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
-	private Component btLey3 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
-	private Component btLey4 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
-	private Component btLey5 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
-	private Component btLey6 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
-	private Component[] btLeyEnBatalla = { btLey1, btLey2, btLey3, btLey4, btLey5, btLey6 };
+	private BotonEsp btLey1 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
+	private BotonEsp btLey2 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
+	private BotonEsp btLey3 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
+	private BotonEsp btLey4 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
+	private BotonEsp btLey5 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
+	private BotonEsp btLey6 = Especie.getBotonVentanaNULO(FUENTE_BOTON, 150);
+	private BotonEsp[] btLeyEnBatalla = { btLey1, btLey2, btLey3, btLey4, btLey5, btLey6 };
 
 	private JLabel lbTurno = new JLabel("Turno 0");
 
@@ -370,9 +371,9 @@ public class VenCombate extends JFrame {
 		indiceHabElegida = -1;
 
 		// Cambia el color de quien ataca
-		Component btleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];
+		BotonEsp btleyEnCurso = btLeyEnBatalla[indiceLeyEnCurso];
+		btleyEnCurso.setColorlb(Color.RED);
 		
-		//lbleyEnCurso.setBackground((Color.RED));
 		// Hacer aparecer panel con movs
 		Habilidad[] hs = leyendaEnCurso.getHabilidades();
 		for (int i = 0; i < hs.length; i++) {

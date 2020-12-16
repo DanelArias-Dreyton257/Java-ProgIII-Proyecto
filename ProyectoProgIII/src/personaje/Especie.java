@@ -1,24 +1,11 @@
 package personaje;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 import personaje.atributos.Tipo;
+import visuales.objetos.BotonEsp;
 
 /**
  * 
@@ -135,85 +122,12 @@ public class Especie implements Serializable {
 		return true;
 	}
 	
-	public Component getBotonVentana(Font fuente, int scale) {
-		JPanel p = new JPanel(new BorderLayout());
-
-		p.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mousePressed( MouseEvent e) {
-				p.setBorder(BorderFactory.createLoweredBevelBorder());
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				p.setBorder(BorderFactory.createRaisedBevelBorder());
-			}
-
-		});
-		p.setBorder(BorderFactory.createRaisedBevelBorder());
-		BufferedImage bimg = null;
-		try {
-			bimg = ImageIO.read(new File("src/visuales/img/user-icon.png")); // TODO
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		// Redimensiona la imagen para que concuerd con las dimensiones especificadas
-		Image dimg = bimg.getScaledInstance(scale, scale, Image.SCALE_SMOOTH);
-
-		ImageIcon imgIcon = new ImageIcon(dimg);
-		
-		JLabel lbImg = new JLabel(imgIcon);
-		
-		p.add(lbImg,BorderLayout.CENTER);
-		JLabel lb = new JLabel(this.getNombre());
-		lb.setFont(fuente);
-		JPanel pn = new JPanel();
-		pn.add(lb);
-		p.add(pn, BorderLayout.SOUTH);
-		return p;
+	public BotonEsp getBotonVentana(Font fuente, int scale) {
+		return new BotonEsp(this, scale, fuente);
 	}
 	
-	public static Component getBotonVentanaNULO(Font fuente, int scale) {
-		JPanel p = new JPanel(new BorderLayout());
-
-		p.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mousePressed( MouseEvent e) {
-				p.setBorder(BorderFactory.createLoweredBevelBorder());
-				System.out.println("Accion de boton");
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				p.setBorder(BorderFactory.createRaisedBevelBorder());
-			}
-
-		});
-		p.setBorder(BorderFactory.createRaisedBevelBorder());
-		BufferedImage bimg = null;
-		try {
-			bimg = ImageIO.read(new File("src/visuales/img/user-icon.png")); // TODO
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		// Redimensiona la imagen para que concuerd con las dimensiones especificadas
-		Image dimg = bimg.getScaledInstance(scale, scale, Image.SCALE_SMOOTH);
-
-		ImageIcon imgIcon = new ImageIcon(dimg);
-		
-		JLabel lbImg = new JLabel(imgIcon);
-		
-		p.add(lbImg,BorderLayout.CENTER);
-		JLabel lb = new JLabel("NULL");
-		lb.setFont(fuente);
-		JPanel pn = new JPanel();
-		pn.add(lb);
-		p.add(pn, BorderLayout.SOUTH);
-		return p;
+	public static BotonEsp getBotonVentanaNULO(Font fuente, int scale) {
+		return new BotonEsp(scale, fuente);
 	}
 
 
