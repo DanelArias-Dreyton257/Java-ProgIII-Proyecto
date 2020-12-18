@@ -54,12 +54,10 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	/**
 	 * Constructor para crear personaje desde cero
 	 * 
-	 * @param nombre
-	 * @param descripcion
-	 * @param tipos
+	 * @param especie
 	 */
-	public Leyenda(String nombre, String descripcion, Tipo[] tipos) {
-		super(nombre, descripcion, tipos);
+	public Leyenda(Especie esp) {
+		super(esp.getNombre(), esp.getDescripcion(), esp.getTipos());
 		generarStatsRandom();
 
 	}
@@ -376,22 +374,13 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	 * 
 	 * @return
 	 */
-	public static Leyenda getLeyendaRandom() { // FIXME
+	public static Leyenda getLeyendaRandom() {
 		Especie esp = null;
-		Tipo[] tipos = new Tipo[2];
-		tipos[1] = null;
-		while (esp == null) {
-			Random r = new Random();
-			int it1 = r.nextInt(Tipo.values().length);
-			Random r1 = new Random();
-			int it2 = r1.nextInt(Tipo.values().length + 5);
-			tipos[0] = Tipo.values()[it1];
-			if (it2 < Tipo.values().length) {
-				tipos[1] = Tipo.values()[it2];
-			}
-			esp = GestorDeDatos.buscarEspecieEnBD(tipos[0], tipos[1]);
-		}
-		return new Leyenda(esp.getNombre(), esp.getDescripcion(), tipos);
+		ArrayList<String> nombres = GestorDeDatos.getNombresEspecies();
+		java.util.Random r = new java.util.Random();
+		int pos = r.nextInt(nombres.size());
+		esp = GestorDeDatos.getInfoEspecie(nombres.get(pos));
+		return new Leyenda(esp);
 	}
 
 	@Override
