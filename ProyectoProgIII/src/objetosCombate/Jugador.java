@@ -245,6 +245,13 @@ public class Jugador implements Serializable{
 			anyadirNuevaLeyenda(Leyenda.getLeyendaRandom());
 		}
 	}
+	
+
+	public void anyadirLeyendasRandom(int numLeyendas, double dif) {
+		for (int i = 0; i < numLeyendas; i++) {
+			anyadirNuevaLeyenda(Leyenda.getLeyendaRandom(dif));
+		}
+	}
 
 	/**
 	 * Devuelve el numero de personajes no nulos del equipo

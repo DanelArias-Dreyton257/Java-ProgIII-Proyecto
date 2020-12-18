@@ -29,8 +29,8 @@ public class VenGestorJugadores extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private static final String TITULO = "MLW: Gestor de Jugadores";
-	private static final Dimension MIN_DIM = new Dimension(150, 250);
-	private static final Dimension PREF_DIM = new Dimension(300, 350);
+	private static final Dimension MIN_DIM = new Dimension(350, 300);
+	private static final Dimension PREF_DIM = new Dimension(400, 400);
 
 	private DefaultListModel<String> mdLista = new DefaultListModel<>();
 	private JList<String> lsJugadores = new JList<>();
@@ -40,6 +40,7 @@ public class VenGestorJugadores extends JFrame {
 	private JLabel lbJugadores = new JLabel("Jugadores");
 
 	private JButton btSeleccionar = new JButton("Seleccionar");
+	private JButton btBorrar = new JButton("Borrar Jug.");
 	private JButton btCrearNuevo = new JButton("Crear Nuevo");
 
 	private JPanel pnCentral = new JPanel();
@@ -52,12 +53,12 @@ public class VenGestorJugadores extends JFrame {
 	private static final Font FUENTE_BOTON = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
 
 	public VenGestorJugadores() {
-		//Gestor
+		// Gestor
 		GestorJugadores gj = GestorDeDatos.cargarJugadoresFichero();
-		if (gj!=null) {
+		if (gj != null) {
 			setgJugadores(gj);
 		}
-		
+
 		// Colocar ventana
 		setMinimumSize(MIN_DIM);
 		setPreferredSize(PREF_DIM);
@@ -69,6 +70,7 @@ public class VenGestorJugadores extends JFrame {
 		setTitle(TITULO);
 
 		// Organizar paneles
+		getContentPane().setLayout(new BorderLayout());
 		lsJugadores.setFont(FUENTE_LEYENDA);
 		lsJugadores.setModel(mdLista);
 		getContentPane().add(pnCentral, BorderLayout.CENTER);
@@ -78,46 +80,51 @@ public class VenGestorJugadores extends JFrame {
 		getContentPane().add(pnUp, BorderLayout.NORTH);
 		btSeleccionar.setFont(FUENTE_BOTON);
 		btCrearNuevo.setFont(FUENTE_BOTON);
+		btBorrar.setFont(FUENTE_BOTON);
 		pnBotones.add(btSeleccionar);
+		pnBotones.add(btBorrar);
 		pnBotones.add(btCrearNuevo);
 		getContentPane().add(pnBotones, BorderLayout.SOUTH);
 
 		actualizaLista();
 		btSeleccionar.setEnabled(false);
-		
+		btBorrar.setEnabled(false);
+
 		lsJugadores.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				int sel = lsJugadores.getSelectedIndex();
-				btSeleccionar.setEnabled(sel>-1);
+				btSeleccionar.setEnabled(sel > -1);
+				btBorrar.setEnabled(sel > -1);
 			}
 		});
 		btSeleccionar.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String seleccionado = lsJugadores.getSelectedValue();
-				String contr = JOptionPane.showInputDialog(VenGestorJugadores.this, "Introduzca la contrasena de "+seleccionado, "Contrasena", JOptionPane.QUESTION_MESSAGE);
-				
+				String contr = JOptionPane.showInputDialog(VenGestorJugadores.this,
+						"Introduzca la contrasena de " + seleccionado, "Contrasena", JOptionPane.QUESTION_MESSAGE);
+
 				Jugador j = gJugadores.getJugador(seleccionado, contr);
-				if (j!=null) {
-					//Abrir menu principal
+				if (j != null) {
+					// Abrir menu principal
 					setVisible(false);
 					VenMenuPrincipal v = new VenMenuPrincipal(j);
 					v.setVisible(true);
 					dispose();
-				}
-				else {
-					JOptionPane.showMessageDialog(VenGestorJugadores.this, "Contrasena incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(VenGestorJugadores.this, "Contrasena incorrecta", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		btCrearNuevo.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int opcRandom = JOptionPane.showConfirmDialog(null, "Crear usuario random? *solo Desarrollo*", "Usuario Nuevo",
-						JOptionPane.INFORMATION_MESSAGE);
+				int opcRandom = JOptionPane.showConfirmDialog(null, "Crear usuario random? *solo Desarrollo*",
+						"Usuario Nuevo", JOptionPane.INFORMATION_MESSAGE);
 				if (opcRandom == JOptionPane.YES_OPTION) {
 					Jugador usuario = new Jugador("Simple alumno");
 					usuario.anyadirLeyendasRandom(15);
@@ -126,18 +133,32 @@ public class VenGestorJugadores extends JFrame {
 				} else if (opcRandom == JOptionPane.NO_OPTION) {
 					String s = JOptionPane.showInputDialog(null, "Introduce tu nombre de jugador", "Usuario Nuevo",
 							JOptionPane.INFORMATION_MESSAGE);
-					String contra = JOptionPane.showInputDialog(null, "Introduce tu contrasena para el jugador", "Usuario Nuevo",
-							JOptionPane.INFORMATION_MESSAGE);
+					String contra = JOptionPane.showInputDialog(null, "Introduce tu contrasena para el jugador",
+							"Usuario Nuevo", JOptionPane.INFORMATION_MESSAGE);
 					Jugador us = new Jugador(s);
 					gJugadores.anyadirJugador(us, contra);
 					actualizaLista();
 				}
-				
+
 			}
 		});
-		
+
+		btBorrar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String seleccionado = lsJugadores.getSelectedValue();
+				int opt = JOptionPane.showConfirmDialog(VenGestorJugadores.this, "¿Seguro que quiere borrar:"+ seleccionado+"?", "Borrado",
+							JOptionPane.YES_NO_OPTION);
+				if (opt == JOptionPane.YES_OPTION) {
+					gJugadores.deleteJugador(seleccionado);
+					actualizaLista();
+				}
+			}
+		});
+
 		addWindowListener(new WindowAdapter() {
-			
+
 			@Override
 			public void windowClosed(WindowEvent e) {
 				new Thread() {
@@ -147,7 +168,7 @@ public class VenGestorJugadores extends JFrame {
 					};
 				}.start();
 			}
-			
+
 		});
 	}
 
