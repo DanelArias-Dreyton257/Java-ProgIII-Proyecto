@@ -92,7 +92,7 @@ public class GestorDeDatos {
 	 * @param tipo2
 	 * @return
 	 */
-	public static Especie buscarEspecieEnBD(Tipo tipo1, Tipo tipo2) { //FIXME
+	public static Especie buscarEspecieEnBD(Tipo tipo1, Tipo tipo2) { // FIXME
 
 		String t1Str = tipo1.toString();
 		// si el segundo tipo es nulo
@@ -586,10 +586,12 @@ public class GestorDeDatos {
 		}
 
 	}
-/**
- * Funcion que guarda un jugador en el fichero
- * @param jug
- */
+
+	/**
+	 * Funcion que guarda un jugador en el fichero
+	 * 
+	 * @param jug
+	 */
 	public static void guardarJugadoresFichero(GestorJugadores jug) {
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(JUGADORES_FICH));
@@ -604,6 +606,7 @@ public class GestorDeDatos {
 
 	/**
 	 * Clase que debuelve un jugador del fichero
+	 * 
 	 * @return
 	 */
 	public static GestorJugadores cargarJugadoresFichero() {
@@ -620,10 +623,80 @@ public class GestorDeDatos {
 
 	/**
 	 * Funcion que te devuelve un contricante aleatorio
+	 * 
 	 * @return
 	 */
-	public static String selectRandContrincante() { //TODO
-		return "Andoni El Destructor de Mundos";
+	public static String selectRandContrincante() { // TODO
+		ArrayList<String> noms = getNombresContrincantes();
+		java.util.Random r = new java.util.Random();
+		return noms.get(r.nextInt(noms.size()));
+	}
+
+	public static ArrayList<String> getNombresContrincantes() {
+		Connection conn = null;
+		ArrayList<String> listaNoms = new ArrayList<>();
+
+		try {
+
+			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT NOMBRE FROM CONT ORDER BY NOMBRE");
+			while (rs.next()) {
+				listaNoms.add(rs.getString("NOMBRE"));
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+		}
+
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return listaNoms;
+
+	}
+	
+	public static void insertCont(String s) {
+		Connection conn = null;
+
+		try {
+
+			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
+			conn.setAutoCommit(false);
+
+			Statement stmt = conn.createStatement();
+
+			stmt.executeUpdate("INSERT INTO CONT(NOMBRE) VALUES('"+s+"')");
+
+			stmt.close();
+
+			conn.commit();
+
+		} catch (SQLException e) {
+			try {
+
+				conn.rollback(); // HECHA PA TRAS
+			} catch (SQLException excep) {
+			}
+		} finally {
+			try {
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }
