@@ -12,14 +12,14 @@ public class Contrincante extends Jugador {
  * 	crea un contricante aleatorio
  */
 	public Contrincante() {
-		super("");
+		super(GestorDeDatos.selectRandContrincante());
 		java.util.Random r = new java.util.Random();
 		setNvDificultad(r.nextDouble());
 		generarContrincante();
 	}
 	
 	public Contrincante(double dif) {
-		super("");
+		super(GestorDeDatos.selectRandContrincante());
 		setNvDificultad(dif);
 		generarContrincante();
 	}
@@ -42,11 +42,10 @@ public class Contrincante extends Jugador {
  * genera un contricante con un nivel de dificultad determinado	
  */
 	private void generarContrincante() {
-		int numLeyendas = (int) Math.round(nvDificultad * 50);
-		this.anyadirLeyendasRandom(numLeyendas); //TODO falta que las leyendas anyadidas sean según dificultad
+		int numLeyendas = (int) Math.round(nvDificultad * 10);
+		this.anyadirLeyendasRandom(numLeyendas, nvDificultad);
 		int doblones = (int) Math.round(nvDificultad * VenValhalla.COSTE_CONTRATO * 10);
 		this.setDoblones(doblones);
-		setNombre(GestorDeDatos.selectRandContrincante());
 	}
 	
 	@Override

@@ -105,6 +105,15 @@ public class GestorJugadores implements Serializable {
 		
 	}
 	
+	public void deleteJugador(String nombre) {
+		credenciales.remove(nombre);
+		for (int i=0; i<jugadores.size();i++) {
+			if (jugadores.get(i).getNombre().equalsIgnoreCase(nombre)) {
+				jugadores.remove(i);
+			}
+		}
+	}
+	
 	
 	
 }

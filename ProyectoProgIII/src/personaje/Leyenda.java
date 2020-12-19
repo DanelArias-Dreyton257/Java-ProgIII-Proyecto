@@ -54,13 +54,11 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	/**
 	 * Constructor para crear personaje desde cero
 	 * 
-	 * @param nombre
-	 * @param descripcion
-	 * @param tipos
+	 * @param especie
 	 */
-	public Leyenda(String nombre, String descripcion, Tipo[] tipos) {
-		super(nombre, descripcion, tipos);
-		generarStatsRandom();
+	public Leyenda(Especie esp, double dif) {
+		super(esp.getNombre(), esp.getDescripcion(), esp.getTipos());
+		generarStatsRandom(dif);
 
 	}
 
@@ -109,20 +107,38 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	/**
 	 * Genera estadisticas aleatorias
 	 */
-	private void generarStatsRandom() {
+	private void generarStatsRandom(double dif) {
 		Random r = new Random();
-		int vidaN = r.nextInt(100 + 1) + 200;
+		
+		int topVida = (int) ((999-200) * dif);
+		int vidaN = r.nextInt(topVida + 1) + 200;
 		setVida(vidaN);
 		setVidaMax(vidaN);
-		int ataqueN = r.nextInt(25 + 1) + 25;
+		
+		int topAtk = (int) ((99-25) * dif);
+		int ataqueN = r.nextInt(topAtk + 1) + 25;
 		setAtaque(ataqueN);
-		int defensaN = r.nextInt(25 + 1) + 25;
+		
+		int topDef = (int) ((99-25) * dif);
+		int defensaN = r.nextInt(topDef + 1) + 25;
 		setDefensa(defensaN);
-		int velocidadN = r.nextInt(25 + 1) + 25;
+		
+		int topVel = (int) ((99-25) * dif);
+		int velocidadN = r.nextInt(topVel + 1) + 25;
 		setVelocidad(velocidadN);
+		
 		habilidades[0] = GestorDeDatos.buscarHabilidadEnBD(tipos[0]);
+		Habilidad hOtra = GestorDeDatos.buscarHabilidadEnBD(tipos[0]);
+		if (habilidades[0]!=null && habilidades[0].equals(hOtra)) {
+			habilidades[2] = hOtra;
+		}
+		
 		if (tipos[1] != null) {
 			habilidades[1] = GestorDeDatos.buscarHabilidadEnBD(tipos[1]);
+			Habilidad hOtra1 = GestorDeDatos.buscarHabilidadEnBD(tipos[1]);
+			if (habilidades[1]!=null && habilidades[1].equals(hOtra1)) {
+				habilidades[3] = hOtra1;
+			}
 		}
 	}
 
@@ -373,25 +389,23 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	/**
 	 * Devuelve una leyenda aleatoria creada a traves de la seleccion aleatoria de
 	 * tipos y de estadisticas entre ciertos valores
+	 * @param dif 
 	 * 
 	 * @return
 	 */
-	public static Leyenda getLeyendaRandom() { // FIXME
+	public static Leyenda getLeyendaRandom(double dif) {
 		Especie esp = null;
-		Tipo[] tipos = new Tipo[2];
-		tipos[1] = null;
-		while (esp == null) {
-			Random r = new Random();
-			int it1 = r.nextInt(Tipo.values().length);
-			Random r1 = new Random();
-			int it2 = r1.nextInt(Tipo.values().length + 5);
-			tipos[0] = Tipo.values()[it1];
-			if (it2 < Tipo.values().length) {
-				tipos[1] = Tipo.values()[it2];
-			}
-			esp = GestorDeDatos.buscarEspecieEnBD(tipos[0], tipos[1]);
-		}
-		return new Leyenda(esp.getNombre(), esp.getDescripcion(), tipos);
+		ArrayList<String> nombres = GestorDeDatos.getNombresEspecies();
+		java.util.Random r = new java.util.Random();
+		int pos = r.nextInt(nombres.size());
+		esp = GestorDeDatos.getInfoEspecie(nombres.get(pos));
+		return new Leyenda(esp, dif);
+	}
+	
+	public static Leyenda getLeyendaRandom() {
+		java.util.Random r = new java.util.Random();
+		double dif = 0.75 * r.nextDouble() + 0.001;
+		return getLeyendaRandom(dif);
 	}
 
 	@Override

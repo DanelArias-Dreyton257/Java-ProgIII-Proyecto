@@ -36,8 +36,8 @@ public class VenGestorEquipos extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private static final String TITULO = "MLW: Gestor de Equipos";
-	private static final Dimension MIN_DIM = new Dimension(500, 400);
-	private static final Dimension PREF_DIM = new Dimension(600, 600);
+	private static final Dimension MIN_DIM = new Dimension(600, 500);
+	private static final Dimension PREF_DIM = new Dimension(700, 600);
 
 	private Jugador usuario;
 
@@ -62,7 +62,7 @@ public class VenGestorEquipos extends JFrame {
 	private int indBotonSeleccionado = -1;
 
 	// Fuentes
-	private static final Font FUENTE_LEYENDA = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 20);
+	private static final Font FUENTE_LEYENDA = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 17);
 	private static final Font FUENTE_TOCHA = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 25);
 	private static final Font FUENTE_BOTON = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
 

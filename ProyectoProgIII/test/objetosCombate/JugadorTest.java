@@ -1,4 +1,4 @@
-package objetos;
+package objetosCombate;
 
 import static org.junit.Assert.*;
 
