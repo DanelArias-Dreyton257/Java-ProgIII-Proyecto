@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.junit.After;
 import org.junit.Before;
@@ -120,17 +121,17 @@ public class GestorDeDatosTest {
 		assertEquals(testPrimer, nombres.get(0));
 		assertEquals(testLast, nombres.get(nombres.size() - 1));
 	}
-	@Test
-	/**
-	 *  Busca en la base de datos los nombres de las habilidades 
-	 */
-	public void getNombresHabilidadesTest() {
-		testPrimer = "Aguadilla";
-		testLast = "Terremoto";
-		nombres = GestorDeDatos.getNombresHabilidades();
-		assertEquals(testPrimer, nombres.get(0));
-		assertEquals(testLast, nombres.get(nombres.size() - 1));
-	}
+//	@Test
+//	/**
+//	 *  Busca en la base de datos los nombres de las habilidades 
+//	 */
+//	public void getNombresHabilidadesTest() {
+//		testPrimer = "Aguadilla";
+//		testLast = "Terremoto";
+//		nombres = GestorDeDatos.getNombresHabilidades();
+//		assertEquals(testPrimer, nombres.get(0));
+//		assertEquals(testLast, nombres.get(nombres.size() - 1));
+//	}
 	@Test
 	/**
 	 *  Devuelve la informacion de la especie de la base de datos 
@@ -173,10 +174,35 @@ public class GestorDeDatosTest {
 	 * buscar la especie de la base de datos
 	 */
 	public void buscarEspecieEnBDTest() {
-		Especie esp = GestorDeDatos.buscarEspecieEnBD(Tipo.CUERPO, null );
-		Tipo[] ts = {Tipo.CUERPO, null};
-		assertEquals(ts[0], esp.getTipos()[0]);
-		assertEquals(ts[1], esp.getTipos()[1]);
+		//Prueba doble tipo
+		Especie esp = null;
+		Tipo[] tipos = new Tipo[2];
+		while (esp==null) {
+			Random r = new Random();
+			tipos[0] = Tipo.values()[r.nextInt(Tipo.values().length)];
+			
+			Random r1 = new Random();
+			tipos[1] = Tipo.values()[r1.nextInt(Tipo.values().length)];
+			
+			esp = GestorDeDatos.buscarEspecieEnBD(tipos[0], tipos[1]);
+		}
+
+		assertEquals(tipos[0], esp.getTipos()[0]);
+		assertEquals(tipos[1], esp.getTipos()[1]);
+		
+		//prueba 1 tipo
+		Especie esp1 = null;
+		Tipo tipo1 = null;
+		while (esp1==null) {
+			Random r = new Random();
+			tipo1 = Tipo.values()[r.nextInt(Tipo.values().length)];
+			
+			esp1 = GestorDeDatos.buscarEspecieEnBD(tipo1, null);
+		}
+
+		assertEquals(tipo1, esp1.getTipos()[0]);
+		assertEquals(null, esp1.getTipos()[1]);
+		
 	}
 	
 	@Test
