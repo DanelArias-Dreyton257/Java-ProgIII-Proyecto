@@ -225,12 +225,12 @@ public class VenFusiones extends JFrame {
 		mdLista.clear();
 		for (Leyenda l : usuario.getEquipo()) {
 			if (l != null) {
-				mdLista.addElement(l.getNombre());
+				mdLista.addElement(l.getNombreCombate());
 			}
 		}
 		for (Leyenda l1 : usuario.getEternidad()) {
 			if (l1 != null) {
-				mdLista.addElement(l1.getNombre());
+				mdLista.addElement(l1.getNombreCombate());
 			}
 		}
 	}

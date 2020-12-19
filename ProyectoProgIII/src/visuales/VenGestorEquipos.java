@@ -207,7 +207,7 @@ public class VenGestorEquipos extends JFrame {
 	private void actualizaLista() {
 		mdEternidad.clear();
 		for (Leyenda l : usuario.getEternidad()) {
-			mdEternidad.addElement(l.getNombre());
+			mdEternidad.addElement(l.getNombreCombate());
 		}
 	}
 

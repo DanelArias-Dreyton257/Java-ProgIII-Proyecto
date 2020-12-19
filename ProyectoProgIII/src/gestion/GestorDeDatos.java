@@ -93,7 +93,11 @@ public class GestorDeDatos {
 	 * @return
 	 */
 	public static Especie buscarEspecieEnBD(Tipo tipo1, Tipo tipo2) { // FIXME
-
+		if (tipo1!=null && tipo1.equals(tipo2)) {
+			tipo2=null;
+		}
+		
+		
 		String t1Str = tipo1.toString();
 		// si el segundo tipo es nulo
 		String t2Str = NULL_STR;
@@ -109,78 +113,80 @@ public class GestorDeDatos {
 
 			conn = DriverManager.getConnection("jdbc:sqlite:" + PATH_BD);
 
-			// Buscar los codigos de los tipos
-
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT COD_ESP FROM ESPTIPO,TIPO WHERE TIPO.NOMBRE='" + t1Str
-					+ "' AND ESPTIPO.COD_TIPO = TIPO.CODIGO");
-			ArrayList<Integer> codEsp1 = new ArrayList<>();
-			while (rs.next()) {
-				codEsp1.add(rs.getInt("COD_ESP"));
-			}
+
+			ResultSet rs = stmt.executeQuery("SELECT CODIGO FROM TIPO WHERE NOMBRE = '" + t1Str + "';");
+
+			int codTipo1 = rs.getInt("CODIGO");
 
 			rs.close();
+
 			stmt.close();
 
-			ArrayList<Integer> codigosElegibles = new ArrayList<>();
+			ArrayList<Integer> codEsp = new ArrayList<>();
 
 			if (tipo2 != null) {
-				Statement stmt2 = conn.createStatement();
-				ResultSet rs2 = stmt2.executeQuery("SELECT COD_ESP FROM ESPTIPO,TIPO WHERE TIPO.NOMBRE='" + t2Str
-						+ "' AND ESPTIPO.COD_TIPO = TIPO.CODIGO");
 
-				ArrayList<Integer> codEsp2 = new ArrayList<>();
-				while (rs2.next()) {
-					codEsp2.add(rs2.getInt("COD_ESP"));
-				}
+				Statement stmt2 = conn.createStatement();
+
+				ResultSet rs2 = stmt2.executeQuery("SELECT CODIGO FROM TIPO WHERE NOMBRE = '" + t2Str + "';");
+
+				int codTipo2 = rs2.getInt("CODIGO");
 
 				rs2.close();
+
 				stmt2.close();
 
-				// Solo coger los que coincidan
-				for (int n : codEsp1) {
-					for (int m : codEsp2) {
-						if (n == m) {
-							codigosElegibles.add(n);
-						}
-					}
-				}
-			} else {
-				// comprobar cuales son de tipo unico
-				for (int cod : codEsp1) {
-					Statement s = conn.createStatement();
-					ResultSet rst = s.executeQuery(
-							"SELECT COUNT() FROM TIPO,ESPTIPO,ESPECIE WHERE TIPO.CODIGO=ESPTIPO.COD_TIPO AND ESPTIPO.COD_ESP=ESPECIE.CODIGO AND ESPECIE.CODIGO="
-									+ cod + " AND TIPO.NOMBRE='" + t1Str + "'");
-					if (rst.next()) {
-						if (rst.getInt("COUNT()") < 2) {
-							codigosElegibles.add(cod);
-						}
-					}
-					rst.close();
-					s.close();
-				}
-			}
-
-			// Elegir un codigo random
-			if (codigosElegibles.isEmpty())
-				return null;
-			else {
-				Random r = new Random();
-				int posEleg = r.nextInt(codigosElegibles.size());
-				int codEleg = codigosElegibles.get(posEleg);
-
 				Statement stmt3 = conn.createStatement();
-				ResultSet rs3 = stmt3.executeQuery("SELECT * FROM ESPECIE WHERE CODIGO=" + codEleg);
 
-				String nombre = rs3.getString("NOMBRE");
-				String desc = rs3.getString("DESCRIPCION");
-				Tipo[] tipos = { tipo1, tipo2 };
+				ResultSet rs3 = stmt3.executeQuery("SELECT COD_ESP FROM ESPTIPO WHERE COD_TIPO = " + codTipo1
+						+ " AND COD_ESP IN (SELECT COD_ESP FROM ESPTIPO WHERE COD_TIPO = " + codTipo2 + ");");
+
+				while (rs3.next()) {
+					codEsp.add(rs3.getInt("COD_ESP"));
+				}
 
 				rs3.close();
 				stmt3.close();
 
-				esp = new Especie(nombre, desc, tipos);
+			} else {
+
+				Statement stmt3 = conn.createStatement();
+
+				ResultSet rs3 = stmt3.executeQuery("SELECT COD_ESP FROM ESPTIPO WHERE COD_TIPO = " + codTipo1
+						+ " AND COD_ESP IN (SELECT COD_ESP FROM ESPTIPO GROUP BY COD_ESP HAVING COUNT(*)<2);");
+
+				while (rs3.next()) {
+					codEsp.add(rs3.getInt("COD_ESP"));
+				}
+
+				rs3.close();
+				stmt3.close();
+
+			}
+
+			if (!codEsp.isEmpty()) {
+				Random r = new Random();
+				int codSel = codEsp.get(r.nextInt(codEsp.size()));
+				
+				Statement stmt4 = conn.createStatement();
+
+				ResultSet rs4 = stmt4.executeQuery("SELECT * FROM ESPECIE WHERE CODIGO = "+codSel+";");
+				
+				String desc = "";
+				String nombre = "";
+				while (rs4.next()) {
+					
+					desc = rs4.getString("DESCRIPCION");
+					nombre = rs4.getString("NOMBRE");
+				}
+
+				rs4.close();
+				stmt4.close();
+				
+				Tipo[] ts = {tipo1,tipo2};
+				esp = new Especie(nombre, desc, ts);
+				
 			}
 
 		} catch (SQLException e) {
@@ -660,7 +666,7 @@ public class GestorDeDatos {
 		return listaNoms;
 
 	}
-	
+
 	public static void insertCont(String s) {
 		Connection conn = null;
 
@@ -671,7 +677,7 @@ public class GestorDeDatos {
 
 			Statement stmt = conn.createStatement();
 
-			stmt.executeUpdate("INSERT INTO CONT(NOMBRE) VALUES('"+s+"')");
+			stmt.executeUpdate("INSERT INTO CONT(NOMBRE) VALUES('" + s + "')");
 
 			stmt.close();
 

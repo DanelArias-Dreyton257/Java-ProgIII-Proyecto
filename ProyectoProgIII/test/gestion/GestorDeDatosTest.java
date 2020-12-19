@@ -177,6 +177,7 @@ public class GestorDeDatosTest {
 		//Prueba doble tipo
 		Especie esp = null;
 		Tipo[] tipos = new Tipo[2];
+		
 		while (esp==null) {
 			Random r = new Random();
 			tipos[0] = Tipo.values()[r.nextInt(Tipo.values().length)];
@@ -186,7 +187,9 @@ public class GestorDeDatosTest {
 			
 			esp = GestorDeDatos.buscarEspecieEnBD(tipos[0], tipos[1]);
 		}
-
+		
+		System.out.println(esp.getNombre());
+		System.out.println(tipos[0].toString()+","+tipos[1].toString());
 		assertEquals(tipos[0], esp.getTipos()[0]);
 		assertEquals(tipos[1], esp.getTipos()[1]);
 		
@@ -199,7 +202,8 @@ public class GestorDeDatosTest {
 			
 			esp1 = GestorDeDatos.buscarEspecieEnBD(tipo1, null);
 		}
-
+		System.out.println(esp1.getNombre());
+		System.out.println(tipo1.toString()+", null");
 		assertEquals(tipo1, esp1.getTipos()[0]);
 		assertEquals(null, esp1.getTipos()[1]);
 		
