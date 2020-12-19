@@ -110,8 +110,8 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	private void generarStatsRandom(double dif) {
 		Random r = new Random();
 		
-		int topVida = (int) ((999-200) * dif);
-		int vidaN = r.nextInt(topVida + 1) + 200;
+		int topVida = (int) ((999-150) * dif);
+		int vidaN = r.nextInt(topVida + 1) + 150;
 		setVida(vidaN);
 		setVidaMax(vidaN);
 		
@@ -129,14 +129,14 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 		
 		habilidades[0] = GestorDeDatos.buscarHabilidadEnBD(tipos[0]);
 		Habilidad hOtra = GestorDeDatos.buscarHabilidadEnBD(tipos[0]);
-		if (habilidades[0]!=null && habilidades[0].equals(hOtra)) {
+		if (habilidades[0]!=null && !habilidades[0].equals(hOtra)) {
 			habilidades[2] = hOtra;
 		}
 		
 		if (tipos[1] != null) {
 			habilidades[1] = GestorDeDatos.buscarHabilidadEnBD(tipos[1]);
 			Habilidad hOtra1 = GestorDeDatos.buscarHabilidadEnBD(tipos[1]);
-			if (habilidades[1]!=null && habilidades[1].equals(hOtra1)) {
+			if (habilidades[1]!=null && !habilidades[1].equals(hOtra1)) {
 				habilidades[3] = hOtra1;
 			}
 		}

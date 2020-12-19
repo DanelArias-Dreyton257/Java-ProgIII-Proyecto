@@ -127,7 +127,7 @@ public class VenGestorJugadores extends JFrame {
 						"Usuario Nuevo", JOptionPane.INFORMATION_MESSAGE);
 				if (opcRandom == JOptionPane.YES_OPTION) {
 					Jugador usuario = new Jugador("Simple alumno");
-					usuario.anyadirLeyendasRandom(15);
+					usuario.anyadirLeyendasRandom(15,0.5);
 					gJugadores.anyadirJugador(usuario, "a");
 					actualizaLista();
 				} else if (opcRandom == JOptionPane.NO_OPTION) {
