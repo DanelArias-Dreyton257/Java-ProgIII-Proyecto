@@ -61,18 +61,17 @@ public class Contrincante extends Jugador {
 		return super.toString();
 	}
 
-	public int seleccionarHabilidadRandom(int leyEnCursoPos) {
-		int IndHab = 0;
-		int IndHabR = 0;
+	public int getIndHab(int indLeyEnEquipo) {
+		int indHab = 0;
 
-		Leyenda l = this.getLeyendaEquipo(leyEnCursoPos - 3);
+		Leyenda l = this.getLeyendaEquipo(indLeyEnEquipo);
 		Random r = new Random();
-		IndHab = r.nextInt(4) + 1;
-		while (l.getHabilidades()[IndHab].getNombre().equals(GestorDeDatos.NULL_STR)) {
-			IndHab = r.nextInt(4) + 1;
+		
+		indHab = r.nextInt(4);
+		while (l.getHabilidades()[indHab] == null) {
+			indHab = r.nextInt(4);
 		}
-		IndHabR = IndHab;
-		return IndHabR;
+		return indHab;
 	}
 
 	/**
