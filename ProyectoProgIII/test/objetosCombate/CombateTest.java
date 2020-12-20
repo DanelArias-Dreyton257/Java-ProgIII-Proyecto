@@ -23,7 +23,7 @@ public class CombateTest {
 	 Leyenda l4= new Leyenda("Zeus", "Dios del rayo", tipitos, nada, 12, 32, 67, 123);
 	 Leyenda l5= new Leyenda("Zeus", "Dios del rayo", tipitos, nada, 12, 32, 34, 123);
 	 Leyenda l6= new Leyenda("Zeus", "Dios del rayo", tipitos, nada, 12, 32, 22, 123);*/
-	 Combate pp=new Combate();
+	 Combate pp=new Combate(new Jugador("Pepe"));
 	@Before
 	public void setUp() {
 		/*j1.anyadirAEquipo(0, l1);

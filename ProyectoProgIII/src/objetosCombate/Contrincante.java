@@ -10,8 +10,6 @@ public class Contrincante extends Jugador {
 
 	private static final long serialVersionUID = 1L;
 
-	private double nvDificultad = 0.1;
-
 	/**
 	 * crea un contricante aleatorio
 	 */
@@ -28,23 +26,6 @@ public class Contrincante extends Jugador {
 		generarContrincante();
 	}
 
-	/**
-	 * devuelve un nivel de dificultad
-	 * 
-	 * @return
-	 */
-	public double getNvDificultad() {
-		return nvDificultad;
-	}
-
-	/**
-	 * introduce un nivel de dificultad
-	 * 
-	 * @param nvDificultad
-	 */
-	public void setNvDificultad(double nvDificultad) {
-		this.nvDificultad = nvDificultad;
-	}
 
 	/**
 	 * genera un contricante con un nivel de dificultad determinado

@@ -330,7 +330,8 @@ public class VenCombate extends JFrame {
 						combate.getJugador().getNombre() + " gano la partida!\nSe lleva " + dobsGanados + " doblones",
 						"FIN DE LA PARTIDA", JOptionPane.INFORMATION_MESSAGE);
 				combate.getJugador().incDoblones(dobsGanados);
-				;
+				combate.getJugador().incDificultad(combate.getContrincante().getNvDificultad());
+				combate.getJugador().curarLeyendas();
 				dispose();
 				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJugador());
 				v.setUsuario(combate.getJugador());
@@ -339,6 +340,7 @@ public class VenCombate extends JFrame {
 				JOptionPane.showMessageDialog(VenCombate.this,
 						combate.getContrincante().getNombre() + " gano la partida!", "FIN DE LA PARTIDA",
 						JOptionPane.INFORMATION_MESSAGE);
+				combate.getJugador().curarLeyendas();
 				dispose();
 				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJugador());
 				v.setUsuario(combate.getJugador());

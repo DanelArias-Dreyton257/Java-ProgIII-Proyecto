@@ -11,14 +11,15 @@ import personaje.Leyenda;
  * @author danel y jon ander
  *
  */
-public class Jugador implements Serializable{
+public class Jugador implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int NUM_PER = 6;
 	protected String nombre;
 	protected Leyenda[] equipo = new Leyenda[NUM_PER]; // donde se guardan los personajes del equipo
 	protected ArrayList<Leyenda> eternidad = new ArrayList<>(); // donde se guardan todos los personajes no usados en el
 	protected int doblones = 0;
+	protected double nvDificultad = 0;
 
 	/**
 	 * Crea un jugador con el equipo y la eternidad vacia
@@ -27,7 +28,7 @@ public class Jugador implements Serializable{
 	 */
 	public Jugador(String nombre) {
 		setNombre(nombre);
-		incDoblones(1500);
+		incDoblones(2000);
 	}
 
 	/**
@@ -245,7 +246,6 @@ public class Jugador implements Serializable{
 			anyadirNuevaLeyenda(Leyenda.getLeyendaRandom());
 		}
 	}
-	
 
 	public void anyadirLeyendasRandom(int numLeyendas, double dif) {
 		for (int i = 0; i < numLeyendas; i++) {
@@ -413,6 +413,40 @@ public class Jugador implements Serializable{
 			return false;
 		return true;
 	}
-	
+
+	/**
+	 * devuelve un nivel de dificultad
+	 * 
+	 * @return
+	 */
+	public double getNvDificultad() {
+		return nvDificultad;
+	}
+
+	/**
+	 * introduce un nivel de dificultad
+	 * 
+	 * @param nvDificultad
+	 */
+	public void setNvDificultad(double nvDificultad) {
+		if (nvDificultad >= 0 && nvDificultad <= 1) {
+			this.nvDificultad = nvDificultad;
+		} else
+			throw new IllegalArgumentException(
+					"Introducido: " + nvDificultad + "El nvDificultad debe ser 0 =< nvDificultad <= 1");
+	}
+
+	public void incDificultad(double nvDificultadCont) {
+		double nuevoNv = (this.nvDificultad + nvDificultadCont) / 2;
+		try {
+			setNvDificultad(nuevoNv);
+		} catch (Exception e) {
+			if (nuevoNv > 1) {
+				setNvDificultad(1);
+			} else {
+				setNvDificultad(0);
+			}
+		}
+	}
 
 }

@@ -18,24 +18,6 @@ public class Combate {
 	private Jugador jug;
 	private Contrincante cont;
 
-	/**
-	 * Constructor que recibe dos jugadores
-	 * 
-	 * @param j1
-	 * @param j2
-	 */
-	public Combate(Jugador j1, Contrincante j2) {
-		setJugador(j1);
-		setContrincante(j2);
-	}
-
-	/**
-	 * Constructor solo para desarrollo
-	 * 
-	 */
-	public Combate() {
-		combateDePrueba();
-	}
 
 	/**
 	 * Constructor solo para desarrollo
@@ -44,29 +26,12 @@ public class Combate {
 	 * 
 	 */
 	public Combate(Jugador usuario) {
-		combateDePrueba(usuario);
-	}
-
-	/**
-	 * Esta clase crea unos personajes y unos jugadores
-	 */
-	private void combateDePrueba() {
-		Jugador j1 = new Jugador("Un simple alumno");
-		Contrincante j2 = new Contrincante();
-		j1.anyadirLeyendasRandom(10);
-		j2.anyadirLeyendasRandom(10);
-		setJugador(j1);
-		setContrincante(j2);
-	}
-
-	/**
-	 * Esta clase crea unos personajes y unos jugadores
-	 */
-	private void combateDePrueba(Jugador usuario) {
-		Contrincante j2 = new Contrincante();
-		j2.anyadirLeyendasRandom(10);
 		setJugador(usuario);
-		setContrincante(j2);
+		double nvCont = usuario.getNvDificultad()+0.05;
+		if (nvCont>1) {
+			nvCont=1;
+		}
+		setContrincante(new Contrincante(nvCont));
 	}
 
 	/**

@@ -234,7 +234,7 @@ public class VenValhalla extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (usuario.pagar(COSTE_CONTRATO)) {
 					actualizaDatos();
-					Leyenda l = Leyenda.getLeyendaRandom();
+					Leyenda l = Leyenda.getLeyendaRandom(usuario.getNvDificultad()/2);
 					JOptionPane.showMessageDialog(VenValhalla.this, "Ha salido: " + l.getNombre(), "Leyenda contratada",
 							JOptionPane.INFORMATION_MESSAGE);
 					usuario.anyadirNuevaLeyenda(l);
