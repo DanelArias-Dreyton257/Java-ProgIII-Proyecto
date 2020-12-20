@@ -1,7 +1,10 @@
 package objetosCombate;
 
+import java.util.Random;
+
 import gestion.GestorDeDatos;
 import personaje.Leyenda;
+import personaje.atributos.Habilidad;
 import visuales.VenValhalla;
 
 public class Contrincante extends Jugador {
@@ -52,6 +55,20 @@ public class Contrincante extends Jugador {
 	@Override
 	public String toString() {
 		return super.toString();
+	}
+	
+	public int seleccionarHabilidadRandom(int leyEnCursoPos){
+		int IndHab = 0;
+		int IndHabR = 0;
+		
+		Leyenda l = this.getLeyendaEquipo(leyEnCursoPos-3);
+		Random r = new Random();
+		IndHab = r.nextInt(4)+1;
+		while (l.getHabilidades()[IndHab].getNombre().equals(GestorDeDatos.NULL_STR)) {
+			IndHab = r.nextInt(4)+1;
+		}
+		IndHabR=IndHab;
+		return IndHabR;
 	}
 	
 	public void cambiarLeyendaIA() {
