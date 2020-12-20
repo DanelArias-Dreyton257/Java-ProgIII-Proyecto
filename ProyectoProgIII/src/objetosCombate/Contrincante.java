@@ -1,6 +1,7 @@
 package objetosCombate;
 
 import gestion.GestorDeDatos;
+import personaje.Leyenda;
 import visuales.VenValhalla;
 
 public class Contrincante extends Jugador {
@@ -53,4 +54,23 @@ public class Contrincante extends Jugador {
 		return super.toString();
 	}
 	
+	public void cambiarLeyendaIA() {
+		for (int i = 0; i < 3; i++) {
+			Leyenda l = this.getLeyendaEquipo(i);
+				if (l==null || l.estaMuerto()) {
+					for (int j = 3; j < 6; j++) {
+						Leyenda l2 = this.getLeyendaEquipo(j);
+						if (l2!=null && !l2.estaMuerto()) {
+							intercambiarEnEquipo( i, j);
+							
+						}
+					}
+					
+			}
+		}
+		
+			
+		
+		
+	}
 }

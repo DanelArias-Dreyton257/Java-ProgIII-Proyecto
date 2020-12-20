@@ -325,6 +325,7 @@ public class VenCombate extends JFrame {
 	 * Comprueba si el turno deberia terminar y si no continua
 	 */
 	private void checkFinalTurno() {
+		combate.getContrincante().cambiarLeyendaIA();
 		// Si ya han atacado todos se termina el turno
 		if (!leyendasEnCombate.isEmpty()) {
 			siguienteLeyenda();
