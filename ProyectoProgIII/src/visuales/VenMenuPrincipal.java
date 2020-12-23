@@ -48,7 +48,10 @@ public class VenMenuPrincipal extends JFrame {
 	private static final String TITULO = "MYTHS of the LEGENDARY WAR";
 	private static final Dimension MIN_DIM = new Dimension(400, 400);
 	private static final Dimension PREF_DIM = new Dimension(600, 600);
+	
 	private static final Font FUENTE_BOTONES = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
+	private static final Font FUENTE_G_BOTONES = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 25);
+	private static final Font FUENTE_J_BOTONES = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 35);
 
 	private JPanel pnCentral = new JPanel(new GridLayout(2, 1));
 	private JPanel pnCenArriba = new JPanel();
@@ -111,18 +114,18 @@ public class VenMenuPrincipal extends JFrame {
 		pnLogoArribaDer.add(lbLogo[1]);
 		pnLogoArribaDer.add(lbLogo[2]);
 		pnLogo.add(lbLogo[3]);
-		lbLogo[0].setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 50));
-		lbLogo[1].setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 25));
-		lbLogo[2].setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 25));
-		lbLogo[3].setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.BOLD, 40));
+		lbLogo[0].setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 55));
+		lbLogo[1].setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 30));
+		lbLogo[2].setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 30));
+		lbLogo[3].setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.BOLD, 45));
 
 		// Anyadir los botones a los paneles
 		pnCenAb1.add(btEquipo);
-		btEquipo.setFont(FUENTE_BOTONES);
+		btEquipo.setFont(FUENTE_G_BOTONES);
 		pnCenAb1.add(btValhalla);
-		btValhalla.setFont(FUENTE_BOTONES);
+		btValhalla.setFont(FUENTE_G_BOTONES);
 		pnCenAb2.add(btJugar);
-		btJugar.setFont(FUENTE_BOTONES);
+		btJugar.setFont(FUENTE_J_BOTONES);
 		pnSur.add(btUsuario);
 		btUsuario.setFont(FUENTE_BOTONES);
 		pnSur.add(btOpciones);

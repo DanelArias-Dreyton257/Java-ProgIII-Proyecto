@@ -11,7 +11,7 @@ import java.io.Serializable;
 public enum Tipo implements Serializable {
 	FUEGO, AGUA, PLANTA, CIELO, TIERRA, ELECTRICIDAD, HIELO, LUZ, OSCURIDAD, TIEMPO, ESPACIO, MENTE, CUERPO, MUERTE;
 
-	private static final Color[] COLORES = {Color.RED, Color.BLUE,new Color(0,255,50), new Color(180, 220, 255), new Color(60,40,10), Color.YELLOW, Color.CYAN,Color.WHITE,Color.BLACK,Color.GRAY,new Color(150,0,255),Color.MAGENTA, new Color(200,150,100),Color.DARK_GRAY};
+	private static final Color[] COLORES = {Color.RED, Color.BLUE,new Color(0,255,50), new Color(180, 220, 255), new Color(60,40,10), Color.YELLOW, Color.CYAN,Color.WHITE,Color.BLACK,Color.LIGHT_GRAY,new Color(150,0,255),Color.MAGENTA, new Color(200,150,100),Color.DARK_GRAY};
 
 	private static final Eficacia[][] MULTIPLICADORES_AAD = {
 			{ Eficacia.NULO, Eficacia.NO_EFICAZ, Eficacia.MUY_EFICAZ, Eficacia.NO_EFICAZ, Eficacia.NEUTRO,
