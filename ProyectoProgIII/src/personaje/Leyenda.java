@@ -105,7 +105,8 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	}
 
 	/**
-	 * Genera estadisticas aleatorias
+	 * Genera estadistica aleatorias de un personaje con un nivel de dificultad
+	 * @param dif
 	 */
 	private void generarStatsRandom(double dif) {
 		Random r = new Random();
@@ -402,6 +403,11 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 		return new Leyenda(esp, dif);
 	}
 	
+	
+	/**
+	 * Devuelve una leyenda random, y con un nivel de dificultad
+	 * @return
+	 */
 	public static Leyenda getLeyendaRandom() {
 		java.util.Random r = new java.util.Random();
 		double dif = 0.75 * r.nextDouble() + 0.001;

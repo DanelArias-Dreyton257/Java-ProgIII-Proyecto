@@ -88,11 +88,24 @@ public class Especie implements Serializable {
 		this.tipos = tipos;
 	}
 
-	
+	/**
+	 * Funcion que devuelve el boton de la especie
+	 * 
+	 * @param fuente
+	 * @param scale
+	 * @return
+	 */
 	public BotonEsp getBotonVentana(Font fuente, int scale) {
 		return new BotonEsp(this, scale, fuente);
 	}
-	
+
+	/**
+	 * Funcion que devuelve el boton NULO
+	 * 
+	 * @param fuente
+	 * @param scale
+	 * @return
+	 */
 	public static BotonEsp getBotonVentanaNULO(Font fuente, int scale) {
 		return new BotonEsp(scale, fuente);
 	}
@@ -130,8 +143,5 @@ public class Especie implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-
 
 }

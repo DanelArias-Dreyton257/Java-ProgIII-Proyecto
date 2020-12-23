@@ -20,6 +20,10 @@ public class Contrincante extends Jugador {
 		generarContrincante();
 	}
 
+	/**
+	 * Crea un contrincante aleatorio con un nivel de dificultad
+	 * @param dif
+	 */
 	public Contrincante(double dif) {
 		super(GestorDeDatos.selectRandContrincante());
 		setNvDificultad(dif);
@@ -42,6 +46,13 @@ public class Contrincante extends Jugador {
 		return super.toString();
 	}
 
+	/**
+	 * Funcion que devuelve el indice de la habilidad que la IA del contricante
+	 * eligira
+	 * 
+	 * @param indLeyEnEquipo
+	 * @return
+	 */
 	public int getIndHabIA(int indLeyEnEquipo) {
 		int indHab = 0;
 

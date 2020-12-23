@@ -250,6 +250,13 @@ public class Jugador implements Serializable {
 		}
 	}
 
+	/**
+	 * Funcion que nos dara leyendas aleatoria de la base de datos, con un nivel de
+	 * dificultad predeterminado
+	 * 
+	 * @param numLeyendas
+	 * @param dif
+	 */
 	public void anyadirLeyendasRandom(int numLeyendas, double dif) {
 		for (int i = 0; i < numLeyendas; i++) {
 			anyadirNuevaLeyenda(Leyenda.getLeyendaRandom(dif));
@@ -402,9 +409,14 @@ public class Jugador implements Serializable {
 					"Introducido: " + nvDificultad + "El nvDificultad debe ser 0 =< nvDificultad <= 1");
 	}
 
+	/**
+	 * Funcion que devuelve el nuevo nivel de dificultad.
+	 * 
+	 * @param nvDificultadCont
+	 */
 	public void incDificultad(double nvDificultadCont) {
 		double ratio = 0.8;
-		double nuevoNv = (nvDificultadCont * ratio) + (nvDificultad * (1-ratio)); 
+		double nuevoNv = (nvDificultadCont * ratio) + (nvDificultad * (1 - ratio));
 		try {
 			setNvDificultad(nuevoNv);
 		} catch (Exception e) {
@@ -416,14 +428,29 @@ public class Jugador implements Serializable {
 		}
 	}
 
+	/**
+	 * Estableces en la array el resultado de una partida
+	 * 
+	 * @param victoria
+	 */
 	public void addResulPartida(boolean victoria) {
 		resulPartidas.add(victoria);
 	}
 
+	/**
+	 * Obtienes el numero de partidas jugadas
+	 * 
+	 * @return
+	 */
 	public int getPartidasJugadas() {
 		return resulPartidas.size();
 	}
 
+	/**
+	 * Obtienes el numero de partidas ganadas
+	 * 
+	 * @return
+	 */
 	public int getPartidasGanadas() {
 		int c = 0;
 		for (boolean b : resulPartidas) {
@@ -434,6 +461,11 @@ public class Jugador implements Serializable {
 		return c;
 	}
 
+	/**
+	 * Obtienes el numero de partidas perdidas
+	 * 
+	 * @return
+	 */
 	public int getPartidasPerdidas() {
 		int c = 0;
 		for (boolean b : resulPartidas) {
@@ -444,6 +476,12 @@ public class Jugador implements Serializable {
 		return c;
 	}
 
+	/**
+	 * Devuelve el porcentaje de victorias, el cual se calcula dividiendo las
+	 * ganadas entre las totales
+	 * 
+	 * @return
+	 */
 	public double getPorcentajeVictorias() {
 		if (getPartidasJugadas() <= 0)
 			return 0;
@@ -451,6 +489,10 @@ public class Jugador implements Serializable {
 			return (getPartidasGanadas() * 100) / getPartidasJugadas();
 	}
 
+	/**
+	 * Devuelve los datos a la tabla, para que se represente
+	 * @return
+	 */
 	public Vector<String> getDatosTabla() {
 		Vector<String> datos = new Vector<>();
 		datos.add(nombre);
@@ -458,17 +500,30 @@ public class Jugador implements Serializable {
 		datos.add(df.format(nvDificultad) + "");
 		datos.add(getNumLeyendas() + "");
 		DecimalFormat df1 = new DecimalFormat("###.##");
-		datos.add(df1.format(getPorcentajeVictorias())+"%");
+		datos.add(df1.format(getPorcentajeVictorias()) + "%");
 		datos.add(getPartidasGanadas() + "");
 		datos.add(getPartidasPerdidas() + "");
 		datos.add(getRacha() + "");
 		return datos;
 	}
 
+	/**
+	 * Llama al metodo recursivo GetRacha
+	 * 
+	 * @return
+	 */
 	public int getRacha() {
 		return getRacha(resulPartidas.size() - 1, 0);
 	}
 
+	/**
+	 * Devuelve la racha de partidas, es decir cuantas has ganado seguidas sin
+	 * perder o cuantas veces has perdido deguidas sin ganar
+	 * 
+	 * @param pos
+	 * @param acum
+	 * @return
+	 */
 	public int getRacha(int pos, int acum) {
 
 		if (resulPartidas.isEmpty())
@@ -528,7 +583,5 @@ public class Jugador implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 
 }

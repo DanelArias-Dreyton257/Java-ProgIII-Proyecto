@@ -93,11 +93,10 @@ public class GestorDeDatos {
 	 * @return
 	 */
 	public static Especie buscarEspecieEnBD(Tipo tipo1, Tipo tipo2) { // FIXME
-		if (tipo1!=null && tipo1.equals(tipo2)) {
-			tipo2=null;
+		if (tipo1 != null && tipo1.equals(tipo2)) {
+			tipo2 = null;
 		}
-		
-		
+
 		String t1Str = tipo1.toString();
 		// si el segundo tipo es nulo
 		String t2Str = NULL_STR;
@@ -168,25 +167,25 @@ public class GestorDeDatos {
 			if (!codEsp.isEmpty()) {
 				Random r = new Random();
 				int codSel = codEsp.get(r.nextInt(codEsp.size()));
-				
+
 				Statement stmt4 = conn.createStatement();
 
-				ResultSet rs4 = stmt4.executeQuery("SELECT * FROM ESPECIE WHERE CODIGO = "+codSel+";");
-				
+				ResultSet rs4 = stmt4.executeQuery("SELECT * FROM ESPECIE WHERE CODIGO = " + codSel + ";");
+
 				String desc = "";
 				String nombre = "";
 				while (rs4.next()) {
-					
+
 					desc = rs4.getString("DESCRIPCION");
 					nombre = rs4.getString("NOMBRE");
 				}
 
 				rs4.close();
 				stmt4.close();
-				
-				Tipo[] ts = {tipo1,tipo2};
+
+				Tipo[] ts = { tipo1, tipo2 };
 				esp = new Especie(nombre, desc, ts);
-				
+
 			}
 
 		} catch (SQLException e) {
@@ -638,6 +637,12 @@ public class GestorDeDatos {
 		return noms.get(r.nextInt(noms.size()));
 	}
 
+	/**
+	 * Busca en la base de datos y devuelve los nombres de los contrincantes en una
+	 * lista
+	 * 
+	 * @return
+	 */
 	public static ArrayList<String> getNombresContrincantes() {
 		Connection conn = null;
 		ArrayList<String> listaNoms = new ArrayList<>();
@@ -667,6 +672,11 @@ public class GestorDeDatos {
 
 	}
 
+	/**
+	 * Introduce el nombre de un contincante y lo agrega a la base de datos
+	 * 
+	 * @param s
+	 */
 	public static void insertCont(String s) {
 		Connection conn = null;
 
