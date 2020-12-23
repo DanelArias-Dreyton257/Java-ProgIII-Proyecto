@@ -27,7 +27,11 @@ import gestion.GestorDeDatos;
 import objetosCombate.Jugador;
 import personaje.Especie;
 import personaje.Leyenda;
-
+/**
+ * 
+ * @author danel y jon ander
+ *
+ */
 public class VenFusiones extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -152,6 +156,9 @@ public class VenFusiones extends JFrame {
 		
 
 	}
+	/**
+	 * Actualiza los botones de la ventana y sus listeners
+	 */
 	private void actualizaBotones() {
 		
 		btLey1.addMouseListener(new MouseAdapter() {

@@ -1,7 +1,11 @@
 package personaje.atributos;
 
 import java.io.Serializable;
-
+/**
+ * 
+ * @author danel y jon ander
+ *
+ */
 public enum Eficacia implements Serializable{
 	NULO, NO_MUY_EFICAZ, NO_EFICAZ, NEUTRO, EFICAZ, MUY_EFICAZ;
 

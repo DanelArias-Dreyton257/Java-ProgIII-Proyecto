@@ -14,14 +14,17 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import gestion.GestorDeDatos;
 import personaje.Especie;
 import personaje.Leyenda;
-
+/**
+ * 
+ * @author danel y jon ander
+ *
+ */
 public class BotonEsp extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -31,12 +34,17 @@ public class BotonEsp extends JPanel {
 	private JLabel lbImg = new JLabel();;
 	private String imagen = "src/visuales/img/user-icon.png";
 	private int scale = 100;
-	private Font fuente = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 12);
+	// private Font fuente = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD,
+	// Font.PLAIN, 12);
+	private JPanel pnLabel = new JPanel();
 
-	public Especie getEsp() {
-		return esp;
-	}
-
+	/**
+	 * Crea un boton para la especie especificada
+	 * 
+	 * @param esp
+	 * @param scale
+	 * @param fuente usada para el texto
+	 */
 	public BotonEsp(Especie esp, int scale, Font fuente) {
 		super(new BorderLayout());
 		this.setEspecie(esp);
@@ -45,11 +53,21 @@ public class BotonEsp extends JPanel {
 		setScale(scale);
 	}
 
+	/**
+	 * Crea un boton que representa una especie nula
+	 * 
+	 * @param scale
+	 * @param fuente
+	 */
 	public BotonEsp(int scale, Font fuente) {
 		this(null, scale, fuente);
 	}
 
+	/**
+	 * Prepara el boton con todas sus caracteristicas
+	 */
 	private void prepararBoton() {
+		// Movimientos de los bordes para que simule un boton
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -61,7 +79,10 @@ public class BotonEsp extends JPanel {
 				BotonEsp.this.setBorder(BorderFactory.createRaisedBevelBorder());
 			}
 		});
+
 		setBorder(BorderFactory.createRaisedBevelBorder());
+
+		// Imagen
 		BufferedImage bimg = null;
 		try {
 			bimg = ImageIO.read(new File(imagen)); // TODO
@@ -76,51 +97,112 @@ public class BotonEsp extends JPanel {
 		lbImg = new JLabel(imgIcon);
 
 		this.add(lbImg, BorderLayout.CENTER);
-		lbNombre.setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 12));
-		JPanel pn = new JPanel();
-		pn.add(lbNombre);
-		add(pn, BorderLayout.SOUTH);
+
+		// Texto
+		lbNombre.setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 13));
+		pnLabel.add(lbNombre);
+		add(pnLabel, BorderLayout.SOUTH);
+
 		revalidate();
 	}
 
+	/**
+	 * Establece la especie del boton
+	 * 
+	 * @param esp
+	 */
 	public void setEspecie(Especie esp) {
 		this.esp = esp;
 	}
 
+	/**
+	 * Devuelve la especie del boton
+	 * 
+	 * @return
+	 */
+	public Especie getEsp() {
+		return esp;
+	}
+
+	/**
+	 * Devuelve el nombre, o sea, el texto que aparece en el boton
+	 * 
+	 * @return
+	 */
 	public String getNombre() {
 		return lbNombre.getText();
 	}
 
+	/**
+	 * Establece el nombre, o sea, el texto que aparece en el boton
+	 * 
+	 * @param nombre
+	 */
 	public void setNombre(String nombre) {
 		lbNombre.setText(nombre);
 	}
 
+	/**
+	 * Devuelve el color del texto del boton
+	 * 
+	 * @return
+	 */
 	public Color getColorLb() {
 		return lbNombre.getForeground();
 	}
 
+	/**
+	 * Establece el color del texto del boton
+	 * 
+	 * @param colorlb
+	 */
 	public void setColorLb(Color colorlb) {
 		lbNombre.setForeground(colorlb);
 	}
 
+	/**
+	 * Devuelve el color del fondo del boton
+	 * 
+	 * @return
+	 */
 	public Color getColorFondo() {
 		return this.getBackground();
 	}
 
+	/**
+	 * Establece el color de fondo del boton
+	 * 
+	 * @param colorfondo
+	 */
 	public void setColorFondo(Color colorfondo) {
 		this.setBackground(colorfondo);
+		BotonEsp.this.pnLabel.setBackground(colorfondo);
 	}
 
+	/**
+	 * Devuelve la escala del boton
+	 * 
+	 * @return
+	 */
 	public int getScale() {
 		return scale;
 	}
 
+	/**
+	 * Establece la escala del boton
+	 * 
+	 * @param scale
+	 */
 	public void setScale(int scale) {
 		this.scale = scale;
 		reCalculaTamanyo();
 		revalidate();
 	}
 
+	/**
+	 * Recalcula el tamanyo de la imagen, y por lo tanto el boton, segun la escala
+	 * dada
+	 */
 	private void reCalculaTamanyo() {
 		BufferedImage bimg = null;
 		try {
@@ -137,10 +219,20 @@ public class BotonEsp extends JPanel {
 		revalidate();
 	}
 
+	/**
+	 * Devuelve la fuente del boton
+	 * 
+	 * @return
+	 */
 	public Font getFuente() {
 		return lbNombre.getFont();
 	}
 
+	/**
+	 * Establece la fuente que usara el boton
+	 * 
+	 * @param fuente
+	 */
 	public void setFuente(Font fuente) {
 		lbNombre.setFont(fuente);
 		revalidate();
@@ -152,6 +244,9 @@ public class BotonEsp extends JPanel {
 		super.paintComponent(g);
 	}
 
+	/**
+	 * Actualiza los datos que muestra el boton
+	 */
 	private void actualizaDatos() {
 
 		if (esp != null) {
@@ -160,7 +255,7 @@ public class BotonEsp extends JPanel {
 				Leyenda l = (Leyenda) esp;
 				BotonEsp.this.setToolTipText(l.getToolTipInfo());
 				lbNombre.setText(l.getNombreCombate()); // Apanyo
-				
+
 				if (isEnabled()) {
 					if (l.estaMuerto()) {
 						BotonEsp.this.setColorFondo(Color.DARK_GRAY);

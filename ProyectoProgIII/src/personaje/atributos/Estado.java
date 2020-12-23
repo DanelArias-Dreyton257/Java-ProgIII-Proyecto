@@ -5,5 +5,5 @@ package personaje.atributos;
  *
  */
 public enum Estado {
-
+	//IDEA-- TODAVIA NO USADO
 }

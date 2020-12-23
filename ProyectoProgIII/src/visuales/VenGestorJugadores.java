@@ -23,7 +23,11 @@ import javax.swing.event.ListSelectionListener;
 import gestion.GestorDeDatos;
 import gestion.GestorJugadores;
 import objetosCombate.Jugador;
-
+/**
+ * 
+ * @author danel y jon ander
+ *
+ */
 public class VenGestorJugadores extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -55,10 +59,17 @@ public class VenGestorJugadores extends JFrame {
 	private static final Font FUENTE_BOTON = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
 	private static final Font FUENTE_BOTON_2 = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 20);
 	
+	/**
+	 * Constructor de la ventana cargando el gestor de jugadores desde la base de datos
+	 */
 	public VenGestorJugadores() {
 		this(GestorDeDatos.cargarJugadoresFichero());
 	}
 	
+	/**
+	 * Constructor de la ventana de gestor de jugadores
+	 * @param gj
+	 */
 	public VenGestorJugadores(GestorJugadores gj) {
 
 		if (gj != null) {
@@ -98,7 +109,9 @@ public class VenGestorJugadores extends JFrame {
 		actualizaLista();
 		btSeleccionar.setEnabled(false);
 		btBorrar.setEnabled(false);
-
+		
+		
+		//Listeners
 		lsJugadores.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -194,11 +207,17 @@ public class VenGestorJugadores extends JFrame {
 
 		});
 	}
-
+	/**
+	 * Devuelve el gestor de jugadores de la ventana
+	 * @return
+	 */
 	public GestorJugadores getgJugadores() {
 		return gJugadores;
 	}
-
+	/**
+	 * Establece el gestor de jugadores de la ventana
+	 * @param gJugadores
+	 */
 	public void setgJugadores(GestorJugadores gJugadores) {
 		this.gJugadores = gJugadores;
 	}
