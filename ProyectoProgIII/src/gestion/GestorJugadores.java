@@ -22,16 +22,31 @@ public class GestorJugadores implements Serializable {
 	 */
 	public void anyadirJugador(Jugador j, String contrasena) {
 		while (credenciales.containsKey(j.getNombre())) {
-			j.setNombre(j.getNombre() + " 1");
+			j.setNombre(nextNombre(j.getNombre()));
 		}
 		credenciales.put(j.getNombre(), contrasena);
 		jugadores.add(j);
 
 	}
-/**
- * devuelve todos los nombres de los jugadores
- * @return
- */
+	
+	private String nextNombre(String previous) {
+		String dev = "";
+		try {
+			String ult = previous.substring(previous.length()-1,previous.length());
+			int num = Integer.parseInt(ult);
+			num++;
+			String ant = previous.substring(0,previous.length()-1);
+			dev = ant+num;
+		}catch (Exception e) {
+			dev = previous + " 1";
+		}
+		return dev;
+	}
+	
+	/**
+	 * devuelve todos los nombres de los jugadores
+	 * @return
+	 */
 	public String[] getNombresJugadores() {
 		try {
 			String[] strs = new String[jugadores.size()];
@@ -117,9 +132,6 @@ public class GestorJugadores implements Serializable {
 	public ArrayList<Jugador> getJugadores() {
 		return jugadores;
 	}
-	
-	
-	
 	
 	
 }

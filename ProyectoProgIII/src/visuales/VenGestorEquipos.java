@@ -25,6 +25,7 @@ import gestion.GestorDeDatos;
 import objetosCombate.Jugador;
 import personaje.Especie;
 import personaje.Leyenda;
+import visuales.objetos.BotonEsp;
 
 /**
  * 
@@ -168,12 +169,15 @@ public class VenGestorEquipos extends JFrame {
 		pnEquipo.removeAll();
 		for (int i = 0; i < Jugador.NUM_PER; i++) {
 			Leyenda esp = usuario.getEquipo()[i];
-			Component boton = null;
+			BotonEsp boton = null;
 			if (esp != null) {
 				boton = esp.getBotonVentana(FUENTE_LEYENDA, 150);
 			} else {
 				boton = Especie.getBotonVentanaNULO(FUENTE_LEYENDA, 150);
 			}
+
+			boton.setEnabled(i != indBotonSeleccionado);
+
 			pnEquipo.add(boton);
 			btEquipo[i] = boton;
 			int h = i;
@@ -184,15 +188,19 @@ public class VenGestorEquipos extends JFrame {
 					int j = lsEternidad.getSelectedIndex();
 					if (j >= 0) {
 						usuario.intercambiarEquipoEternidad(h, j);
-						actualizaEquipo();
-						actualizaLista();
+						indBotonSeleccionado = -1;
+					} else {
+						if (indBotonSeleccionado != -1) {
+							usuario.intercambiarEnEquipo(indBotonSeleccionado, h);
+							
+							indBotonSeleccionado = -1;
+						} else {
+							
+							indBotonSeleccionado = h;
+						}
 					}
-					else if (indBotonSeleccionado != 1) {
-						//intercambiar en equipo
-					}
-					else {
-						//TODO
-					}
+					actualizaEquipo();
+					actualizaLista();
 					revalidate();
 				}
 			});

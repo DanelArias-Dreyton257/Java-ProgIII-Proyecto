@@ -74,8 +74,8 @@ public class BotonEsp extends JPanel {
 		ImageIcon imgIcon = new ImageIcon(dimg);
 
 		lbImg = new JLabel(imgIcon);
-		
-		this.add(lbImg,BorderLayout.CENTER);
+
+		this.add(lbImg, BorderLayout.CENTER);
 		lbNombre.setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 12));
 		JPanel pn = new JPanel();
 		pn.add(lbNombre);
@@ -145,37 +145,34 @@ public class BotonEsp extends JPanel {
 		lbNombre.setFont(fuente);
 		revalidate();
 	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		actualizaDatos();
 		super.paintComponent(g);
 	}
-	
+
 	private void actualizaDatos() {
+
 		if (esp != null) {
 			lbNombre.setText(esp.getNombre());
 			if (esp instanceof Leyenda) {
 				Leyenda l = (Leyenda) esp;
 				BotonEsp.this.setToolTipText(l.getToolTipInfo());
-				lbNombre.setText(l.getNombreCombate()); //Apanyo
-				if (l.estaMuerto()) {
-					BotonEsp.this.setColorFondo(Color.DARK_GRAY);
+				lbNombre.setText(l.getNombreCombate()); // Apanyo
+				if (isEnabled()) {
+					if (l.estaMuerto()) {
+						BotonEsp.this.setColorFondo(Color.DARK_GRAY);
+					} else {
+						BotonEsp.this.setColorFondo(Color.LIGHT_GRAY);
+					}
 				}
-				else {
-					BotonEsp.this.setColorFondo(Color.LIGHT_GRAY);
-				}
+
 			}
+		}
+		if (!isEnabled()) {
+			BotonEsp.this.setColorFondo(Color.BLACK);
 		}
 	}
 
-	public static void main(String[] args) {
-		JFrame f = new JFrame();
-		f.setSize(300, 300);
-
-		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		f.getContentPane().add(new BotonEsp(150, new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 12)));
-		f.setVisible(true);
-
-	}
 }
