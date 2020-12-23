@@ -42,7 +42,7 @@ public class Contrincante extends Jugador {
 		return super.toString();
 	}
 
-	public int getIndHab(int indLeyEnEquipo) {
+	public int getIndHabIA(int indLeyEnEquipo) {
 		int indHab = 0;
 
 		Leyenda l = this.getLeyendaEquipo(indLeyEnEquipo);

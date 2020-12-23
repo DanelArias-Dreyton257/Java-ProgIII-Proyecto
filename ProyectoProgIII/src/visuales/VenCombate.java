@@ -376,7 +376,7 @@ public class VenCombate extends JFrame {
 		btleyEnCurso.setColorLb(Color.RED);
 
 		if (indiceLeyEnCurso > 2) {
-			indiceHabElegida = combate.getContrincante().getIndHab(indiceLeyEnCurso - 3);
+			indiceHabElegida = combate.getContrincante().getIndHabIA(indiceLeyEnCurso - 3);
 			String ataqueStr = combate.leyendaAtacaLeyenda(false, combate.getContrincante().getIndDeAtaqueIA(), indiceLeyEnCurso - 3, indiceHabElegida);
 			lbMensaje.setText(ataqueStr);
 			actualizaNombresLeys();
