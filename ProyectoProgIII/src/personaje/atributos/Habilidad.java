@@ -155,9 +155,21 @@ public class Habilidad implements ToolTipAble,Serializable {
 	}
 
 	@Override
+	public String toString() {
+		return "Habilidad [nombre=" + nombre + ", descripcion=" + descripcion + ", tipo=" + tipo + ", potencia="
+				+ potencia + ", precision=" + precision + "]";
+	}
+
+	@Override
+	public String getToolTipInfo() {
+		return tipo.toString() + ". Pot: "+potencia+", Prec: "+(precision*100)+"%";
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + potencia;
 		long temp;
@@ -176,6 +188,11 @@ public class Habilidad implements ToolTipAble,Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Habilidad other = (Habilidad) obj;
+		if (descripcion == null) {
+			if (other.descripcion != null)
+				return false;
+		} else if (!descripcion.equals(other.descripcion))
+			return false;
 		if (nombre == null) {
 			if (other.nombre != null)
 				return false;
@@ -189,16 +206,7 @@ public class Habilidad implements ToolTipAble,Serializable {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "Habilidad [nombre=" + nombre + ", descripcion=" + descripcion + ", tipo=" + tipo + ", potencia="
-				+ potencia + ", precision=" + precision + "]";
-	}
-
-	@Override
-	public String getToolTipInfo() {
-		return tipo.toString() + ". Pot: "+potencia+", Prec: "+(precision*100)+"%";
-	}
+	
+	
 
 }

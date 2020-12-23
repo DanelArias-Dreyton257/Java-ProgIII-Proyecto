@@ -409,50 +409,6 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ataque;
-		result = prime * result + defensa;
-		result = prime * result + Arrays.hashCode(habilidades);
-		result = prime * result + velocidad;
-		result = prime * result + vida;
-		result = prime * result + vidaMax;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Leyenda other = (Leyenda) obj;
-		if (ataque != other.ataque)
-			return false;
-		if (defensa != other.defensa)
-			return false;
-		if (!Arrays.equals(habilidades, other.habilidades))
-			return false;
-		if (velocidad != other.velocidad)
-			return false;
-		if (vida != other.vida)
-			return false;
-		if (vidaMax != other.vidaMax)
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Leyenda [nombre = " + nombre + ", descripcion=" + descripcion + ", tipos=" + Arrays.toString(tipos)
-				+ ", habilidades=" + Arrays.toString(habilidades) + ", ataque=" + ataque + ", defensa=" + defensa
-				+ ", velocidad=" + velocidad + ", vida=" + vida + ", vidaMax=" + vidaMax + "]";
-	}
-
-	@Override
 	public String getToolTipInfo() {
 		String tipo2 = GestorDeDatos.NULL_STR;
 		if (tipos[1] != null)
@@ -496,5 +452,51 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	public BotonEsp getBotonVentana(Font fuente, int scale) {
 		return new BotonEsp(this, scale, fuente);
 	}
+
+	@Override
+	public String toString() {
+		return "Leyenda [habilidades=" + Arrays.toString(habilidades) + ", ataque=" + ataque + ", defensa=" + defensa
+				+ ", velocidad=" + velocidad + ", vida=" + vida + ", vidaMax=" + vidaMax + ", nombre=" + nombre
+				+ ", descripcion=" + descripcion + ", tipos=" + Arrays.toString(tipos) + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ataque;
+		result = prime * result + defensa;
+		result = prime * result + Arrays.hashCode(habilidades);
+		result = prime * result + velocidad;
+		result = prime * result + vida;
+		result = prime * result + vidaMax;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Leyenda other = (Leyenda) obj;
+		if (ataque != other.ataque)
+			return false;
+		if (defensa != other.defensa)
+			return false;
+		if (!Arrays.equals(habilidades, other.habilidades))
+			return false;
+		if (velocidad != other.velocidad)
+			return false;
+		if (vida != other.vida)
+			return false;
+		if (vidaMax != other.vidaMax)
+			return false;
+		return true;
+	}
+	
+	
 
 }

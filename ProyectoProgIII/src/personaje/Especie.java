@@ -88,6 +88,15 @@ public class Especie implements Serializable {
 		this.tipos = tipos;
 	}
 
+	
+	public BotonEsp getBotonVentana(Font fuente, int scale) {
+		return new BotonEsp(this, scale, fuente);
+	}
+	
+	public static BotonEsp getBotonVentanaNULO(Font fuente, int scale) {
+		return new BotonEsp(scale, fuente);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -122,13 +131,7 @@ public class Especie implements Serializable {
 		return true;
 	}
 	
-	public BotonEsp getBotonVentana(Font fuente, int scale) {
-		return new BotonEsp(this, scale, fuente);
-	}
 	
-	public static BotonEsp getBotonVentanaNULO(Font fuente, int scale) {
-		return new BotonEsp(scale, fuente);
-	}
 
 
 }
