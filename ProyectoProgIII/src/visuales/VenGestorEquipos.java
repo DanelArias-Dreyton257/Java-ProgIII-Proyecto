@@ -124,39 +124,6 @@ public class VenGestorEquipos extends JFrame {
 			}
 		});
 
-//		for (int i = 0; i < btEquipo.length; i++) {
-//			int h = i;
-//			btEquipo[i].addMouseListener(new MouseAdapter() {
-//				@Override
-//				public void mousePressed(MouseEvent e) {
-//					if (btEquipo[h].isEnabled()) {
-//						int j = lsEternidad.getSelectedIndex();
-//						if (j >= 0) {
-//							usuario.intercambiarEquipoEternidad(h, j);
-//							if (indBotonSeleccionado != -1) {
-//								for (Component bt : btEquipo) {
-//									bt.setEnabled(true);
-//								}
-//							}
-//							indBotonSeleccionado = -1;
-//						} else {
-//							if (indBotonSeleccionado != -1) {
-//								usuario.intercambiarEnEquipo(h, indBotonSeleccionado);
-//								btEquipo[indBotonSeleccionado].setEnabled(true);
-//								indBotonSeleccionado = -1;
-//							} else {
-//								btEquipo[h].setEnabled(false);
-//								indBotonSeleccionado = h;
-//							}
-//						}
-//						actualizaEquipo();
-//						actualizaLista();
-//
-//					}
-//				}
-//			});
-//		}
-
 		actualizaEquipo();
 		actualizaLista();
 
@@ -192,10 +159,8 @@ public class VenGestorEquipos extends JFrame {
 					} else {
 						if (indBotonSeleccionado != -1) {
 							usuario.intercambiarEnEquipo(indBotonSeleccionado, h);
-							
 							indBotonSeleccionado = -1;
 						} else {
-							
 							indBotonSeleccionado = h;
 						}
 					}

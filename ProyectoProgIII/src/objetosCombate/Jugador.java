@@ -1,6 +1,7 @@
 package objetosCombate;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
@@ -439,7 +440,8 @@ public class Jugador implements Serializable {
 	}
 
 	public void incDificultad(double nvDificultadCont) {
-		double nuevoNv = (this.nvDificultad + nvDificultadCont) / 2;
+		double ratio = 0.8;
+		double nuevoNv = (nvDificultadCont * ratio) + (nvDificultad * (1-ratio)); 
 		try {
 			setNvDificultad(nuevoNv);
 		} catch (Exception e) {
@@ -450,50 +452,85 @@ public class Jugador implements Serializable {
 			}
 		}
 	}
-	
+
 	public void addResulPartida(boolean victoria) {
 		resulPartidas.add(victoria);
 	}
-	
+
 	public int getPartidasJugadas() {
 		return resulPartidas.size();
 	}
-	
+
 	public int getPartidasGanadas() {
-		int c=0;
-		for (boolean b:resulPartidas) {
+		int c = 0;
+		for (boolean b : resulPartidas) {
 			if (b) {
 				c++;
 			}
 		}
 		return c;
 	}
-	
+
 	public int getPartidasPerdidas() {
-		int c=0;
-		for (boolean b:resulPartidas) {
+		int c = 0;
+		for (boolean b : resulPartidas) {
 			if (!b) {
 				c++;
 			}
 		}
 		return c;
 	}
-	
+
 	public double getPorcentajeVictorias() {
-		if (getPartidasJugadas() <=0) return 0;
-		else return (getPartidasGanadas() *100) / getPartidasJugadas();
+		if (getPartidasJugadas() <= 0)
+			return 0;
+		else
+			return (getPartidasGanadas() * 100) / getPartidasJugadas();
 	}
 
 	public Vector<String> getDatosTabla() {
 		Vector<String> datos = new Vector<>();
 		datos.add(nombre);
-		datos.add(nvDificultad+"");
-		datos.add(getNumLeyendas()+"");
-		datos.add(getPorcentajeVictorias()+"%");
-		datos.add(getPartidasGanadas()+"");
-		datos.add(getPartidasPerdidas()+"");
+		DecimalFormat df = new DecimalFormat("#.####");
+		datos.add(df.format(nvDificultad) + "");
+		datos.add(getNumLeyendas() + "");
+		DecimalFormat df1 = new DecimalFormat("###.##");
+		datos.add(df1.format(getPorcentajeVictorias())+"%");
+		datos.add(getPartidasGanadas() + "");
+		datos.add(getPartidasPerdidas() + "");
+		datos.add(getRacha() + "");
 		return datos;
 	}
 
+	public int getRacha() {
+		return getRacha(resulPartidas.size() - 1, 0);
+	}
+
+	public int getRacha(int pos, int acum) {
+
+		if (resulPartidas.isEmpty())
+			return 0;
+
+		if (pos < 0) {
+			return acum;
+		}
+
+		if (pos == resulPartidas.size() - 1) {
+			if (resulPartidas.get(pos))
+				return getRacha(pos - 1, acum + 1);
+			else
+				return getRacha(pos - 1, acum - 1);
+		}
+
+		if (acum > 0 == resulPartidas.get(pos)) {
+			if (acum > 0)
+				return getRacha(pos - 1, acum + 1);
+			else
+				return getRacha(pos - 1, acum - 1);
+		} else {
+			return acum;
+		}
+
+	}
 
 }

@@ -27,7 +27,7 @@ public class VenRankings extends JFrame {
 	private static final Dimension MIN_DIM = new Dimension(500, 100);
 	private static final Dimension PREF_DIM = new Dimension(750, 200);
 	
-	private String[] cabeceras = {"Nombre","Nv. Dificultad", "Num. Leyendas", "% Victorias", "Num. Victorias", "Num. Derrotas"};
+	private String[] cabeceras = {"Nombre","Nv. Dificultad", "Num. Leyendas", "% Victorias", "Num. Victorias", "Num. Derrotas", "Racha"};
 	
 	private GestorJugadores gJugadores = new GestorJugadores();
 	private DefaultTableModel mdTabla = new DefaultTableModel() {
@@ -35,6 +35,10 @@ public class VenRankings extends JFrame {
 
 		public java.lang.Class<?> getColumnClass(int columnIndex) {
 			return String.class;
+		};
+		
+		public boolean isCellEditable(int row, int column) {
+			return false;
 		};
 	};
 	
@@ -58,6 +62,16 @@ public class VenRankings extends JFrame {
 					double r = 255-g;
 					Color c = new Color((int)r,(int)g,0);
 					df.setForeground(c);
+				}
+				else if (arg1 == 6) {
+					String s = (String) getValueAt(arg0, arg1);
+					double racha = Double.parseDouble(s);
+					if (racha>0) {
+						df.setForeground(Color.GREEN);
+					}
+					else {
+						df.setForeground(Color.RED);
+					}
 				}
 				
 		        return df;

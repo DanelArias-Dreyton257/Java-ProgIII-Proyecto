@@ -160,6 +160,7 @@ public class BotonEsp extends JPanel {
 				Leyenda l = (Leyenda) esp;
 				BotonEsp.this.setToolTipText(l.getToolTipInfo());
 				lbNombre.setText(l.getNombreCombate()); // Apanyo
+				
 				if (isEnabled()) {
 					if (l.estaMuerto()) {
 						BotonEsp.this.setColorFondo(Color.DARK_GRAY);

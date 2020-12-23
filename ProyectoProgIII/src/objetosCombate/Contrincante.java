@@ -33,7 +33,7 @@ public class Contrincante extends Jugador {
 	private void generarContrincante() {
 		int numLeyendas = (int) Math.round(nvDificultad * 10);
 		this.anyadirLeyendasRandom(numLeyendas, nvDificultad);
-		int doblones = (int) Math.round(nvDificultad * VenValhalla.COSTE_CONTRATO * 10);
+		int doblones = (int) Math.round(nvDificultad * VenValhalla.COSTE_CONTRATO * 7.5);
 		this.setDoblones(doblones);
 	}
 

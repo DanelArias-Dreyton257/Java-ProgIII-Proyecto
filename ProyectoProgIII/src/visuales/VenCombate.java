@@ -371,7 +371,7 @@ public class VenCombate extends JFrame {
 				return;
 			}
 		}
-
+		
 		indiceLeyEnCurso = combate.indiceEnBatalla(leyendaEnCurso);
 		indiceHabElegida = -1;
 
@@ -386,6 +386,7 @@ public class VenCombate extends JFrame {
 			actualizaNombresLeys();
 			
 			checkFinalTurno();
+			
 		} else {
 			// Hacer aparecer panel con movs
 			Habilidad[] hs = leyendaEnCurso.getHabilidades();
