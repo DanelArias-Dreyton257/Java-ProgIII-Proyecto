@@ -42,19 +42,25 @@ public class VenGestorJugadores extends JFrame {
 	private JButton btSeleccionar = new JButton("Seleccionar");
 	private JButton btBorrar = new JButton("Borrar Jug.");
 	private JButton btCrearNuevo = new JButton("Crear Nuevo");
+	private JButton btRankings = new JButton("Rankings");
 
 	private JPanel pnCentral = new JPanel();
-	private JPanel pnBotones = new JPanel();
+	private JPanel pnBotones = new JPanel(new BorderLayout());
+	private JPanel pnBot1 = new JPanel();
 	private JPanel pnUp = new JPanel();
 
 	// Fuentes
 	private static final Font FUENTE_LEYENDA = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 20);
 	private static final Font FUENTE_TOCHA = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 25);
 	private static final Font FUENTE_BOTON = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
-
+	private static final Font FUENTE_BOTON_2 = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 20);
+	
 	public VenGestorJugadores() {
-		// Gestor
-		GestorJugadores gj = GestorDeDatos.cargarJugadoresFichero();
+		this(GestorDeDatos.cargarJugadoresFichero());
+	}
+	
+	public VenGestorJugadores(GestorJugadores gj) {
+
 		if (gj != null) {
 			setgJugadores(gj);
 		}
@@ -81,10 +87,13 @@ public class VenGestorJugadores extends JFrame {
 		btSeleccionar.setFont(FUENTE_BOTON);
 		btCrearNuevo.setFont(FUENTE_BOTON);
 		btBorrar.setFont(FUENTE_BOTON);
-		pnBotones.add(btSeleccionar);
-		pnBotones.add(btBorrar);
-		pnBotones.add(btCrearNuevo);
+		pnBot1.add(btSeleccionar);
+		pnBot1.add(btBorrar);
+		pnBot1.add(btCrearNuevo);
 		getContentPane().add(pnBotones, BorderLayout.SOUTH);
+		pnBotones.add(pnBot1);
+		btRankings.setFont(FUENTE_BOTON_2);
+		pnBotones.add(btRankings, BorderLayout.SOUTH);
 
 		actualizaLista();
 		btSeleccionar.setEnabled(false);
@@ -128,7 +137,7 @@ public class VenGestorJugadores extends JFrame {
 				if (opcRandom == JOptionPane.YES_OPTION) {
 					Jugador usuario = new Jugador("Simple alumno");
 					usuario.incDificultad(0.7);
-					usuario.anyadirLeyendasRandom(15,usuario.getNvDificultad());
+					usuario.anyadirLeyendasRandom(15, usuario.getNvDificultad());
 					gJugadores.anyadirJugador(usuario, "a");
 					actualizaLista();
 				} else if (opcRandom == JOptionPane.NO_OPTION) {
@@ -149,12 +158,25 @@ public class VenGestorJugadores extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String seleccionado = lsJugadores.getSelectedValue();
-				int opt = JOptionPane.showConfirmDialog(VenGestorJugadores.this, "¿Seguro que quiere borrar:"+ seleccionado+"?", "Borrado",
-							JOptionPane.YES_NO_OPTION);
+				int opt = JOptionPane.showConfirmDialog(VenGestorJugadores.this,
+						"¿Seguro que quiere borrar:" + seleccionado + "?", "Borrado", JOptionPane.YES_NO_OPTION);
 				if (opt == JOptionPane.YES_OPTION) {
 					gJugadores.deleteJugador(seleccionado);
 					actualizaLista();
 				}
+			}
+		});
+
+		btRankings.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				setVisible(false);
+				VenRankings v = new VenRankings(gJugadores);
+				v.setVisible(true);
+				dispose();
+
 			}
 		});
 

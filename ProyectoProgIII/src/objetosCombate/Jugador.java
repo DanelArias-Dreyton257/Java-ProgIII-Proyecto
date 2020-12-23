@@ -3,6 +3,7 @@ package objetosCombate;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Vector;
 
 import personaje.Leyenda;
 
@@ -20,6 +21,7 @@ public class Jugador implements Serializable {
 	protected ArrayList<Leyenda> eternidad = new ArrayList<>(); // donde se guardan todos los personajes no usados en el
 	protected int doblones = 0;
 	protected double nvDificultad = 0;
+	private ArrayList<Boolean> resulPartidas = new ArrayList<Boolean>();
 
 	/**
 	 * Crea un jugador con el equipo y la eternidad vacia
@@ -448,5 +450,50 @@ public class Jugador implements Serializable {
 			}
 		}
 	}
+	
+	public void addResulPartida(boolean victoria) {
+		resulPartidas.add(victoria);
+	}
+	
+	public int getPartidasJugadas() {
+		return resulPartidas.size();
+	}
+	
+	public int getPartidasGanadas() {
+		int c=0;
+		for (boolean b:resulPartidas) {
+			if (b) {
+				c++;
+			}
+		}
+		return c;
+	}
+	
+	public int getPartidasPerdidas() {
+		int c=0;
+		for (boolean b:resulPartidas) {
+			if (!b) {
+				c++;
+			}
+		}
+		return c;
+	}
+	
+	public double getPorcentajeVictorias() {
+		if (getPartidasJugadas() <=0) return 0;
+		else return (getPartidasGanadas() *100) / getPartidasJugadas();
+	}
+
+	public Vector<String> getDatosTabla() {
+		Vector<String> datos = new Vector<>();
+		datos.add(nombre);
+		datos.add(nvDificultad+"");
+		datos.add(getNumLeyendas()+"");
+		datos.add(getPorcentajeVictorias()+"%");
+		datos.add(getPartidasGanadas()+"");
+		datos.add(getPartidasPerdidas()+"");
+		return datos;
+	}
+
 
 }

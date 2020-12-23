@@ -166,6 +166,7 @@ public class VenCombate extends JFrame {
 		for (JButton b : btHabilidades) {
 			pnHabilidades.add(b);
 			b.setFont(FUENTE_HABILIDAD);
+			b.setBackground(Color.GRAY);
 		}
 
 		// Cambiar textos
@@ -179,6 +180,7 @@ public class VenCombate extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				combate.getJugador().curarLeyendas();
 				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJugador());
 				v.setUsuario(combate.getJugador());
 				v.setVisible(true);
@@ -331,6 +333,7 @@ public class VenCombate extends JFrame {
 						"FIN DE LA PARTIDA", JOptionPane.INFORMATION_MESSAGE);
 				combate.getJugador().incDoblones(dobsGanados);
 				combate.getJugador().incDificultad(combate.getContrincante().getNvDificultad());
+				combate.getJugador().addResulPartida(true);
 				combate.getJugador().curarLeyendas();
 				dispose();
 				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJugador());
@@ -340,6 +343,7 @@ public class VenCombate extends JFrame {
 				JOptionPane.showMessageDialog(VenCombate.this,
 						combate.getContrincante().getNombre() + " gano la partida!", "FIN DE LA PARTIDA",
 						JOptionPane.INFORMATION_MESSAGE);
+				combate.getJugador().addResulPartida(false);
 				combate.getJugador().curarLeyendas();
 				dispose();
 				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJugador());

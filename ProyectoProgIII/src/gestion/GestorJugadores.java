@@ -8,7 +8,7 @@ import objetosCombate.Jugador;
 
 public class GestorJugadores implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	private ArrayList<Jugador> jugadores = new ArrayList<>();
 	private HashMap<String, String> credenciales = new HashMap<>();
 
@@ -113,6 +113,12 @@ public class GestorJugadores implements Serializable {
 			}
 		}
 	}
+
+	public ArrayList<Jugador> getJugadores() {
+		return jugadores;
+	}
+	
+	
 	
 	
 	
