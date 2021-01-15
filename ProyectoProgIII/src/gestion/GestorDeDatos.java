@@ -46,6 +46,7 @@ public class GestorDeDatos {
 
 	public static final String STR_SEPARATOR = "\t";
 	public static final String NULL_STR = "NULL";
+	public static final String NO_STR = "-";
 
 	private static final File TTF_PERPETUA_BOLD = new File("src/fonts/Perpetua-Bold.ttf");
 	private static final File TTF_PERPETUA_BOLD_ITALIC = new File("src/fonts/Perpetua-Bold-Italic.ttf");

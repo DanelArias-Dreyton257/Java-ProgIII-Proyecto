@@ -202,7 +202,7 @@ public class VenCombate extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// Si el boton no tiene ninguna habilidad asociada
-					if (!boton.getText().equals(GestorDeDatos.NULL_STR)) {
+					if (!boton.getText().equals(GestorDeDatos.NO_STR)) {
 						indiceHabElegida = h;
 						pnHabilidades.setVisible(false);
 						Habilidad ataque = leyendaEnCurso.getHabilidades()[h];
@@ -387,10 +387,12 @@ public class VenCombate extends JFrame {
 					btHabilidades[i].setText(hs[i].getNombre());
 					btHabilidades[i].setForeground(hs[i].getTipo().getColor());
 					btHabilidades[i].setToolTipText(hs[i].getToolTipInfo());
+					btHabilidades[i].setEnabled(true);
 				} else {
-					btHabilidades[i].setText(GestorDeDatos.NULL_STR);
+					btHabilidades[i].setText(GestorDeDatos.NO_STR);
 					btHabilidades[i].setForeground(Color.BLACK);
 					btHabilidades[i].setToolTipText("");
+					btHabilidades[i].setEnabled(false);
 				}
 
 			}
