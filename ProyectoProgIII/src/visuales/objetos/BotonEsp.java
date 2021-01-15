@@ -10,16 +10,21 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 import gestion.GestorDeDatos;
 import personaje.Especie;
 import personaje.Leyenda;
+
 /**
  * 
  * @author danel y jon ander
@@ -34,8 +39,8 @@ public class BotonEsp extends JPanel {
 	private JLabel lbImg = new JLabel();;
 	private String imagen = "src/visuales/img/user-icon.png";
 	private int scale = 100;
-	// private Font fuente = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD,
-	// Font.PLAIN, 12);
+	private JProgressBar prBarraVida = new JProgressBar(JProgressBar.HORIZONTAL);
+	private Font fuente = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 12);
 	private JPanel pnLabel = new JPanel();
 
 	/**
@@ -102,6 +107,12 @@ public class BotonEsp extends JPanel {
 		lbNombre.setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 13));
 		pnLabel.add(lbNombre);
 		add(pnLabel, BorderLayout.SOUTH);
+
+		prBarraVida.setStringPainted(true);
+		prBarraVida.setForeground(Color.BLACK);
+		prBarraVida.setFont(fuente);
+		
+//		add(prBarraVida, BorderLayout.NORTH);
 
 		revalidate();
 	}
@@ -235,6 +246,7 @@ public class BotonEsp extends JPanel {
 	 */
 	public void setFuente(Font fuente) {
 		lbNombre.setFont(fuente);
+		this.fuente = fuente;
 		revalidate();
 	}
 
@@ -250,25 +262,64 @@ public class BotonEsp extends JPanel {
 	private void actualizaDatos() {
 
 		if (esp != null) {
+
 			lbNombre.setText(esp.getNombre());
+			this.remove(prBarraVida);
+//			prBarraVida.setValue(prBarraVida.getMaximum());
+//			prBarraVida.setString(GestorDeDatos.NO_STR);
+//			prBarraVida.setForeground(Color.BLACK);
+
 			if (esp instanceof Leyenda) {
 				Leyenda l = (Leyenda) esp;
 				BotonEsp.this.setToolTipText(l.getToolTipInfo());
-				lbNombre.setText(l.getNombreCombate()); // Apanyo
+				lbNombre.setText(l.getNombre()); // Apanyo
+				
+				this.add(prBarraVida, BorderLayout.NORTH);
+				prBarraVida.setMaximum(l.getVidaMax());
+				prBarraVida.setValue(l.getVida());
+				prBarraVida.setString(l.getVida() + " / " + l.getVidaMax());
+				prBarraVida.setStringPainted(true);
+				
+				prBarraVida.setForeground(getColorBarraVida(l.getVida(), l.getVidaMax()));
 
 				if (isEnabled()) {
 					if (l.estaMuerto()) {
 						BotonEsp.this.setColorFondo(Color.DARK_GRAY);
+						this.remove(prBarraVida);
 					} else {
 						BotonEsp.this.setColorFondo(Color.LIGHT_GRAY);
 					}
 				}
 
 			}
+		} else {
+			this.remove(prBarraVida);
+//			prBarraVida.setValue(prBarraVida.getMaximum());
+//			prBarraVida.setString(GestorDeDatos.NO_STR);
+//			prBarraVida.setForeground(Color.BLACK);
 		}
 		if (!isEnabled()) {
 			BotonEsp.this.setColorFondo(Color.BLACK);
 		}
+	}
+	
+	private Color getColorBarraVida(int vida, int vidaMax) {
+		double ratio = vida/vidaMax;
+		if (ratio>=0.7) return Color.GREEN;
+		else if (ratio<0.7 && ratio>=0.5) return Color.YELLOW;
+		else if (ratio<0.5 && ratio>=0.2) return Color.ORANGE;
+		else if (ratio<0.2 && ratio>0) return Color.RED;
+		else if (ratio<=0) return Color.BLACK;
+		else return Color.PINK;// NO deberia ocurrir nunca //FIXME
+	}
+
+	public static void main(String[] args) {
+		JFrame f = new JFrame();
+		f.setSize(500, 500);
+		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		BotonEsp bt = Leyenda.getLeyendaRandom().getBotonVentana(new Font("P", Font.BOLD, 25), 100);
+		f.getContentPane().add(bt);
+		f.setVisible(true);
 	}
 
 }
