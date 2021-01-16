@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.plaf.basic.BasicProgressBarUI;
 
 import gestion.GestorDeDatos;
 import personaje.Especie;
@@ -107,7 +109,12 @@ public class BotonEsp extends JPanel {
 		lbNombre.setFont(new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 13));
 		pnLabel.add(lbNombre);
 		add(pnLabel, BorderLayout.SOUTH);
-
+		
+		 prBarraVida.setUI(new BasicProgressBarUI() {
+		      protected Color getSelectionBackground() { return Color.DARK_GRAY; }
+		      protected Color getSelectionForeground() { return Color.BLACK; }
+		    });
+		
 		prBarraVida.setStringPainted(true);
 		prBarraVida.setForeground(Color.BLACK);
 		prBarraVida.setFont(fuente);
@@ -265,9 +272,6 @@ public class BotonEsp extends JPanel {
 
 			lbNombre.setText(esp.getNombre());
 			this.remove(prBarraVida);
-//			prBarraVida.setValue(prBarraVida.getMaximum());
-//			prBarraVida.setString(GestorDeDatos.NO_STR);
-//			prBarraVida.setForeground(Color.BLACK);
 
 			if (esp instanceof Leyenda) {
 				Leyenda l = (Leyenda) esp;
@@ -294,32 +298,18 @@ public class BotonEsp extends JPanel {
 			}
 		} else {
 			this.remove(prBarraVida);
-//			prBarraVida.setValue(prBarraVida.getMaximum());
-//			prBarraVida.setString(GestorDeDatos.NO_STR);
-//			prBarraVida.setForeground(Color.BLACK);
 		}
 		if (!isEnabled()) {
 			BotonEsp.this.setColorFondo(Color.BLACK);
 		}
 	}
 	
-	private Color getColorBarraVida(int vida, int vidaMax) {
-		double ratio = vida/vidaMax;
-		if (ratio>=0.7) return Color.GREEN;
-		else if (ratio<0.7 && ratio>=0.5) return Color.YELLOW;
-		else if (ratio<0.5 && ratio>=0.2) return Color.ORANGE;
-		else if (ratio<0.2 && ratio>0) return Color.RED;
-		else if (ratio<=0) return Color.BLACK;
-		else return Color.PINK;// NO deberia ocurrir nunca //FIXME
+	private static Color getColorBarraVida(int vida, int vidaMax) {
+		double ratio = (vida*100) /vidaMax;
+		if (ratio>=75) return Color.GREEN;
+		else if (ratio<75 && ratio>=50) return Color.YELLOW;
+		else if (ratio<50 && ratio>=25) return Color.ORANGE;
+		else if (ratio<25 && ratio>0) return Color.RED;
+		else return Color.BLACK;
 	}
-
-	public static void main(String[] args) {
-		JFrame f = new JFrame();
-		f.setSize(500, 500);
-		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		BotonEsp bt = Leyenda.getLeyendaRandom().getBotonVentana(new Font("P", Font.BOLD, 25), 100);
-		f.getContentPane().add(bt);
-		f.setVisible(true);
-	}
-
 }
