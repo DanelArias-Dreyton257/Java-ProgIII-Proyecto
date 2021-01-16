@@ -69,6 +69,7 @@ public class VenMenuPrincipal extends JFrame {
 	private JButton btValhalla = new JButton("VALHALLA");
 	private JButton btJugar = new JButton("JUGAR");
 	private JButton btUsuario = new JButton("Cambio de Usuario");
+	private JButton btCreditos = new JButton("Creditos");
 	private JButton btOpciones = new JButton("Opciones");
 	private JButton btSalir = new JButton("Salir");
 
@@ -130,6 +131,8 @@ public class VenMenuPrincipal extends JFrame {
 		btUsuario.setFont(FUENTE_BOTONES);
 		pnSur.add(btOpciones);
 		btOpciones.setFont(FUENTE_BOTONES);
+		pnSur.add(btCreditos);
+		btCreditos.setFont(FUENTE_BOTONES);
 		pnSur.add(btSalir);
 		btSalir.setFont(FUENTE_BOTONES);
 
@@ -199,6 +202,16 @@ public class VenMenuPrincipal extends JFrame {
 				logger.log(Level.INFO, "Ventana Cerrada");
 				dispose();
 				// TODO hacer ventana de confirmacion?
+			}
+		});
+		btCreditos.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				logger.log(Level.INFO, "Ventana de creditos");
+				dispose();
+				VenCreditos v = new VenCreditos(jugador);
+				v.setVisible(true);
 			}
 		});
 		

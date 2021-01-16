@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import gestion.GestorDeDatos;
+import objetosCombate.Jugador;
 
 public class VenCreditos extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -32,7 +35,8 @@ public class VenCreditos extends JFrame{
 	//JLabel
 	private JLabel message = new JLabel("");
 
-	public void CreditsWindow() {
+	public VenCreditos(Jugador j) {
+		setSize(WIDTH, HEIGHT);
 		//Colocación de paneles y componentes en paneles
 		getContentPane().setLayout(new BorderLayout());
 		//Paneles en su sitio
@@ -59,7 +63,17 @@ public class VenCreditos extends JFrame{
 		pnCentral.add(getCreditsPart("Programadores:", "Danel Arias", "Jon Ander de la Puebla"));
 		pnCentral.add(getCreditsPart("Disenyadores:", "Danel Arias", "Jon Ander de la Puebla"));
 		pnCentral.add(getCreditsPart("Musica:"));
-		pnCentral.add(getCreditsPart("Agradecimientos:"));
+		pnCentral.add(getCreditsPart("Agradecimientos:", "Andoni Eguiluz"));
+		
+		addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				VenMenuPrincipal v = new VenMenuPrincipal(j);
+				v.setVisible(true);
+			}
+
+		});
 
 	}
 	/**
@@ -91,12 +105,5 @@ public class VenCreditos extends JFrame{
 		p.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, BORDER_THICKNESS,false));
 		return p;
 	}
-public static void main(String[] args) {
-	VenCreditos ven= new VenCreditos();
-	ven.setSize(500, 400);
-	ven.setVisible(true);
-	ven.CreditsWindow();
-
-}
 
 }
