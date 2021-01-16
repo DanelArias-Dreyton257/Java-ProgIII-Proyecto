@@ -111,6 +111,7 @@ public class VenRankings extends JFrame {
 
 		getContentPane().add(new JScrollPane(tbRankings));
 		tbRankings.getTableHeader().setFont(FUENTE_CABECERA);
+		tbRankings.getTableHeader().setReorderingAllowed(false);
 		tbRankings.setFont(FUENTE_DATOS);
 
 		datosATabla();

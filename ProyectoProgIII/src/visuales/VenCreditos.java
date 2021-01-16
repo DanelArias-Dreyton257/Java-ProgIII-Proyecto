@@ -20,11 +20,11 @@ public class VenCreditos extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private static final int WIDTH=500;
 	private static final int HEIGHT=750;
-	private static final String TITLE= "Credits";
+	private static final String TITLE= "Creditos";
 	private static final int BORDER_THICKNESS = 1;
-	private static final Font FUENTE_BOTONES = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
-	private static final Font FUENTE_G_BOTONES = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 25);
-	private static final Font FUENTE_J_BOTONES = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 35);
+	private static final Font FUENTE_TITULO = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 40);
+	private static final Font FUENTE_SECCION = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.ITALIC, 25);
+	private static final Font FUENTE_NOMBRES = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
 	//JPanel
 	private JPanel pnTop = new JPanel();
 	private JPanel pnCentral = new JPanel();
@@ -49,15 +49,15 @@ public class VenCreditos extends JFrame{
 		setResizable(false);
 		//Titulo
 		JLabel title = new JLabel(TITLE,SwingConstants.CENTER);
-		title.setFont(FUENTE_BOTONES);
+		title.setFont(FUENTE_TITULO);
 		pnTop.add(new JPanel().add(title));
 		//Panel inferior
 		pnBot.add(message);	
 		//Panel Central
 		pnCentral.setLayout(new BoxLayout(pnCentral, BoxLayout.Y_AXIS));
 
-		pnCentral.add(getCreditsPart("Programador:", "Danel Arias, Jon Ander de la Puebla"));
-		pnCentral.add(getCreditsPart("Disenyador:", "Danel Arias", "Jon Ander de la Puebla"));
+		pnCentral.add(getCreditsPart("Programadores:", "Danel Arias", "Jon Ander de la Puebla"));
+		pnCentral.add(getCreditsPart("Disenyadores:", "Danel Arias", "Jon Ander de la Puebla"));
 		pnCentral.add(getCreditsPart("Musica:"));
 		pnCentral.add(getCreditsPart("Agradecimientos:"));
 
@@ -78,11 +78,11 @@ public class VenCreditos extends JFrame{
 	private JPanel getCreditsPart(String category,String...names) {
 		JPanel p = new JPanel(new GridLayout(names.length, 2));
 		JLabel c = new JLabel(category);
-		c.setFont(FUENTE_BOTONES);
+		c.setFont(FUENTE_SECCION);
 		p.add(c);
 		for (String s:names) {
 			JLabel l = new JLabel(s);
-			l.setFont(FUENTE_BOTONES);
+			l.setFont(FUENTE_NOMBRES);
 			if (s!=names[0]) {
 				p.add(new JLabel(""));
 			}
