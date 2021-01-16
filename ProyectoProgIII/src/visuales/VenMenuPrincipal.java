@@ -18,6 +18,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import gestion.GestorDeDatos;
@@ -199,8 +200,16 @@ public class VenMenuPrincipal extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				logger.log(Level.INFO, "Ventana Cerrada");
-				dispose();
+				int salirseguro = JOptionPane.showConfirmDialog(null, 
+								  "¿Estas seguro de que quieres cerrar el juego?",
+								  null, JOptionPane.YES_NO_OPTION);
+				if(salirseguro == JOptionPane.YES_OPTION) {
+					logger.log(Level.INFO, "Ventana Cerrada");
+					dispose();
+				} 
+				else {
+					salirseguro=0;
+				}
 				// TODO hacer ventana de confirmacion?
 			}
 		});
