@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.Random;
 import java.util.TreeSet;
 
+import gestion.GestorConfiguracion;
 import personaje.Leyenda;
 import personaje.atributos.Eficacia;
 import personaje.atributos.Habilidad;
@@ -27,7 +28,7 @@ public class Combate {
 	 */
 	public Combate(Jugador usuario) {
 		setJugador(usuario);
-		double nvCont = usuario.getNvDificultad()+0.05;
+		double nvCont = usuario.getNvDificultad()+ (Double) GestorConfiguracion.getValue(GestorConfiguracion.INC_DIF_CONTRINCANTE);
 		if (nvCont>1) {
 			nvCont=1;
 		}

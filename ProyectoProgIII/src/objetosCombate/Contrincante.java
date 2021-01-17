@@ -2,6 +2,7 @@ package objetosCombate;
 
 import java.util.Random;
 
+import gestion.GestorConfiguracion;
 import gestion.GestorDeDatos;
 import personaje.Leyenda;
 import visuales.VenValhalla;
@@ -35,9 +36,9 @@ public class Contrincante extends Jugador {
 	 * genera un contricante con un nivel de dificultad determinado
 	 */
 	private void generarContrincante() {
-		int numLeyendas = (int) Math.round(nvDificultad * 10);
+		int numLeyendas = (int) Math.round(nvDificultad * (Double) GestorConfiguracion.getValue(GestorConfiguracion.MULT_GEN_NUM_LEY_CONT));
 		this.anyadirLeyendasRandom(numLeyendas, nvDificultad);
-		int doblones = (int) Math.round(nvDificultad * VenValhalla.COSTE_CONTRATO * 7.5);
+		int doblones = (int) Math.round(nvDificultad * VenValhalla.COSTE_CONTRATO * (Double) GestorConfiguracion.getValue(GestorConfiguracion.MULT_GEN_DOB_CONT));
 		this.setDoblones(doblones);
 	}
 

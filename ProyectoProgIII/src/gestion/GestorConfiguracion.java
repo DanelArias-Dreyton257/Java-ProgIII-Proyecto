@@ -12,9 +12,9 @@ import java.util.Properties;
 public class GestorConfiguracion {
 
 	private static HashMap<String, Object> mapa = new HashMap<String, Object>();
-	
-	private static final File propFile = new File(".properties"); 
-	
+
+	private static final File propFile = new File(".properties");
+
 	public static final String PATH_SAVES = "path-saves";// "src/saves/Jugadores.dat" Gestor de datos
 	public static final String PATH_DB = "path-db"; // "BaseDatos.db" Gestor de datos
 	public static final String INC_DIF_CONTRINCANTE = "inc-dif-contrincante"; // 0.05 Combate
@@ -28,34 +28,30 @@ public class GestorConfiguracion {
 	public static final String EXTRA_PTS_FUSION = "extra-pts-fusion"; // 5 Leyenda
 	public static final String MAX_DIF_LEY_RANDOM = "max-dif-ley-random"; // 0.75 Leyenda
 	public static final String COSTE_CONTRATO = "coste-contrato"; // 500 VenValhalla
+	public static final String INIT_DOB = "init-dob"; // 2000 Jugador
 
-//	private static final Class<?>[] LISTA_CLASES = { String.class, String.class, Double.class, Double.class, Double.class,
-//			Double.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Double.class,
-//			Integer.class };
-	
-	private static final String[] LISTA_STRINGS = { "path-saves", "path-db", "inc-dif-contrincante", "mult-gen-num-ley-cont",
-			"mult-gen-dob-cont", "ratio-inc-dif", "min-vida", "min-ataque", "min-defensa", "min-velocidad", "extra-pts-fusion",
-			"max-dif-ley-random", "coste-contrato" };
-	
+	private static final String[] LISTA_STRINGS = { "path-saves", "path-db", "inc-dif-contrincante",
+			"mult-gen-num-ley-cont", "mult-gen-dob-cont", "ratio-inc-dif", "min-vida", "min-ataque", "min-defensa",
+			"min-velocidad", "extra-pts-fusion", "max-dif-ley-random", "coste-contrato", "init-dob" };
+
 	private static final Object[] LISTA_DEFAULT = { "src/saves/Jugadores.dat", "BaseDatos.db", 0.05, 10, 7.5, 0.8, 150,
-			25, 25, 25, 5, 0.75, 500 };
-	
+			25, 25, 25, 5, 0.75, 500, 2000 };
+
 	static {
 		if (propFile.exists()) {
 			leerProperties();
-		}
-		else {
+		} else {
 			initDefaultMapa();
 			updateProperties();
 		}
 	}
-	
+
 	private static void initDefaultMapa() {
-		for (int i = 0; i<LISTA_STRINGS.length; i++) {
+		for (int i = 0; i < LISTA_STRINGS.length; i++) {
 			mapa.put(LISTA_STRINGS[i], LISTA_DEFAULT[i]);
 		}
 	}
-	
+
 	public static void leerProperties() {
 
 		try (InputStream input = new FileInputStream(propFile)) {
@@ -65,7 +61,7 @@ public class GestorConfiguracion {
 			// load a properties file
 			prop.load(input);
 
-			for (String s: LISTA_STRINGS) {
+			for (String s : LISTA_STRINGS) {
 				mapa.put(s, prop.get(s));
 			}
 
@@ -73,6 +69,7 @@ public class GestorConfiguracion {
 			ex.printStackTrace();
 		}
 	}
+
 	public static void updateProperties() {
 		try (OutputStream output = new FileOutputStream(propFile)) {
 
@@ -90,8 +87,12 @@ public class GestorConfiguracion {
 			io.printStackTrace();
 		}
 	}
-	public static void main(String[] args) {
-		System.out.println(mapa);
+
+	public static Object getValue(String indicator) throws IllegalArgumentException {
+		if (mapa.containsKey(indicator))
+			return mapa.get(indicator);
+		else
+			throw new IllegalArgumentException("El indicador debe ser uno de los Strings posibles");
 	}
 
 }

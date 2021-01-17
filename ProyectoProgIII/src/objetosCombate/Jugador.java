@@ -3,9 +3,9 @@ package objetosCombate;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Vector;
 
+import gestion.GestorConfiguracion;
 import personaje.Leyenda;
 
 /**
@@ -31,7 +31,7 @@ public class Jugador implements Serializable {
 	 */
 	public Jugador(String nombre) {
 		setNombre(nombre);
-		incDoblones(2000);
+		incDoblones((Integer) GestorConfiguracion.getValue(GestorConfiguracion.INIT_DOB));
 	}
 
 	/**

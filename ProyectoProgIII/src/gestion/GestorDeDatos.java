@@ -52,13 +52,13 @@ public class GestorDeDatos {
 	private static final File TTF_PERPETUA_BOLD_ITALIC = new File("src/fonts/Perpetua-Bold-Italic.ttf");
 	private static final File TTF_PERPETUA_TITLING_MT_BOLD = new File("src/fonts/Perpetua-Titling-MT-Bold.ttf");
 
-	private static final File JUGADORES_FICH = new File("src/saves/Jugadores.dat");
+	private static final File JUGADORES_FICH = new File((String) GestorConfiguracion.getValue(GestorConfiguracion.PATH_SAVES));
 
 	public static final String NOMBRE_PERPETUA_BOLD = "Perpetua Negrita";
 	public static final String NOMBRE_PERPETUA_BOLD_ITALIC = "Perpetua Negrita Cursiva";
 	public static final String NOMBRE_PERPETUA_TITLING_MT_BOLD = "Perpetua Titling MT Negrita";
 
-	private static final String PATH_BD = "BaseDatos.db";
+	private static final String PATH_BD = (String) GestorConfiguracion.getValue(GestorConfiguracion.PATH_DB);
 
 	// ---------------------------------------------------------------------------------------------------------------------
 	// insertamos los tipos de letra

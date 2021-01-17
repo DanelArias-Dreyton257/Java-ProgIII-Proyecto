@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import gestion.GestorConfiguracion;
 import gestion.GestorDeDatos;
 import interfaces.ToolTipAble;
 import personaje.atributos.Habilidad;
@@ -111,21 +112,25 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	private void generarStatsRandom(double dif) {
 		Random r = new Random();
 		
-		int topVida = (int) ((999-150) * dif);
-		int vidaN = r.nextInt(topVida + 1) + 150;
+		int minVida = (Integer) GestorConfiguracion.getValue(GestorConfiguracion.MIN_VIDA);
+		int topVida = (int) ((999-minVida) * dif);
+		int vidaN = r.nextInt(topVida + 1) + minVida;
 		setVida(vidaN);
 		setVidaMax(vidaN);
 		
-		int topAtk = (int) ((99-25) * dif);
-		int ataqueN = r.nextInt(topAtk + 1) + 25;
+		int minAtk = (Integer) GestorConfiguracion.getValue(GestorConfiguracion.MIN_ATAQUE);
+		int topAtk = (int) ((99-minAtk) * dif);
+		int ataqueN = r.nextInt(topAtk + 1) + minAtk;
 		setAtaque(ataqueN);
 		
-		int topDef = (int) ((99-25) * dif);
-		int defensaN = r.nextInt(topDef + 1) + 25;
+		int minDef = (Integer) GestorConfiguracion.getValue(GestorConfiguracion.MIN_DEFENSA);
+		int topDef = (int) ((99-minDef) * dif);
+		int defensaN = r.nextInt(topDef + 1) + minDef;
 		setDefensa(defensaN);
 		
-		int topVel = (int) ((99-25) * dif);
-		int velocidadN = r.nextInt(topVel + 1) + 25;
+		int minVel = (Integer) GestorConfiguracion.getValue(GestorConfiguracion.MIN_VELOCIDAD);
+		int topVel = (int) ((99-minVel) * dif);
+		int velocidadN = r.nextInt(topVel + 1) + minVel;
 		setVelocidad(velocidadN);
 		
 		habilidades[0] = GestorDeDatos.buscarHabilidadEnBD(tipos[0]);
@@ -260,7 +265,7 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	 */
 	public static Leyenda fusion(Leyenda p1, Leyenda p2) {
 		// Calculo de los atributos numericos
-		int extraPts = 5;
+		int extraPts = (Integer) GestorConfiguracion.getValue(GestorConfiguracion.EXTRA_PTS_FUSION);;
 		int nAtk = ((p1.getAtaque() + p2.getAtaque()) / 2) + extraPts;
 		int nDef = ((p1.getDefensa() + p2.getDefensa()) / 2) + extraPts;
 		int nVel = ((p1.getVelocidad() + p2.getVelocidad()) / 2) + extraPts;
@@ -410,7 +415,7 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	 */
 	public static Leyenda getLeyendaRandom() {
 		java.util.Random r = new java.util.Random();
-		double dif = 0.75 * r.nextDouble() + 0.001;
+		double dif = (Double) GestorConfiguracion.getValue(GestorConfiguracion.MAX_DIF_LEY_RANDOM) * r.nextDouble() + 0.0001;
 		return getLeyendaRandom(dif);
 	}
 
