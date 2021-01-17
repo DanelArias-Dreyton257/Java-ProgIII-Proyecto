@@ -40,7 +40,7 @@ public class VenValhalla extends JFrame {
 	private static final String TITULO = "MLW: Valhalla";
 	private static final Dimension MIN_DIM = new Dimension(400, 400);
 	private static final Dimension PREF_DIM = new Dimension(600, 650);
-	public static final int COSTE_CONTRATO = (Integer) GestorConfiguracion.getValue(GestorConfiguracion.COSTE_CONTRATO);
+	public static final int COSTE_CONTRATO = Integer.parseInt( GestorConfiguracion.getValue(GestorConfiguracion.COSTE_CONTRATO));
 
 	private Jugador usuario;
 

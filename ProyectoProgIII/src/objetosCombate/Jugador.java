@@ -31,7 +31,7 @@ public class Jugador implements Serializable {
 	 */
 	public Jugador(String nombre) {
 		setNombre(nombre);
-		incDoblones((Integer) GestorConfiguracion.getValue(GestorConfiguracion.INIT_DOB));
+		incDoblones(Integer.parseInt( GestorConfiguracion.getValue(GestorConfiguracion.INIT_DOB)));
 	}
 
 	/**

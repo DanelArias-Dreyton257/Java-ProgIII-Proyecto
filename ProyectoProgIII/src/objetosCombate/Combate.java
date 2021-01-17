@@ -28,7 +28,7 @@ public class Combate {
 	 */
 	public Combate(Jugador usuario) {
 		setJugador(usuario);
-		double nvCont = usuario.getNvDificultad()+ (Double) GestorConfiguracion.getValue(GestorConfiguracion.INC_DIF_CONTRINCANTE);
+		double nvCont = usuario.getNvDificultad()+Double.parseDouble( GestorConfiguracion.getValue(GestorConfiguracion.INC_DIF_CONTRINCANTE));
 		if (nvCont>1) {
 			nvCont=1;
 		}

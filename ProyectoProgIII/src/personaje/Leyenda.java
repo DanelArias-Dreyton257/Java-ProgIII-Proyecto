@@ -112,23 +112,23 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	private void generarStatsRandom(double dif) {
 		Random r = new Random();
 		
-		int minVida = (Integer) GestorConfiguracion.getValue(GestorConfiguracion.MIN_VIDA);
+		int minVida = Integer.parseInt( GestorConfiguracion.getValue(GestorConfiguracion.MIN_VIDA));
 		int topVida = (int) ((999-minVida) * dif);
 		int vidaN = r.nextInt(topVida + 1) + minVida;
 		setVida(vidaN);
 		setVidaMax(vidaN);
 		
-		int minAtk = (Integer) GestorConfiguracion.getValue(GestorConfiguracion.MIN_ATAQUE);
+		int minAtk = Integer.parseInt( GestorConfiguracion.getValue(GestorConfiguracion.MIN_ATAQUE));
 		int topAtk = (int) ((99-minAtk) * dif);
 		int ataqueN = r.nextInt(topAtk + 1) + minAtk;
 		setAtaque(ataqueN);
 		
-		int minDef = (Integer) GestorConfiguracion.getValue(GestorConfiguracion.MIN_DEFENSA);
+		int minDef = Integer.parseInt( GestorConfiguracion.getValue(GestorConfiguracion.MIN_DEFENSA));
 		int topDef = (int) ((99-minDef) * dif);
 		int defensaN = r.nextInt(topDef + 1) + minDef;
 		setDefensa(defensaN);
 		
-		int minVel = (Integer) GestorConfiguracion.getValue(GestorConfiguracion.MIN_VELOCIDAD);
+		int minVel = Integer.parseInt( GestorConfiguracion.getValue(GestorConfiguracion.MIN_VELOCIDAD));
 		int topVel = (int) ((99-minVel) * dif);
 		int velocidadN = r.nextInt(topVel + 1) + minVel;
 		setVelocidad(velocidadN);
@@ -265,7 +265,7 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	 */
 	public static Leyenda fusion(Leyenda p1, Leyenda p2) {
 		// Calculo de los atributos numericos
-		int extraPts = (Integer) GestorConfiguracion.getValue(GestorConfiguracion.EXTRA_PTS_FUSION);;
+		int extraPts = Integer.parseInt(  GestorConfiguracion.getValue(GestorConfiguracion.EXTRA_PTS_FUSION));;
 		int nAtk = ((p1.getAtaque() + p2.getAtaque()) / 2) + extraPts;
 		int nDef = ((p1.getDefensa() + p2.getDefensa()) / 2) + extraPts;
 		int nVel = ((p1.getVelocidad() + p2.getVelocidad()) / 2) + extraPts;
@@ -415,7 +415,7 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 	 */
 	public static Leyenda getLeyendaRandom() {
 		java.util.Random r = new java.util.Random();
-		double dif = (Double) GestorConfiguracion.getValue(GestorConfiguracion.MAX_DIF_LEY_RANDOM) * r.nextDouble() + 0.0001;
+		double dif = Double.parseDouble(  GestorConfiguracion.getValue(GestorConfiguracion.MAX_DIF_LEY_RANDOM) )* r.nextDouble() + 0.0001;
 		return getLeyendaRandom(dif);
 	}
 

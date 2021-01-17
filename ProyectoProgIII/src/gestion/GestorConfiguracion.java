@@ -88,9 +88,9 @@ public class GestorConfiguracion {
 		}
 	}
 
-	public static Object getValue(String indicator) throws IllegalArgumentException {
+	public static String getValue(String indicator) throws IllegalArgumentException {
 		if (mapa.containsKey(indicator))
-			return mapa.get(indicator);
+			return (String) mapa.get(indicator);
 		else
 			throw new IllegalArgumentException("El indicador debe ser uno de los Strings posibles");
 	}

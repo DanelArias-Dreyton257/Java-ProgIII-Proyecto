@@ -36,9 +36,9 @@ public class Contrincante extends Jugador {
 	 * genera un contricante con un nivel de dificultad determinado
 	 */
 	private void generarContrincante() {
-		int numLeyendas = (int) Math.round(nvDificultad * (Double) GestorConfiguracion.getValue(GestorConfiguracion.MULT_GEN_NUM_LEY_CONT));
+		int numLeyendas = (int) Math.round(nvDificultad * Double.parseDouble(  GestorConfiguracion.getValue(GestorConfiguracion.MULT_GEN_NUM_LEY_CONT)));
 		this.anyadirLeyendasRandom(numLeyendas, nvDificultad);
-		int doblones = (int) Math.round(nvDificultad * VenValhalla.COSTE_CONTRATO * (Double) GestorConfiguracion.getValue(GestorConfiguracion.MULT_GEN_DOB_CONT));
+		int doblones = (int) Math.round(nvDificultad * VenValhalla.COSTE_CONTRATO * Double.parseDouble(  GestorConfiguracion.getValue(GestorConfiguracion.MULT_GEN_DOB_CONT)));
 		this.setDoblones(doblones);
 	}
 
