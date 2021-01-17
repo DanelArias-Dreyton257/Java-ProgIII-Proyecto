@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.TreeSet;
+import java.util.logging.Level;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -172,10 +173,27 @@ public class VenCombate extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				combate.getJugador().curarLeyendas();
-				VenMenuPrincipal v = new VenMenuPrincipal(combate.getJugador());
-				v.setUsuario(combate.getJugador());
-				v.setVisible(true);
+				int salirseguro = JOptionPane.showConfirmDialog(null, 
+						  "¿Estas seguro de que quieres salir del combate",
+						  null, JOptionPane.YES_NO_OPTION);
+				if(salirseguro == JOptionPane.YES_OPTION) {
+					dispose();
+					combate.getJugador().curarLeyendas();
+					VenMenuPrincipal v = new VenMenuPrincipal(combate.getJugador());
+					v.setUsuario(combate.getJugador());
+					v.setVisible(true);	
+					
+					
+				} 
+				else {
+					salirseguro=0;
+
+				}
+				
+					
+				
+			
+					
 			}
 		});
 
