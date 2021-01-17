@@ -49,7 +49,7 @@ public class VenMenuPrincipal extends JFrame {
 	private static final String TITULO = "MYTHS of the LEGENDARY WAR";
 	private static final Dimension MIN_DIM = new Dimension(400, 400);
 	private static final Dimension PREF_DIM = new Dimension(600, 600);
-	
+
 	private static final Font FUENTE_BOTONES = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
 	private static final Font FUENTE_G_BOTONES = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 25);
 	private static final Font FUENTE_J_BOTONES = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 35);
@@ -92,7 +92,7 @@ public class VenMenuPrincipal extends JFrame {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setTitle(TITULO);
 
 		// Organizar paneles
@@ -200,15 +200,15 @@ public class VenMenuPrincipal extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int salirseguro = JOptionPane.showConfirmDialog(null, 
-								  "¿Estas seguro de que quieres cerrar el juego?",
-								  null, JOptionPane.YES_NO_OPTION);
-				if(salirseguro == JOptionPane.YES_OPTION) {
+				setVisible(false);
+				int salirseguro = JOptionPane.showConfirmDialog(VenMenuPrincipal.this, "¿Estas seguro de que quieres cerrar el juego?",
+						"Salir", JOptionPane.YES_NO_OPTION);
+				if (salirseguro == JOptionPane.YES_OPTION) {
 					logger.log(Level.INFO, "Ventana Cerrada");
 					dispose();
-				} 
+				}
 				else {
-					salirseguro=0;
+					setVisible(true);
 				}
 				// TODO hacer ventana de confirmacion?
 			}
@@ -223,9 +223,23 @@ public class VenMenuPrincipal extends JFrame {
 				v.setVisible(true);
 			}
 		});
-		
+
 		addWindowListener(new WindowAdapter() {
-			
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				setVisible(false);
+				int salirseguro = JOptionPane.showConfirmDialog(VenMenuPrincipal.this, "¿Estas seguro de que quieres cerrar el juego?",
+						"Salir", JOptionPane.YES_NO_OPTION);
+				if (salirseguro == JOptionPane.YES_OPTION) {
+					logger.log(Level.INFO, "Ventana Cerrada");
+					dispose();
+				}
+				else {
+					setVisible(true);
+				}
+			}
+
 			@Override
 			public void windowClosed(WindowEvent e) {
 				new Thread() {
@@ -236,11 +250,10 @@ public class VenMenuPrincipal extends JFrame {
 						GestorDeDatos.guardarJugadoresFichero(gj);
 					};
 				}.start();
-				
+
 			}
-			
+
 		});
-		
 
 		comprobarNuevoUsuario();
 

@@ -113,7 +113,7 @@ public class VenCombate extends JFrame {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setTitle(TITULO);
 
 		// Anyadir a principal
@@ -173,27 +173,18 @@ public class VenCombate extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				int salirseguro = JOptionPane.showConfirmDialog(null, 
-						  "¿Estas seguro de que quieres salir del combate",
-						  null, JOptionPane.YES_NO_OPTION);
-				if(salirseguro == JOptionPane.YES_OPTION) {
-					dispose();
+				setVisible(false);
+				int salirseguro = JOptionPane.showConfirmDialog(VenCombate.this, "¿Estas seguro de que quieres salir del combate? Se perdera el progreso de este combate",
+						"Salir", JOptionPane.YES_NO_OPTION);
+				if (salirseguro == JOptionPane.YES_OPTION) {
 					combate.getJugador().curarLeyendas();
 					VenMenuPrincipal v = new VenMenuPrincipal(combate.getJugador());
-					v.setUsuario(combate.getJugador());
-					v.setVisible(true);	
-					
-					
-				} 
-				else {
-					salirseguro=0;
+					v.setVisible(true);
+					dispose();
 
+				}else {
+					setVisible(true);
 				}
-				
-					
-				
-			
-					
 			}
 		});
 
