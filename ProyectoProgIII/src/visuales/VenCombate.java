@@ -537,7 +537,9 @@ public class VenCombate extends JFrame {
 		pn.add(c);
 		return pn;
 	}
-
+	/**
+	 * Crea el hilo que se encargara de la "animacion" de espera a que se pulse el espacio
+	 */
 	private void prepararEsperaATecla() {
 
 		if (hiloTecla != null && hiloTecla.isAlive()) {
@@ -559,7 +561,7 @@ public class VenCombate extends JFrame {
 				
 				while (esperandoTecla) {
 
-					lbMensaje.requestFocus();// FIXME
+					lbMensaje.requestFocus();// FIXME??
 
 					if (guion) {
 						lbMensaje.setText(txtInicial + "_");
