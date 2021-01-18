@@ -5,7 +5,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +16,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.TreeSet;
+
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -22,6 +26,10 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+
+import com.sun.java.swing.plaf.motif.MotifBorders.BevelBorder;
 
 import gestion.GestorDeDatos;
 import objetosCombate.Combate;
@@ -55,6 +63,7 @@ public class VenCombate extends JFrame {
 	private JPanel pnBanquilloJ1 = new JPanel();
 	private JPanel pnBanquilloJ2 = new JPanel();
 	private JPanel pnSur = new JPanel();
+	private JPanel pnMensaje = new JPanel();
 
 	private JPanel pnHabilidades = new JPanel(new GridLayout(2, 2));
 
@@ -63,8 +72,8 @@ public class VenCombate extends JFrame {
 	private JList<String> lsJ1Banquillo = new JList<>(mdJ1Banquillo);
 	private JList<String> lsJ2Banquillo = new JList<>(mdJ2Banquillo);
 
-	private JLabel lbJugador1 = new JLabel("Jugador 1");
-	private JLabel lbJugador2 = new JLabel("Jugador 2");
+	private JLabel lbJugador1 = new JLabel("Jugador 1", SwingConstants.CENTER);
+	private JLabel lbJugador2 = new JLabel("Jugador 2", SwingConstants.CENTER);
 
 	private BotonEsp[] btLeyEnBatalla = { Especie.getBotonVentanaNULO(FUENTE_BOTON, 150),
 			Especie.getBotonVentanaNULO(FUENTE_BOTON, 150), Especie.getBotonVentanaNULO(FUENTE_BOTON, 150),
@@ -73,7 +82,7 @@ public class VenCombate extends JFrame {
 
 	private JLabel lbTurno = new JLabel("Turno 0");
 
-	private JLabel lbMensaje = new JLabel("");
+	private JLabel lbMensaje = new JLabel("Inicio de combate");
 
 	private JButton btOpciones = new JButton("Opciones");
 	private JButton btSigTurno = new JButton("Siguiente turno");
@@ -92,8 +101,9 @@ public class VenCombate extends JFrame {
 	private static final Font FUENTE_LEYENDA = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 12);
 	private static final Font FUENTE_HABILIDAD = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
 	private static final Font FUENTE_JUGADOR = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 15);
-	private static final Font FUENTE_MENSAJE = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.BOLD, 15);
+	private static final Font FUENTE_MEN_SUP = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.BOLD, 20);
 	private static final Font FUENTE_BOTON = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 15);
+	private static final Font FUENTE_MEN_PRIN = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.BOLD, 25);
 
 	/**
 	 * Contructor de la ventana de combate
@@ -117,9 +127,11 @@ public class VenCombate extends JFrame {
 		// Anyadir a principal
 		getContentPane().add(pnPrincipal, BorderLayout.CENTER);
 		getContentPane().add(pnSur, BorderLayout.SOUTH);
-
-		pnSur.add(lbMensaje);
-		lbMensaje.setFont(FUENTE_MENSAJE);
+		
+		pnMensaje.setBorder(BorderFactory.createLineBorder(Color.BLACK, 6));
+		pnMensaje.add(lbMensaje);
+		pnSur.add(pnMensaje);
+		lbMensaje.setFont(FUENTE_MEN_PRIN);
 
 		pnPrincipal.add(pn1);
 		pnPrincipal.add(pnGrid2);
@@ -134,10 +146,20 @@ public class VenCombate extends JFrame {
 		lbJugador2.setFont(FUENTE_JUGADOR);
 		pn5.add(pnBanquilloJ2, BorderLayout.CENTER);
 		pn5.add(btOpciones, BorderLayout.SOUTH);
-		btOpciones.setFont(FUENTE_MENSAJE);
-
-		pnBanquilloJ1.add(lsJ1Banquillo);
-		pnBanquilloJ2.add(lsJ2Banquillo);
+		btOpciones.setFont(FUENTE_MEN_SUP);
+		
+		JPanel pnB1 = new JPanel();
+		JPanel pnB2 = new JPanel();
+		
+		pnB1.add(lsJ1Banquillo);
+		pnB2.add(lsJ2Banquillo);
+		
+		pnBanquilloJ1.add(pnB1);
+		pnBanquilloJ2.add(pnB2);
+		
+		pnB1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY, 2), "Banquillo"));
+		pnB2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY, 2), "Banquillo"));
+		
 		lsJ1Banquillo.setFont(FUENTE_LEYENDA);
 		lsJ2Banquillo.setFont(FUENTE_LEYENDA);
 
@@ -146,9 +168,9 @@ public class VenCombate extends JFrame {
 
 		pn3.add(pn3Norte, BorderLayout.NORTH);
 		pn3Norte.add(lbTurno);
-		lbTurno.setFont(FUENTE_MENSAJE);
+		lbTurno.setFont(FUENTE_MEN_SUP);
 		pn3Norte.add(btSigTurno);
-		btSigTurno.setFont(FUENTE_MENSAJE);
+		btSigTurno.setFont(FUENTE_MEN_SUP);
 
 		pn3.add(pnHabilidades, BorderLayout.SOUTH);
 		pnHabilidades.setVisible(false);
@@ -252,7 +274,7 @@ public class VenCombate extends JFrame {
 						// Actualizar nombres
 						actualizaNombresLeys();
 
-						checkFinalTurno();
+						checkFinalTurno(); //TODO solo ocurre cuando se pulse tecla
 					} else if (!enTurno) {
 						// Jugador 1
 						if (l < 3) {
@@ -384,7 +406,7 @@ public class VenCombate extends JFrame {
 			lbMensaje.setText(ataqueStr);
 			actualizaNombresLeys();
 
-			checkFinalTurno();
+			checkFinalTurno();//TODO solo ocurre cuando se pulse tecla
 
 		} else {
 			// Hacer aparecer panel con movs
