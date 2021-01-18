@@ -219,7 +219,6 @@ public class VenCombate extends JFrame {
 				if (esperandoTecla && e.getKeyCode() == KeyEvent.VK_SPACE) {
 					esperandoTecla = false;
 					checkFinalTurno();
-					revalidate();
 				}
 			}
 		});
@@ -543,8 +542,13 @@ public class VenCombate extends JFrame {
 
 		if (hiloTecla != null && hiloTecla.isAlive()) {
 			hiloTecla.interrupt();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
 		}
-
+		
 		esperandoTecla = true;
 
 		hiloTecla = new Thread() {
@@ -564,7 +568,7 @@ public class VenCombate extends JFrame {
 						lbMensaje.setText(txtInicial + "  ");
 						guion = true;
 					}
-					revalidate();
+					
 					try {
 						sleep(500);
 					} catch (InterruptedException e) {
