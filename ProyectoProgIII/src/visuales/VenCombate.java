@@ -5,12 +5,12 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -27,9 +27,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-
-import com.sun.java.swing.plaf.motif.MotifBorders.BevelBorder;
 
 import gestion.GestorDeDatos;
 import objetosCombate.Combate;
@@ -105,6 +102,10 @@ public class VenCombate extends JFrame {
 	private static final Font FUENTE_BOTON = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 15);
 	private static final Font FUENTE_MEN_PRIN = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.BOLD, 25);
 
+	private boolean esperandoTecla = false;
+
+	private Thread hiloTecla;
+
 	/**
 	 * Contructor de la ventana de combate
 	 * 
@@ -127,7 +128,7 @@ public class VenCombate extends JFrame {
 		// Anyadir a principal
 		getContentPane().add(pnPrincipal, BorderLayout.CENTER);
 		getContentPane().add(pnSur, BorderLayout.SOUTH);
-		
+
 		pnMensaje.setBorder(BorderFactory.createLineBorder(Color.BLACK, 6));
 		pnMensaje.add(lbMensaje);
 		pnSur.add(pnMensaje);
@@ -147,19 +148,19 @@ public class VenCombate extends JFrame {
 		pn5.add(pnBanquilloJ2, BorderLayout.CENTER);
 		pn5.add(btOpciones, BorderLayout.SOUTH);
 		btOpciones.setFont(FUENTE_MEN_SUP);
-		
+
 		JPanel pnB1 = new JPanel();
 		JPanel pnB2 = new JPanel();
-		
+
 		pnB1.add(lsJ1Banquillo);
 		pnB2.add(lsJ2Banquillo);
-		
+
 		pnBanquilloJ1.add(pnB1);
 		pnBanquilloJ2.add(pnB2);
-		
+
 		pnB1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY, 2), "Banquillo"));
 		pnB2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY, 2), "Banquillo"));
-		
+
 		lsJ1Banquillo.setFont(FUENTE_LEYENDA);
 		lsJ2Banquillo.setFont(FUENTE_LEYENDA);
 
@@ -194,7 +195,8 @@ public class VenCombate extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				setVisible(false);
-				int salirseguro = JOptionPane.showConfirmDialog(VenCombate.this, "¿Estas seguro de que quieres salir del combate? Se perdera el progreso de este combate",
+				int salirseguro = JOptionPane.showConfirmDialog(VenCombate.this,
+						"¿Estas seguro de que quieres salir del combate? Se perdera el progreso de este combate",
 						"Salir", JOptionPane.YES_NO_OPTION);
 				if (salirseguro == JOptionPane.YES_OPTION) {
 					combate.getJugador().curarLeyendas();
@@ -202,8 +204,22 @@ public class VenCombate extends JFrame {
 					v.setVisible(true);
 					dispose();
 
-				}else {
+				} else {
 					setVisible(true);
+				}
+			}
+		});
+
+		lbMensaje.setFocusable(true);
+
+		lbMensaje.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				if (esperandoTecla && e.getKeyCode() == KeyEvent.VK_SPACE) {
+					esperandoTecla = false;
+					checkFinalTurno();
+					revalidate();
 				}
 			}
 		});
@@ -274,7 +290,8 @@ public class VenCombate extends JFrame {
 						// Actualizar nombres
 						actualizaNombresLeys();
 
-						checkFinalTurno(); //TODO solo ocurre cuando se pulse tecla
+						// checkFinalTurno(); //TODO solo ocurre cuando se pulse tecla
+						prepararEsperaATecla();
 					} else if (!enTurno) {
 						// Jugador 1
 						if (l < 3) {
@@ -406,7 +423,8 @@ public class VenCombate extends JFrame {
 			lbMensaje.setText(ataqueStr);
 			actualizaNombresLeys();
 
-			checkFinalTurno();//TODO solo ocurre cuando se pulse tecla
+			// checkFinalTurno();//TODO solo ocurre cuando se pulse tecla
+			prepararEsperaATecla();
 
 		} else {
 			// Hacer aparecer panel con movs
@@ -519,6 +537,46 @@ public class VenCombate extends JFrame {
 		pn.setLayout(new BoxLayout(pn, BoxLayout.X_AXIS));
 		pn.add(c);
 		return pn;
+	}
+
+	private void prepararEsperaATecla() {
+
+		if (hiloTecla != null && hiloTecla.isAlive()) {
+			hiloTecla.interrupt();
+		}
+
+		esperandoTecla = true;
+
+		hiloTecla = new Thread() {
+			boolean guion = true;
+			String txtInicial = lbMensaje.getText();
+
+			public void run() {
+				
+				while (esperandoTecla) {
+
+					lbMensaje.requestFocus();// FIXME
+
+					if (guion) {
+						lbMensaje.setText(txtInicial + "_");
+						guion = false;
+					} else {
+						lbMensaje.setText(txtInicial + "  ");
+						guion = true;
+					}
+					revalidate();
+					try {
+						sleep(500);
+					} catch (InterruptedException e) {
+						esperandoTecla=false;
+					}
+					
+				}
+
+			};
+		};
+		hiloTecla.setDaemon(false);
+		hiloTecla.start();
 	}
 
 }
