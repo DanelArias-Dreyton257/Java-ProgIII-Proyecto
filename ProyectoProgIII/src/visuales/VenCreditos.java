@@ -64,7 +64,7 @@ public class VenCreditos extends JFrame {
 
 		pnCentral.add(getCreditsPart("Programadores:", "Danel Arias", "Jon Ander de la Puebla"));
 		pnCentral.add(getCreditsPart("Disenyadores:", "Danel Arias", "Jon Ander de la Puebla"));
-		pnCentral.add(getCreditsPart("Musica:"));
+		pnCentral.add(getCreditsPart("Musica:", "Shouji Meguro", "Darren Korb", "Keisuke Ito"));
 		pnCentral.add(getCreditsPart("Agradecimientos:", "Andoni Eguiluz"));
 
 		addWindowListener(new WindowAdapter() {
