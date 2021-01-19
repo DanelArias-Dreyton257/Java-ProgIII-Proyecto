@@ -215,6 +215,10 @@ public class Cancion {
 	public boolean isBucle() {
 		return bucle;
 	}
+	
+	public boolean estaSonando() {
+		return audioClip.isRunning();
+	}
 
 	/**
 	 * 

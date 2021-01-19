@@ -23,6 +23,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import audio.ReproductorCanciones;
+import audio.Cancion.SongException;
 import gestion.GestorDeDatos;
 import objetosCombate.Jugador;
 import personaje.Especie;
@@ -129,6 +131,12 @@ public class VenFusiones extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (ind1 != -1 && ind2 != -1) {
 					Leyenda fusion = Leyenda.fusion(ley1, ley2);
+					try {
+						ReproductorCanciones.reproducirES(ReproductorCanciones.esSummon);
+					} catch (SongException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					JOptionPane.showMessageDialog(
 							VenFusiones.this, "La fusion de: " + ley1.getNombre() + " y " + ley2.getNombre()
 									+ " salio: " + fusion.getNombre(),

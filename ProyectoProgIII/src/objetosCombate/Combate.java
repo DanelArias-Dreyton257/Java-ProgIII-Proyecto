@@ -4,6 +4,8 @@ import java.util.Comparator;
 import java.util.Random;
 import java.util.TreeSet;
 
+import audio.ReproductorCanciones;
+import audio.Cancion.SongException;
 import gestion.GestorConfiguracion;
 import personaje.Leyenda;
 import personaje.atributos.Eficacia;
@@ -167,7 +169,13 @@ public class Combate {
 		double danyo = (atkLey + potHab) * (eficacia.getValor());
 
 		danyo = defensor.danyar(danyo);
-
+		
+		try {
+			ReproductorCanciones.reproducirES(ReproductorCanciones.esGolpe);
+		} catch (SongException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		return atacante.getNombre() + " hizo " + ataque.getNombre() + " a " + defensor.getNombre() + ". "
 				+ eficacia.getTextoEficacia() + " causando " + (int) danyo + " de danyo";
 

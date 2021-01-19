@@ -20,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import audio.ReproductorCanciones;
+import audio.Cancion.SongException;
 import gestion.GestorConfiguracion;
 import gestion.GestorDeDatos;
 import objetosCombate.Jugador;
@@ -40,7 +42,8 @@ public class VenValhalla extends JFrame {
 	private static final String TITULO = "MLW: Valhalla";
 	private static final Dimension MIN_DIM = new Dimension(400, 400);
 	private static final Dimension PREF_DIM = new Dimension(600, 650);
-	public static final int COSTE_CONTRATO = Integer.parseInt( GestorConfiguracion.getValue(GestorConfiguracion.COSTE_CONTRATO));
+	public static final int COSTE_CONTRATO = Integer
+			.parseInt(GestorConfiguracion.getValue(GestorConfiguracion.COSTE_CONTRATO));
 
 	private Jugador usuario;
 
@@ -177,6 +180,20 @@ public class VenValhalla extends JFrame {
 		// Listeners
 		addWindowListener(new WindowAdapter() {
 			@Override
+			public void windowOpened(WindowEvent e) {
+				if (ReproductorCanciones.getPosActual() != ReproductorCanciones.cancionValhalla) {
+					ReproductorCanciones.pausar();
+					try {
+						Thread.sleep(100);
+						ReproductorCanciones.reproducir(ReproductorCanciones.cancionValhalla);
+					} catch (SongException | InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+
+			@Override
 			public void windowClosing(WindowEvent e) {
 				VenMenuPrincipal v = new VenMenuPrincipal(usuario);
 				v.setVisible(true);
@@ -235,7 +252,14 @@ public class VenValhalla extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (usuario.pagar(COSTE_CONTRATO)) {
 					actualizaDatos();
-					Leyenda l = Leyenda.getLeyendaRandom(usuario.getNvDificultad()/2);
+					Leyenda l = Leyenda.getLeyendaRandom(usuario.getNvDificultad() / 2);
+					//CANCION
+					try {
+						ReproductorCanciones.reproducirES(ReproductorCanciones.esTirarMonedas);
+					} catch (SongException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					JOptionPane.showMessageDialog(VenValhalla.this, "Ha salido: " + l.getNombre(), "Leyenda contratada",
 							JOptionPane.INFORMATION_MESSAGE);
 					usuario.anyadirNuevaLeyenda(l);

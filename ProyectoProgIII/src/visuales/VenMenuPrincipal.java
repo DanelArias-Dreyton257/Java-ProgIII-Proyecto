@@ -21,6 +21,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import audio.ReproductorCanciones;
+import audio.Cancion.SongException;
 import gestion.GestorDeDatos;
 import gestion.GestorJugadores;
 import objetosCombate.Combate;
@@ -164,6 +166,12 @@ public class VenMenuPrincipal extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				try {
+					ReproductorCanciones.reproducirES(ReproductorCanciones.esClick);
+				} catch (SongException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				// TODO
 				logger.log(Level.INFO, "Abrir ventana de batalla");
 				setVisible(false);
@@ -201,13 +209,12 @@ public class VenMenuPrincipal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				int salirseguro = JOptionPane.showConfirmDialog(VenMenuPrincipal.this, "¿Estas seguro de que quieres cerrar el juego?",
-						"Salir", JOptionPane.YES_NO_OPTION);
+				int salirseguro = JOptionPane.showConfirmDialog(VenMenuPrincipal.this,
+						"¿Estas seguro de que quieres cerrar el juego?", "Salir", JOptionPane.YES_NO_OPTION);
 				if (salirseguro == JOptionPane.YES_OPTION) {
 					logger.log(Level.INFO, "Ventana Cerrada");
 					dispose();
-				}
-				else {
+				} else {
 					setVisible(true);
 				}
 				// TODO hacer ventana de confirmacion?
@@ -225,17 +232,30 @@ public class VenMenuPrincipal extends JFrame {
 		});
 
 		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				if (ReproductorCanciones.getPosActual() != ReproductorCanciones.cancionMenuP) {
+					ReproductorCanciones.pausar();
+
+					try {
+						Thread.sleep(100);
+						ReproductorCanciones.reproducir(ReproductorCanciones.cancionMenuP);
+					} catch (SongException | InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
 
 			@Override
 			public void windowClosing(WindowEvent e) {
 				setVisible(false);
-				int salirseguro = JOptionPane.showConfirmDialog(VenMenuPrincipal.this, "¿Estas seguro de que quieres cerrar el juego?",
-						"Salir", JOptionPane.YES_NO_OPTION);
+				int salirseguro = JOptionPane.showConfirmDialog(VenMenuPrincipal.this,
+						"¿Estas seguro de que quieres cerrar el juego?", "Salir", JOptionPane.YES_NO_OPTION);
 				if (salirseguro == JOptionPane.YES_OPTION) {
 					logger.log(Level.INFO, "Ventana Cerrada");
 					dispose();
-				}
-				else {
+				} else {
 					setVisible(true);
 				}
 			}

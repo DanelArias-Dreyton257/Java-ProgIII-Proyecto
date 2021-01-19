@@ -28,6 +28,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import audio.ReproductorCanciones;
+import audio.Cancion.SongException;
 import gestion.GestorDeDatos;
 import objetosCombate.Combate;
 import personaje.Especie;
@@ -192,6 +194,21 @@ public class VenCombate extends JFrame {
 
 		// Listeners
 		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				if (ReproductorCanciones.getPosActual() != ReproductorCanciones.cancionCombate) {
+					ReproductorCanciones.pausar();
+
+					try {
+						Thread.sleep(100);
+						ReproductorCanciones.reproducir(ReproductorCanciones.cancionCombate);
+					} catch (SongException | InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+
 			@Override
 			public void windowClosing(WindowEvent e) {
 				setVisible(false);
@@ -537,8 +554,10 @@ public class VenCombate extends JFrame {
 		pn.add(c);
 		return pn;
 	}
+
 	/**
-	 * Crea el hilo que se encargara de la "animacion" de espera a que se pulse el espacio
+	 * Crea el hilo que se encargara de la "animacion" de espera a que se pulse el
+	 * espacio
 	 */
 	private void prepararEsperaATecla() {
 
@@ -550,7 +569,7 @@ public class VenCombate extends JFrame {
 				e1.printStackTrace();
 			}
 		}
-		
+
 		esperandoTecla = true;
 
 		hiloTecla = new Thread() {
@@ -558,7 +577,7 @@ public class VenCombate extends JFrame {
 			String txtInicial = lbMensaje.getText();
 
 			public void run() {
-				
+
 				while (esperandoTecla) {
 
 					lbMensaje.requestFocus();// FIXME??
@@ -570,13 +589,13 @@ public class VenCombate extends JFrame {
 						lbMensaje.setText(txtInicial + "  ");
 						guion = true;
 					}
-					
+
 					try {
 						sleep(500);
 					} catch (InterruptedException e) {
-						esperandoTecla=false;
+						esperandoTecla = false;
 					}
-					
+
 				}
 
 			};
