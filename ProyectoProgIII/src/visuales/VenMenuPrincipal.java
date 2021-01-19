@@ -255,6 +255,7 @@ public class VenMenuPrincipal extends JFrame {
 				if (salirseguro == JOptionPane.YES_OPTION) {
 					logger.log(Level.INFO, "Ventana Cerrada");
 					dispose();
+					ReproductorCanciones.pausar();
 				} else {
 					setVisible(true);
 				}

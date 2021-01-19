@@ -138,6 +138,12 @@ public class Combate {
 		if (atacante == null || atacante.estaMuerto()) {
 			return atacante.getNombre() + " esta muerto, no puede atacar";
 		} else if (defensor == null) {
+			try {
+				ReproductorCanciones.reproducirES(ReproductorCanciones.esFallo);
+			} catch (SongException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			return atacante.getNombre() + " ataco al aire";
 		} else if (defensor.estaMuerto()) {
 			return atacante.getNombre() + " dejalo, " + defensor.getNombre() + " YA ESTA MUERTO...";
@@ -155,6 +161,12 @@ public class Combate {
 		Random r = new Random();
 		double randomN = r.nextDouble();
 		if (randomN > precHab) {
+			try {
+				ReproductorCanciones.reproducirES(ReproductorCanciones.esFallo);
+			} catch (SongException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			return atacante.getNombre() + " fallo " + ataque.getNombre() + " por no ser preciso";
 		}
 		// Calculo del multiplicador
