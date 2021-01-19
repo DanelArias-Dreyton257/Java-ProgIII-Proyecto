@@ -20,6 +20,7 @@ public class Cancion {
 	public static final int REPRODUCIENDO = 1;
 	public static final int PAUSADO = 2;
 
+	private String nombre;
 	private Long frameActual = 0L;
 	private File ficheroAudio;
 	private AudioInputStream audioInputStream;
@@ -30,17 +31,18 @@ public class Cancion {
 	/**
 	 * Crea una cancion a partir del fichero de audio ".wav"
 	 * 
-	 * @param bucle poner a True si se quiere la cancion en bucle, sino poner a false
+	 * @param bucle     poner a True si se quiere la cancion en bucle, sino poner a
+	 *                  false
 	 * @param audioFile
 	 * @throws SongException
-	 * @throws NoExistingFileException
+	 * @throws NotViableFileException
 	 */
-	public Cancion(File audioFile, boolean bucle) throws SongException, NoExistingFileException {
+	public Cancion(File audioFile, boolean bucle) throws SongException, NotViableFileException {
 
-		if (audioFile.exists()) {
+		if (audioFile.exists() && audioFile.isFile()) {
 			this.bucle = bucle;
 			this.ficheroAudio = audioFile;
-
+			this.nombre = audioFile.getName();
 			try {
 				audioInputStream = AudioSystem.getAudioInputStream(ficheroAudio.getAbsoluteFile());
 				audioClip = AudioSystem.getClip();
@@ -53,18 +55,18 @@ public class Cancion {
 				throw new SongException("Error abriendo el archivo", e);
 			}
 		} else
-			throw new NoExistingFileException("El fichero de audio debe existir");
+			throw new NotViableFileException("El fichero de audio debe existir y no ser un directorio");
 	}
 
 	/**
-	 * Crea una cancion a partir del fichero de audio ".wav"
-	 * La cancion NO sonara en bucle
+	 * Crea una cancion a partir del fichero de audio ".wav" La cancion NO sonara en
+	 * bucle
 	 * 
 	 * @param audioFile
 	 * @throws SongException
-	 * @throws NoExistingFileException
+	 * @throws NotViableFileException
 	 */
-	public Cancion(File audioFile) throws SongException, NoExistingFileException {
+	public Cancion(File audioFile) throws SongException, NotViableFileException {
 		this(audioFile, false);
 	}
 
@@ -201,21 +203,33 @@ public class Cancion {
 			throw new SongException("Error reseteando el AudioInputStream", e);
 		}
 	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+
+	public int getEstado() {
+		return estado;
+	}
+
+	public boolean isBucle() {
+		return bucle;
+	}
 
 	/**
 	 * 
 	 * @author danel
 	 *
 	 */
-	public class NoExistingFileException extends Exception {
+	public class NotViableFileException extends Exception {
 
 		private static final long serialVersionUID = 1L;
 
-		public NoExistingFileException(String msg) {
+		public NotViableFileException(String msg) {
 			super(msg);
 		}
 
-		public NoExistingFileException(String msg, Throwable t) {
+		public NotViableFileException(String msg, Throwable t) {
 			super(msg, t);
 		}
 
