@@ -139,9 +139,11 @@ public class VenValhalla extends JFrame {
 		pnNorte.add(pn);
 		btTirada.setFont(FUENTE_CONTRATO);
 		btTirada.setPreferredSize(new Dimension(this.getWidth(), 70));
-		btTirada.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(55, 30, 25), 5, true), "Contratar leyenda aleatoria",TitledBorder.CENTER,TitledBorder.DEFAULT_POSITION,FUENTE_DESCR,new Color(55, 30, 25)));
+		btTirada.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createLineBorder(new Color(55, 30, 25), 5, true), "Contratar leyenda aleatoria",
+				TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, FUENTE_DESCR, new Color(55, 30, 25)));
 		btTirada.setBackground(Color.LIGHT_GRAY);
-		
+
 		pnDoblones.add(lbMenDoblones);
 		pnDoblones.add(lbDoblones);
 		lbMenDoblones.setFont(FUENTE_MENSAJE);
@@ -291,6 +293,11 @@ public class VenValhalla extends JFrame {
 					JOptionPane.showMessageDialog(VenValhalla.this, "Ha salido: " + l.getNombre(), "Leyenda contratada",
 							JOptionPane.INFORMATION_MESSAGE);
 					usuario.anyadirNuevaLeyenda(l);
+					try {
+						usuario.setNvDificultad(usuario.getNvDificultad() + 0.01);
+					} catch (IllegalArgumentException e1) {
+						usuario.setNvDificultad(1);
+					}
 
 				} else
 					JOptionPane.showMessageDialog(VenValhalla.this,
