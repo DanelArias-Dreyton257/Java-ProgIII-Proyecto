@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 import gestion.GestorConfiguracion;
@@ -280,22 +281,16 @@ public class Leyenda extends Especie implements ToolTipAble, Serializable {
 		int numHabs = 4;
 		Habilidad[] habsElegidas = new Habilidad[numHabs];
 
-		int numNulls = 0;
-		for (int x = 0; x < numHabs; x++) {
-			Random r = new Random();
-			int id = r.nextInt(posHabs.size());
-			Habilidad h = posHabs.get(id);
-			if (h == null && numNulls < 2) {
-				habsElegidas[x] = h;
-				posHabs.remove(id);
-				numNulls++;
-			} else if (h == null && numNulls >= 2) {
-				x--;
-			} else {
-				habsElegidas[x] = h;
-				posHabs.remove(id);
+		Collections.shuffle(posHabs);
+		int cont = 0;
+		for(Habilidad h:posHabs) {
+			if (h!=null) {
+				habsElegidas[cont] = h;
+				cont++;
+				if (cont>=4) {
+					break;
+				}
 			}
-
 		}
 
 		Especie esp = null;
