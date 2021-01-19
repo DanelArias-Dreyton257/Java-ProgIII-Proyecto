@@ -237,11 +237,10 @@ public class VenCombate extends JFrame {
 					if (e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER) {
 						esperandoTecla = false;
 						checkFinalTurno();
-					}
-					else {
+					} else {
 						JOptionPane.showMessageDialog(VenCombate.this,
-								"Para pasar el texto pulsa la tecla Espacio o Enter",
-								"Informacion", JOptionPane.INFORMATION_MESSAGE);
+								"Para pasar el texto pulsa la tecla Espacio o Enter", "Informacion",
+								JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			}
@@ -298,7 +297,7 @@ public class VenCombate extends JFrame {
 
 				public void mousePressed(MouseEvent e) {
 
-					if (indiceHabElegida >= 0 && enTurno) {
+					if (indiceHabElegida >= 0 && enTurno && !esperandoTecla) {
 
 						String ataqueStr = "";
 						// Ataca el j1 al j2
@@ -388,6 +387,16 @@ public class VenCombate extends JFrame {
 			int g = combate.checkGanadorBatalla();
 			if (g == 0) {
 				int dobsGanados = combate.getContrincante().getDoblones();
+
+				ReproductorCanciones.pausar();
+
+				try {
+
+					ReproductorCanciones.reproducirES(ReproductorCanciones.esVictoria);
+				} catch (SongException e1) {
+					e1.printStackTrace();
+				}
+
 				JOptionPane.showMessageDialog(VenCombate.this,
 						combate.getJugador().getNombre() + " gano la partida!\nSe lleva " + dobsGanados + " doblones",
 						"FIN DE LA PARTIDA", JOptionPane.INFORMATION_MESSAGE);
@@ -400,16 +409,11 @@ public class VenCombate extends JFrame {
 				v.setUsuario(combate.getJugador());
 				v.setVisible(true);
 			} else if (g == 1) {
-				ReproductorCanciones.pausar();
-				try {
-					ReproductorCanciones.reproducirES(ReproductorCanciones.esVictoria);
-				} catch (SongException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+
 				JOptionPane.showMessageDialog(VenCombate.this,
 						combate.getContrincante().getNombre() + " gano la partida!", "FIN DE LA PARTIDA",
 						JOptionPane.INFORMATION_MESSAGE);
+				System.out.println("GANAR");
 				combate.getJugador().addResulPartida(false);
 				combate.getJugador().curarLeyendas();
 				dispose();

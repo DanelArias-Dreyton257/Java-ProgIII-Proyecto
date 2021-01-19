@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import audio.Cancion.NotViableFileException;
 import audio.Cancion.SongException;
+import audio.ReproductorCanciones.FileNotDirectoryException;
+import gestion.GestorConfiguracion;
 
 /**
  * 
@@ -201,5 +203,4 @@ public class ReproductorCanciones {
 	public static int getPosActual() {
 		return posActual;
 	}
-
 }
