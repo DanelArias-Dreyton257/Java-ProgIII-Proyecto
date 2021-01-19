@@ -400,6 +400,12 @@ public class VenCombate extends JFrame {
 				v.setUsuario(combate.getJugador());
 				v.setVisible(true);
 			} else if (g == 1) {
+				try {
+					ReproductorCanciones.reproducirES(ReproductorCanciones.esVictoria);
+				} catch (SongException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				JOptionPane.showMessageDialog(VenCombate.this,
 						combate.getContrincante().getNombre() + " gano la partida!", "FIN DE LA PARTIDA",
 						JOptionPane.INFORMATION_MESSAGE);

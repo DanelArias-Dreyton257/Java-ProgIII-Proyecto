@@ -18,7 +18,7 @@ public class ReproductorCanciones {
 	public static ArrayList<Boolean> siBucle = new ArrayList<>();
 	public static final String CLAVE_BUCLE = "-bucle-";
 	public static final String[] nombres = { "house of hades", "will power", "phantom", "matsushita", "button", "coins",
-			"summon", "slap", "final expense", "espada" };
+			"summon", "slap", "final expense", "espada" , "fanfare"};
 	public static int cancionMenuP = -1;
 	public static int cancionCombate = -1;
 	public static int cancionValhalla = -1;
@@ -29,6 +29,7 @@ public class ReproductorCanciones {
 	public static int esGolpe = -1;
 	public static int cancionCreditos = -1;
 	public static int esFallo = -1;
+	public static int esVictoria = -1;
 
 	private static Cancion cancionActual;
 	private static int posActual = -1;
@@ -88,6 +89,8 @@ public class ReproductorCanciones {
 						cancionCreditos = i;
 					else if (j == 9)
 						esFallo = i;
+					else if (j == 10)
+						esVictoria = i;
 
 				}
 			}
