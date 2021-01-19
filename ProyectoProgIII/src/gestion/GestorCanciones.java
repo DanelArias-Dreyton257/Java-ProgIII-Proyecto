@@ -7,23 +7,27 @@ import java.util.ArrayList;
 import audio.Cancion;
 import audio.Cancion.NotViableFileException;
 import audio.Cancion.SongException;
+
 /**
  * 
  * @author danel
  *
  */
-public class GestorCanciones extends ArrayList<Cancion> {
+public class GestorCanciones {
 
-	private static final long serialVersionUID = 1L;
+	public static ArrayList<Cancion> canciones = new ArrayList<>();
 	public static final String CLAVE_BUCLE = "-bucle-";
-	public static final String[] nombres = {};
-	/**
-	 * Anyade las canciones que se encuentren en el directorio enviado como parametro
-	 * @param directorio
-	 * @throws FileNotDirectoryException
-	 * @throws SongException
-	 */
-	public GestorCanciones(File directorio) throws FileNotDirectoryException, SongException {
+	public static final String[] nombres = {"final expense","will power","phantom","matsushita","button","coins", "summon"};
+	public static int CANCION_MENU_P = 0; //0
+	public static int CANCION_COMBATE = 0; //1
+	public static int CANCION_VALHALLA = 0; //2
+	public static int CANCION_MENU_USUARIOS = 0; //3
+	public static int ES_CLICK = 0; //4
+	public static int ES_TIRAR_MONEDAS = 0; //5
+	public static int ES_SUMMON = 0; //6
+
+	
+	public static void initCanciones(File directorio) throws FileNotDirectoryException, SongException {
 		if (directorio.isDirectory()) {
 			File[] fcAudio = directorio.listFiles(new FilenameFilter() {
 
@@ -34,38 +38,58 @@ public class GestorCanciones extends ArrayList<Cancion> {
 			});
 
 			try {
-				this.addFiles(fcAudio);
+				addFiles(fcAudio);
 			} catch (NotViableFileException e) {
 				e.printStackTrace();
 			}
 		} else
 			throw new FileNotDirectoryException("El objeto file debe ser un directorio donde esten las canciones");
 	}
-	/**
-	 * Anyade las canciones segun la ArrayList
-	 * @param canciones
-	 */
-	public GestorCanciones(ArrayList<Cancion> canciones) {
-		addAll(canciones);
+
+	
+	public static void initCanciones(ArrayList<Cancion> canciones) {
+		canciones.addAll(canciones);
 		guardarIndicadores();
 	}
 
-	private void addFiles(File... fs) throws SongException, NotViableFileException {
+	private static void addFiles(File... fs) throws SongException, NotViableFileException {
 		for (File f : fs) {
-			add(prepararSiBucle(f));
+			canciones.add(prepararSiBucle(f));
 		}
 		guardarIndicadores();
 	}
 
-	private Cancion prepararSiBucle(File f) throws SongException, NotViableFileException {
+	private static Cancion prepararSiBucle(File f) throws SongException, NotViableFileException {
 		if (f.getName().toLowerCase().contains(CLAVE_BUCLE)) {
 			return new Cancion(f, true);
-		}
-		else return new Cancion(f);
+		} else
+			return new Cancion(f);
 	}
-	private void guardarIndicadores() {
-		for (int i = 0; i<this.size(); i++) {
-			for (int j = 0; j<nombres.length; j++) {}
+
+	private static void guardarIndicadores() {
+		for (int i = 0; i < canciones.size(); i++) {
+			for (int j = 0; j < nombres.length; j++) {
+				if (canciones.get(i).getNombre().contains(nombres[j])) {
+					switch(j){
+					case 0:
+						CANCION_MENU_P = i;
+					case 1:
+						CANCION_COMBATE = i;
+					case 2:
+						CANCION_VALHALLA = i;
+					case 3:
+						CANCION_MENU_USUARIOS = i;
+					case 4:
+						ES_CLICK = i;
+					case 5:
+						ES_TIRAR_MONEDAS = i;
+					case 6:
+						ES_SUMMON = i;
+					default:
+						break;
+					}
+				}
+			}
 		}
 	}
 
@@ -74,7 +98,7 @@ public class GestorCanciones extends ArrayList<Cancion> {
 	 * @author danel
 	 *
 	 */
-	public class FileNotDirectoryException extends Exception {
+	public static class FileNotDirectoryException extends Exception {
 
 		private static final long serialVersionUID = 1L;
 
