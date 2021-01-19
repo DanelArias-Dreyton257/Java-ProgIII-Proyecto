@@ -11,8 +11,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * 
- * @author danel y jon ander
- *
+ * @author danel
+ * 
  */
 public class Cancion {
 
@@ -25,30 +25,47 @@ public class Cancion {
 	private AudioInputStream audioInputStream;
 	private Clip audioClip;
 	private int estado = FINALIZADO;
+	private boolean bucle = true;
 
 	/**
 	 * Crea una cancion a partir del fichero de audio ".wav"
 	 * 
+	 * @param bucle poner a True si se quiere la cancion en bucle, sino poner a false
 	 * @param audioFile
 	 * @throws SongException
 	 * @throws NoExistingFileException
 	 */
-	public Cancion(File audioFile) throws SongException, NoExistingFileException {
+	public Cancion(File audioFile, boolean bucle) throws SongException, NoExistingFileException {
 
 		if (audioFile.exists()) {
+			this.bucle = bucle;
 			this.ficheroAudio = audioFile;
 
 			try {
 				audioInputStream = AudioSystem.getAudioInputStream(ficheroAudio.getAbsoluteFile());
 				audioClip = AudioSystem.getClip();
 				audioClip.open(audioInputStream);
-				audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+				if (bucle) {
+					audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+				}
 			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 				e.printStackTrace();
 				throw new SongException("Error abriendo el archivo", e);
 			}
 		} else
 			throw new NoExistingFileException("El fichero de audio debe existir");
+	}
+
+	/**
+	 * Crea una cancion a partir del fichero de audio ".wav"
+	 * La cancion NO sonara en bucle
+	 * 
+	 * @param audioFile
+	 * @throws SongException
+	 * @throws NoExistingFileException
+	 */
+	public Cancion(File audioFile) throws SongException, NoExistingFileException {
+		this(audioFile, false);
 	}
 
 	/**
@@ -176,14 +193,14 @@ public class Cancion {
 		try {
 			audioInputStream = AudioSystem.getAudioInputStream(ficheroAudio.getAbsoluteFile());
 			audioClip.open(audioInputStream);
-			audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+			if (bucle) {
+				audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+			}
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			e.printStackTrace();
 			throw new SongException("Error reseteando el AudioInputStream", e);
 		}
 	}
-	
-	
 
 	/**
 	 * 
