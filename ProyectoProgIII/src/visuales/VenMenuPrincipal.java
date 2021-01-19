@@ -73,7 +73,7 @@ public class VenMenuPrincipal extends JFrame {
 	private JButton btJugar = new JButton("JUGAR");
 	private JButton btUsuario = new JButton("Cambio de Usuario");
 	private JButton btCreditos = new JButton("Creditos");
-	private JButton btOpciones = new JButton("Opciones");
+	//private JButton btOpciones = new JButton("Opciones");
 	private JButton btSalir = new JButton("Salir");
 
 	private Jugador usuario;
@@ -132,8 +132,8 @@ public class VenMenuPrincipal extends JFrame {
 		btJugar.setFont(FUENTE_J_BOTONES);
 		pnSur.add(btUsuario);
 		btUsuario.setFont(FUENTE_BOTONES);
-		pnSur.add(btOpciones);
-		btOpciones.setFont(FUENTE_BOTONES);
+		//pnSur.add(btOpciones);
+		//btOpciones.setFont(FUENTE_BOTONES);
 		pnSur.add(btCreditos);
 		btCreditos.setFont(FUENTE_BOTONES);
 		pnSur.add(btSalir);
@@ -196,14 +196,14 @@ public class VenMenuPrincipal extends JFrame {
 				dispose();
 			}
 		});
-		btOpciones.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO
-				logger.log(Level.INFO, "Abrir ventana de opciones");
-			}
-		});
+//		btOpciones.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO
+//				logger.log(Level.INFO, "Abrir ventana de opciones");
+//			}
+//		});
 		btSalir.addActionListener(new ActionListener() {
 
 			@Override

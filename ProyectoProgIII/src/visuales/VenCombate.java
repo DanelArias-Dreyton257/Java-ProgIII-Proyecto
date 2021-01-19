@@ -83,7 +83,7 @@ public class VenCombate extends JFrame {
 
 	private JLabel lbMensaje = new JLabel("Inicio de combate");
 
-	private JButton btOpciones = new JButton("Opciones");
+	//private JButton btOpciones = new JButton("Opciones");
 	private JButton btSigTurno = new JButton("Siguiente turno");
 
 	private JButton[] btHabilidades = { new JButton("H0"), new JButton("H1"), new JButton("H2"), new JButton("H3") };
@@ -148,8 +148,8 @@ public class VenCombate extends JFrame {
 		pn5.add(lbJugador2, BorderLayout.NORTH);
 		lbJugador2.setFont(FUENTE_JUGADOR);
 		pn5.add(pnBanquilloJ2, BorderLayout.CENTER);
-		pn5.add(btOpciones, BorderLayout.SOUTH);
-		btOpciones.setFont(FUENTE_MEN_SUP);
+		//pn5.add(btOpciones, BorderLayout.SOUTH);
+		//btOpciones.setFont(FUENTE_MEN_SUP);
 
 		JPanel pnB1 = new JPanel();
 		JPanel pnB2 = new JPanel();
