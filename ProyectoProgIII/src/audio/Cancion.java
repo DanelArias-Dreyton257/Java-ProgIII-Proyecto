@@ -203,19 +203,31 @@ public class Cancion {
 			throw new SongException("Error reseteando el AudioInputStream", e);
 		}
 	}
-	
+	/**
+	 * Devuelve el nombre del archivo
+	 * @return
+	 */
 	public String getNombre() {
 		return nombre;
 	}
-
+	/**
+	 * Devuelve el estado de la cancion
+	 * @return
+	 */
 	public int getEstado() {
 		return estado;
 	}
-
+	/**
+	 * Devuelve si la cancion se reproducira en bucle
+	 * @return
+	 */
 	public boolean isBucle() {
 		return bucle;
 	}
-	
+	/**
+	 * Devuelve si la cancion esta siendo reproducida
+	 * @return
+	 */
 	public boolean estaSonando() {
 		return audioClip.isRunning();
 	}

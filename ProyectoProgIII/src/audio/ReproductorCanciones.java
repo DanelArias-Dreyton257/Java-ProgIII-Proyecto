@@ -18,7 +18,7 @@ public class ReproductorCanciones {
 	public static ArrayList<Boolean> siBucle = new ArrayList<>();
 	public static final String CLAVE_BUCLE = "-bucle-";
 	public static final String[] nombres = { "house of hades", "will power", "phantom", "matsushita", "button", "coins",
-			"summon", "slap", "final expense", "espada" , "fanfare"};
+			"summon", "slap", "final expense", "espada", "fanfare" };
 	public static int cancionMenuP = -1;
 	public static int cancionCombate = -1;
 	public static int cancionValhalla = -1;
@@ -34,6 +34,12 @@ public class ReproductorCanciones {
 	private static Cancion cancionActual;
 	private static int posActual = -1;
 
+	/**
+	 * inicializa el reproductor de canciones segun un directorio indicado
+	 * 
+	 * @param directorio
+	 * @throws FileNotDirectoryException
+	 */
 	public static void initCanciones(File directorio) throws FileNotDirectoryException {
 		if (directorio.isDirectory()) {
 			File[] fcAudio = directorio.listFiles(new FilenameFilter() {
@@ -50,11 +56,23 @@ public class ReproductorCanciones {
 			throw new FileNotDirectoryException("El objeto file debe ser un directorio donde esten las canciones");
 	}
 
+	/**
+	 * inicializa el reproductor de canciones a traves de una lista de ficheros.
+	 * Estos deberan ser ficheros de audio ".wav"
+	 * 
+	 * @param canciones
+	 */
 	public static void initCanciones(ArrayList<File> canciones) {
-		canciones.addAll(canciones);
+		for (File f: canciones) {
+			ReproductorCanciones.canciones.add(f);
+			siBucle.add(f.getName().toLowerCase().contains(CLAVE_BUCLE));
+		}
 		guardarIndicadores();
 	}
-
+	/**
+	 * Anyade los ficheros a la lista de canciones
+	 * @param fs
+	 */
 	private static void addFiles(File... fs) {
 		for (File f : fs) {
 			canciones.add(f);
@@ -62,7 +80,9 @@ public class ReproductorCanciones {
 		}
 		guardarIndicadores();
 	}
-
+	/**
+	 * Guarda los indicadores a las canciones buscadas
+	 */
 	private static void guardarIndicadores() {
 		for (int i = 0; i < canciones.size(); i++) {
 			for (int j = 0; j < nombres.length; j++) {
@@ -104,7 +124,11 @@ public class ReproductorCanciones {
 //		System.out.println("sum" + esSummon);
 //		System.out.println("golpe" + es_golpe);
 	}
-
+	/**
+	 * Reproduce la cancion indicada como parametro
+	 * @param posicion
+	 * @throws SongException
+	 */
 	public static void reproducir(int posicion) throws SongException {
 		File f;
 		boolean b;
@@ -119,12 +143,18 @@ public class ReproductorCanciones {
 		}
 
 	}
-
+	/**
+	 * Pausa toda reproduccion
+	 */
 	public static void pausar() {
 		cancionActual.pausar();
 		cancionActual.finalizar();
 	}
-	
+	/**
+	 * Reproduce un efecto especial (ES)
+	 * @param posicion
+	 * @throws SongException
+	 */
 	public static void reproducirES(int posicion) throws SongException {
 		File f;
 		boolean b;
@@ -138,7 +168,6 @@ public class ReproductorCanciones {
 		}
 
 	}
-	
 
 	/**
 	 * 
@@ -158,15 +187,19 @@ public class ReproductorCanciones {
 		}
 
 	}
-
-
+	/**
+	 * Devuelve la cancion actual
+	 * @return
+	 */
 	public static Cancion getCancionActual() {
 		return cancionActual;
 	}
-
+	/**
+	 * Devuelve la posicion de la lista actual
+	 * @return
+	 */
 	public static int getPosActual() {
 		return posActual;
-	} 
-	
+	}
 
 }

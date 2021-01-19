@@ -400,6 +400,7 @@ public class VenCombate extends JFrame {
 				v.setUsuario(combate.getJugador());
 				v.setVisible(true);
 			} else if (g == 1) {
+				ReproductorCanciones.pausar();
 				try {
 					ReproductorCanciones.reproducirES(ReproductorCanciones.esVictoria);
 				} catch (SongException e1) {
