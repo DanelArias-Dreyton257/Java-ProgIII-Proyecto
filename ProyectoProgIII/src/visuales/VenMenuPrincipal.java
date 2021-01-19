@@ -212,6 +212,7 @@ public class VenMenuPrincipal extends JFrame {
 				int salirseguro = JOptionPane.showConfirmDialog(VenMenuPrincipal.this,
 						"¿Estas seguro de que quieres cerrar el juego?", "Salir", JOptionPane.YES_NO_OPTION);
 				if (salirseguro == JOptionPane.YES_OPTION) {
+					ReproductorCanciones.pausar();
 					logger.log(Level.INFO, "Ventana Cerrada");
 					dispose();
 				} else {

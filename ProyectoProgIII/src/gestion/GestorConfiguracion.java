@@ -29,13 +29,14 @@ public class GestorConfiguracion {
 	public static final String MAX_DIF_LEY_RANDOM = "max-dif-ley-random"; // 0.75 Leyenda
 	public static final String COSTE_CONTRATO = "coste-contrato"; // 500 VenValhalla
 	public static final String INIT_DOB = "init-dob"; // 2000 Jugador
+	public static final String PATH_DIR_CANCIONES = "dir-canciones"; // 2000 Main
 
 	private static final String[] LISTA_STRINGS = { "path-saves", "path-db", "inc-dif-contrincante",
 			"mult-gen-num-ley-cont", "mult-gen-dob-cont", "ratio-inc-dif", "min-vida", "min-ataque", "min-defensa",
-			"min-velocidad", "extra-pts-fusion", "max-dif-ley-random", "coste-contrato", "init-dob" };
+			"min-velocidad", "extra-pts-fusion", "max-dif-ley-random", "coste-contrato", "init-dob", "dir-canciones" };
 
 	private static final Object[] LISTA_DEFAULT = { "src/saves/Jugadores.dat", "BaseDatos.db", 0.05, 10, 7.5, 0.8, 150,
-			25, 25, 25, 5, 0.75, 500, 2000 };
+			25, 25, 25, 5, 0.75, 500, 2000, "src/audio/files" };
 
 	static {
 		if (propFile.exists()) {
