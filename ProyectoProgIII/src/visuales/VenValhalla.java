@@ -12,6 +12,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,6 +21,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
 
 import audio.ReproductorCanciones;
 import audio.Cancion.SongException;
@@ -40,16 +44,18 @@ public class VenValhalla extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private static final String TITULO = "MLW: Valhalla";
-	private static final Dimension MIN_DIM = new Dimension(400, 400);
-	private static final Dimension PREF_DIM = new Dimension(600, 650);
+	private static final Dimension MIN_DIM = new Dimension(650, 300);
+	private static final Dimension PREF_DIM = new Dimension(650, 700);
 	public static final int COSTE_CONTRATO = Integer
 			.parseInt(GestorConfiguracion.getValue(GestorConfiguracion.COSTE_CONTRATO));
 
 	private Jugador usuario;
 
-	private JLabel lbDoblones = new JLabel();
+	private JLabel lbMenDoblones = new JLabel("Tus doblones:");
+	private JLabel lbDoblones = new JLabel("0");
+	private JLabel lbInformacion = new JLabel("MUSEO", SwingConstants.CENTER);
 
-	private JButton btTirada = new JButton("Contratar una Leyenda aleatoria: " + COSTE_CONTRATO + " doblones");
+	private JButton btTirada = new JButton(COSTE_CONTRATO + " doblones");
 	private JLabel lbTipo1 = new JLabel("Tipo1:");
 	private JLabel lbTipo2 = new JLabel("Tipo2:");
 	private JLabel lbTipo1R = new JLabel(GestorDeDatos.NULL_STR);
@@ -71,7 +77,9 @@ public class VenValhalla extends JFrame {
 	private JScrollPane spDescrHab = new JScrollPane(taDescrHab);
 
 	private JPanel pnNorte = new JPanel();
-	private JPanel pnCentral = new JPanel();
+	private JPanel pnDoblones = new JPanel();
+	private JPanel pnCentral = new JPanel(new BorderLayout());
+	private JPanel pnCenInfo = new JPanel();
 	private JPanel pnSelEspecie = new JPanel(new BorderLayout());
 	private JPanel pnEsp = new JPanel(new BorderLayout());
 	private JPanel pnDatosEsp = new JPanel(new BorderLayout());
@@ -91,6 +99,7 @@ public class VenValhalla extends JFrame {
 	// Fuentes
 	private static final Font FUENTE_MENSAJE = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.PLAIN, 20);
 	private static final Font FUENTE_BOTON = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
+	private static final Font FUENTE_CONTRATO = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD, Font.BOLD, 25);
 	private static final Font FUENTE_DESCR = new Font(GestorDeDatos.NOMBRE_PERPETUA_BOLD_ITALIC, Font.ITALIC, 15);
 	private static final Font FUENTE_FLECHAS = new Font(GestorDeDatos.NOMBRE_PERPETUA_TITLING_MT_BOLD, Font.BOLD, 30);
 
@@ -117,16 +126,36 @@ public class VenValhalla extends JFrame {
 
 		nombresEsp = GestorDeDatos.getNombresEspecies();
 		nombresHab = GestorDeDatos.getNombresHabilidades();
+		elegirPosRandom();
 
 		// Colocacion de paneles
 		getContentPane().add(pnNorte, BorderLayout.NORTH);
 		getContentPane().add(pnCentral, BorderLayout.CENTER);
-		pnNorte.add(lbDoblones);
-		lbDoblones.setFont(FUENTE_MENSAJE);
-		pnNorte.add(btTirada);
-		btTirada.setFont(FUENTE_BOTON);
+		pnNorte.setLayout(new BoxLayout(pnNorte, BoxLayout.Y_AXIS));
+		pnNorte.add(pnDoblones);
 
-		pnCentral.add(pnEsp);
+		JPanel pn = new JPanel(new BorderLayout());
+		pn.add(btTirada, BorderLayout.CENTER);
+		pnNorte.add(pn);
+		btTirada.setFont(FUENTE_CONTRATO);
+		btTirada.setPreferredSize(new Dimension(this.getWidth(), 70));
+		btTirada.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(55, 30, 25), 5, true), "Contratar leyenda aleatoria",TitledBorder.CENTER,TitledBorder.DEFAULT_POSITION,FUENTE_DESCR,new Color(55, 30, 25)));
+		btTirada.setBackground(Color.LIGHT_GRAY);
+		
+		pnDoblones.add(lbMenDoblones);
+		pnDoblones.add(lbDoblones);
+		lbMenDoblones.setFont(FUENTE_MENSAJE);
+		lbDoblones.setFont(FUENTE_MENSAJE);
+		lbDoblones.setForeground(Color.ORANGE);
+
+		JScrollPane pnCenInfoReal = new JScrollPane(pnCenInfo);
+		pnCenInfoReal.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+		pnCentral.add(lbInformacion, BorderLayout.NORTH);
+		lbInformacion.setFont(FUENTE_MENSAJE);
+		pnCentral.add(pnCenInfoReal, BorderLayout.CENTER);
+
+		pnCenInfo.setLayout(new BoxLayout(pnCenInfo, BoxLayout.Y_AXIS));
+		pnCenInfo.add(pnEsp);
 
 		pnEsp.add(pnSelEspecie, BorderLayout.NORTH);
 
@@ -152,7 +181,7 @@ public class VenValhalla extends JFrame {
 		lbTipo2.setFont(FUENTE_BOTON);
 		lbTipo2R.setFont(FUENTE_BOTON);
 
-		pnCentral.add(pnHab);
+		pnCenInfo.add(pnHab);
 
 		pnHab.add(pnSelHab, BorderLayout.NORTH);
 		pnSelHab.add(btIzqHab, BorderLayout.WEST);
@@ -187,7 +216,6 @@ public class VenValhalla extends JFrame {
 						Thread.sleep(100);
 						ReproductorCanciones.reproducir(ReproductorCanciones.cancionValhalla);
 					} catch (SongException | InterruptedException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -253,7 +281,7 @@ public class VenValhalla extends JFrame {
 				if (usuario.pagar(COSTE_CONTRATO)) {
 					actualizaDatos();
 					Leyenda l = Leyenda.getLeyendaRandom(usuario.getNvDificultad() / 2);
-					//CANCION
+					// CANCION
 					try {
 						ReproductorCanciones.reproducirES(ReproductorCanciones.esTirarMonedas);
 					} catch (SongException e1) {
@@ -275,11 +303,18 @@ public class VenValhalla extends JFrame {
 
 	}
 
+	private void elegirPosRandom() {
+		java.util.Random r = new java.util.Random();
+		posArrEsp = r.nextInt(nombresEsp.size());
+		java.util.Random r2 = new java.util.Random();
+		posArrHab = r2.nextInt(nombresHab.size());
+	}
+
 	/**
 	 * Actualiza los datos
 	 */
 	private void actualizaDatos() {
-		lbDoblones.setText("Tus doblones: " + usuario.getDoblones());
+		lbDoblones.setText(usuario.getDoblones() + "");
 		Especie act = GestorDeDatos.getInfoEspecie(nombresEsp.get(posArrEsp));
 		btEspecie = act.getBotonVentana(FUENTE_MENSAJE, 150);
 
