@@ -233,9 +233,16 @@ public class VenCombate extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 
-				if (esperandoTecla && e.getKeyCode() == KeyEvent.VK_SPACE) {
-					esperandoTecla = false;
-					checkFinalTurno();
+				if (esperandoTecla) {
+					if (e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER) {
+						esperandoTecla = false;
+						checkFinalTurno();
+					}
+					else {
+						JOptionPane.showMessageDialog(VenCombate.this,
+								"Para pasar el texto pulsa la tecla Espacio o Enter",
+								"Informacion", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 			}
 		});
