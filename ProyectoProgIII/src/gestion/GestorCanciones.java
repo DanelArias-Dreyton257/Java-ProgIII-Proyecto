@@ -17,7 +17,7 @@ public class GestorCanciones {
 
 	public static ArrayList<Cancion> canciones = new ArrayList<>();
 	public static final String CLAVE_BUCLE = "-bucle-";
-	public static final String[] nombres = {"final expense","will power","phantom","matsushita","button","coins", "summon"};
+	public static final String[] nombres = {"final expense","will power","phantom","matsushita","button","coins", "summon", "slap"};
 	public static int CANCION_MENU_P = 0; //0
 	public static int CANCION_COMBATE = 0; //1
 	public static int CANCION_VALHALLA = 0; //2
@@ -25,6 +25,7 @@ public class GestorCanciones {
 	public static int ES_CLICK = 0; //4
 	public static int ES_TIRAR_MONEDAS = 0; //5
 	public static int ES_SUMMON = 0; //6
+	public static int ES_GOLPE = 0; //7
 
 	
 	public static void initCanciones(File directorio) throws FileNotDirectoryException, SongException {
@@ -85,6 +86,8 @@ public class GestorCanciones {
 						ES_TIRAR_MONEDAS = i;
 					case 6:
 						ES_SUMMON = i;
+					case 7:
+						ES_GOLPE= i;
 					default:
 						break;
 					}
