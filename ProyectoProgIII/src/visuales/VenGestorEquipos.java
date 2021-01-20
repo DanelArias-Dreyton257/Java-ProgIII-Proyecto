@@ -1,6 +1,7 @@
 package visuales;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -13,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -139,6 +141,7 @@ public class VenGestorEquipos extends JFrame {
 			BotonEsp boton = null;
 			if (esp != null) {
 				boton = esp.getBotonVentana(FUENTE_LEYENDA, 150);
+				if (i<3) boton.setBorder(BorderFactory.createLineBorder(Color.ORANGE, 3));
 			} else {
 				boton = Especie.getBotonVentanaNULO(FUENTE_LEYENDA, 150);
 			}
