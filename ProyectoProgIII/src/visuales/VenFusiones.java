@@ -108,8 +108,8 @@ public class VenFusiones extends JFrame {
 		
 		pnBotones.setLayout(new BoxLayout(pnBotones, BoxLayout.X_AXIS));
 		JPanel pnBotonFus = new JPanel(new BorderLayout());
-		pnBotones.add(pnBotonFus, BorderLayout.SOUTH);
-		pnBotonFus.add(btFusion);
+		pnBotones.add(pnBotonFus);
+		pnBotonFus.add(btFusion, BorderLayout.SOUTH);
 		btFusion.setPreferredSize(new Dimension(150,50));
 		btFusion.setForeground(Color.BLUE);
 		btFusion.setBorder(BorderFactory.createLineBorder(Color.CYAN, 4));
