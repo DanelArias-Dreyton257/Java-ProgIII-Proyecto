@@ -468,11 +468,13 @@ public class VenCombate extends JFrame {
 					btHabilidades[i].setText(hs[i].getNombre());
 					btHabilidades[i].setForeground(hs[i].getTipo().getColor());
 					btHabilidades[i].setToolTipText(hs[i].getToolTipInfo());
+					btHabilidades[i].setBorder(BorderFactory.createLineBorder(hs[i].getTipo().getColor(), 2));
 					btHabilidades[i].setEnabled(true);
 				} else {
 					btHabilidades[i].setText(GestorDeDatos.NO_STR);
 					btHabilidades[i].setForeground(Color.BLACK);
 					btHabilidades[i].setToolTipText("");
+					btHabilidades[i].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 					btHabilidades[i].setEnabled(false);
 				}
 
