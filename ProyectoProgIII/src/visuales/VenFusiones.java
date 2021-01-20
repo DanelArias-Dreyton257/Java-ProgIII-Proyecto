@@ -1,6 +1,7 @@
 package visuales;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -13,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -22,6 +24,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 import audio.ReproductorCanciones;
 import audio.Cancion.SongException;
@@ -104,7 +107,12 @@ public class VenFusiones extends JFrame {
 		pnSuma.add(btLey2);
 		
 		pnBotones.setLayout(new BoxLayout(pnBotones, BoxLayout.X_AXIS));
-		pnBotones.add(btFusion);
+		JPanel pnBotonFus = new JPanel(new BorderLayout());
+		pnBotones.add(pnBotonFus, BorderLayout.SOUTH);
+		pnBotonFus.add(btFusion);
+		btFusion.setPreferredSize(new Dimension(150,50));
+		btFusion.setForeground(Color.BLUE);
+		btFusion.setBorder(BorderFactory.createLineBorder(Color.CYAN, 4));
 		btFusion.setFont(FUENTE_TOCHA);
 
 		pnArriba.add(lbPersonajes, BorderLayout.NORTH);
